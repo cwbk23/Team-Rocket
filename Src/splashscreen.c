@@ -18,6 +18,7 @@ void splash_screen_init(void)
 
 void splash_screen_update(void)
 {
+	// Display splashscreen for a few seconds before initializing main menu state
 	float currentElapsedTime = CP_System_GetDt();
 	static float totalElapsedTime = 0;
 	totalElapsedTime += currentElapsedTime;
@@ -26,6 +27,7 @@ void splash_screen_update(void)
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
 	CP_Image_Draw(logo, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), transparency);
 
+	// Call main menu state after 2.5 sec
 	if (totalElapsedTime >= 2.5) {
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 	}
