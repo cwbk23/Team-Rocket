@@ -22,6 +22,8 @@ void Level_Update()
 	// Yee lei test 2
 	// Kenny test 2
 
+	//Kenny Function
+
 	//Yee lei function
 
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
