@@ -19,6 +19,8 @@ void Level_Update()
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() / 12.8f, CP_System_GetWindowHeight() / 7.2f, 50.f, 20.f, 90.f, 0.f);
 
+	//Yee Lei test
+
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 	}
