@@ -9,7 +9,7 @@ char TrueFalse_x[4] = { 1 };
 char TrueFalse_y[10] = { 2 };
 char TrueFalseans[10] = { 3 };
 
-void quiz_Init()
+void Quiz_Init()
 {
 	//Setting up the window size
 	CP_System_SetWindowSize(700, 700);
@@ -23,7 +23,7 @@ void quiz_Init()
 	
 }
 	
-void quiz_Update()
+void Quiz_Update()
 {
 
 	//Setting the background colour
@@ -60,7 +60,7 @@ void quiz_Update()
 	}
 		          
 }
-void quiz_Exit()
+void Quiz_Exit()
 {
 
 }
