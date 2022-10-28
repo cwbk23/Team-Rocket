@@ -1,6 +1,7 @@
 #include "cprocessing.h"
 #include "level.h"
 #include "utils.h"
+#include "quiz.h"
 
 
 void Main_Menu_Init()
@@ -54,7 +55,7 @@ void Main_Menu_Update()
 		// QUIZ TEST button action
 		else if (IsAreaClicked(100.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
-			//CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
+			CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
 		}
 		// Exit button action
 		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.7f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {

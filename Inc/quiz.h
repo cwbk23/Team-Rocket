@@ -1,5 +1,5 @@
 #pragma once
 
-void quiz_Init(void);
-void quiz_Update(void);
-void quiz_Exit(void);
+void Quiz_Init(void);
+void Quiz_Update(void);
+void Quiz_Exit(void);

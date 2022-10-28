@@ -14,12 +14,14 @@
     <ClCompile Include="..\Src\level.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\mainmenu.c" />
+    <ClCompile Include="..\Src\quiz.c" />
     <ClCompile Include="..\Src\splashscreen.c" />
     <ClCompile Include="..\Src\utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Inc\level.h" />
     <ClInclude Include="..\Inc\mainmenu.h" />
+    <ClInclude Include="..\Inc\quiz.h" />
     <ClInclude Include="..\Inc\splashscreen.h" />
     <ClInclude Include="..\Inc\utils.h" />
   </ItemGroup>
