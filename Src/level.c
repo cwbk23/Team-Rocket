@@ -1,7 +1,20 @@
 #include "cprocessing.h"
 #include "mainmenu.h"
 #include "utils.h"
+#include <stdbool.h>
+
+
 #define ENEMY_SIZE 3 // NUMBER OF ENEMIES IN THE LEVEL
+
+
+///////////////////	YEE LEI	/////////////////////////////
+
+float playerPosX, playerPosY, playerWidth, playerHeight;
+float playerMoveSpeed, playerJumpHeight, playerFallSpeed;
+bool playerIsJumping = FALSE, playerCollidingY = TRUE;
+float playerJumpEndPointY;
+float boundaryFloorY;
+
 
 /////////////////// CLEMENT //////////////////////////////
 
@@ -22,11 +35,33 @@ struct Enemy
 struct Enemy enemies[ENEMY_SIZE];
 int enemy_direction[ENEMY_SIZE];// DIRECTION VARIABLE FOR EACH ENEMY
 
-/////////////////////////////////////////////////////////
+
+//////////////////// KENNY ///////////////////////////
+
+
+
 
 void Level_Init()
 {
-	/////////////CLEMENT/////////////////
+	///////////////	YEE LEI	/////////////////
+	
+	// Player spawn point
+	playerPosX = 10.0f;
+	playerPosY = 1000.0f;
+
+	// Initialize player stats
+	playerWidth = 30.0f;
+	playerHeight = 60.0f;
+	playerMoveSpeed = 300.0f;	// Point movement per sec
+	playerJumpHeight = 200.0f;
+	playerFallSpeed = 750.0f;
+
+	// Initialize collision boundary points
+	boundaryFloorY = 1080.0f;
+	
+	
+	/////////////  CLEMENT  /////////////////
+	
 	// INITIALIZE ENEMY VARIABLES
 	enemies[0].x_position = 500.f; enemies[1].x_position = 300.f; enemies[2].x_position = 200.f;
 	enemies[0].y_position = 500.f; enemies[1].y_position = 700.f; enemies[2].y_position = 800.f;
@@ -34,7 +69,9 @@ void Level_Init()
 	enemies[0].height = 50.f; enemies[1].height = 50.f; enemies[2].height = 50.f;
 	enemies[0].min_x = 500.f; enemies[1].min_x = 300.f; enemies[2].min_x = 400.f;
 	enemies[0].max_x = 1000.f; enemies[1].max_x = 1200.f; enemies[2].max_x = 800.f;
-	/////////////////////////////////////
+
+
+	///////////////  KENNY  //////////////////
 	
 }
 
@@ -43,11 +80,87 @@ void Level_Update()
 	// Sky blue background colour
 	CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
 
-	// Test
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(CP_Input_GetMouseX(), CP_Input_GetMouseY(), 25.0f, 25.0f);
+	// COMMONLY USED VARIABLES
+	// Elapsed time from the last frame
+	float currentElapsedTime = CP_System_GetDt();
+	static float totalElapsedTime = 0;
+	totalElapsedTime += currentElapsedTime;
+
+
+	///////////////////////	YEE LEI	/////////////////////////////////////////
 	
-	// Kenny
+	// Draw player model
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+	CP_Graphics_DrawRect(playerPosX, playerPosY, playerWidth, playerHeight);
+
+	// TEST PLATFORMS
+	float plat1X = 100.0f, plat1Y = 950.0f;
+	float plat1Width = 200.0f, plat1Height = 30.0f;
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Graphics_DrawRect(plat1X, plat1Y, plat1Width, plat1Height);
+
+	// Player left/right controls
+	if (CP_Input_KeyDown(KEY_A)) {
+		playerPosX -= playerMoveSpeed * currentElapsedTime;
+	}
+	if (CP_Input_KeyDown(KEY_D)) {
+		playerPosX += playerMoveSpeed * currentElapsedTime;
+	}
+
+	// Player jump control
+	if (CP_Input_KeyTriggered(KEY_SPACE)) {
+		if (!playerIsJumping && playerCollidingY) {
+			playerJumpEndPointY = playerPosY - playerJumpHeight;
+			playerIsJumping = TRUE;
+			playerCollidingY = FALSE;
+		}
+	}
+
+	// Jumping mechanic
+	if (playerIsJumping) {
+		if (playerPosY > playerJumpEndPointY) {
+			playerPosY -= playerJumpHeight * (currentElapsedTime * 5.0f);
+
+			if (playerPosY < playerJumpEndPointY) playerPosY = playerJumpEndPointY;
+		}
+		else {
+			playerIsJumping = FALSE;
+		}
+	}
+	else {
+		// Player collision checking
+		float playerPosX_left = playerPosX, playerPosX_right = playerPosX + playerWidth;
+		float playerPosY_top = playerPosY, playerPosY_bottom = playerPosY + playerHeight;
+		playerCollidingY = FALSE;
+
+		// Window boundary checking
+		if (playerPosY_bottom >= boundaryFloorY) {
+			playerCollidingY = TRUE;
+
+			if (playerPosY_bottom > boundaryFloorY) playerPosY = boundaryFloorY - playerHeight;
+		}
+		// Platform boundary checking
+		else {
+			float xLeft = plat1X, xRight = plat1X + plat1Width;
+			float yTop = plat1Y, yBottom = plat1Y + plat1Height;
+
+			if (playerPosX_right >= xLeft && playerPosX_left <= xRight && playerPosY_bottom >= yTop && playerPosY_bottom <= yBottom) {
+				playerCollidingY = TRUE;
+
+				if (playerPosY_bottom > yTop) playerPosY = yTop - playerHeight;
+			}
+		}
+
+		// Make player fall downwards if not colliding with any object
+		if (!playerCollidingY) {
+			playerPosY += playerFallSpeed * currentElapsedTime;
+		}
+	}
+
+	
+	////////////////////// KENNY /////////////////////////
+	
 	// Set starting point of rectangles
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() / 12.8f, CP_System_GetWindowHeight() / 7.2f, 50.f, 20.f, 90.f, 0.f);
@@ -59,10 +172,6 @@ void Level_Update()
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Color color_white = CP_Color_Create(255, 255, 255, 255); // black color
 	CP_Color color_black = CP_Color_Create(0, 0, 0, 255); // white color
-
-	float currentElapsedTime = CP_System_GetDt();
-	static float totalElapsedTime = 0;
-	totalElapsedTime += currentElapsedTime;
 
 	CP_Settings_Fill(color_black);
 	CP_Graphics_DrawCircle(200.f, 200.f, circle_size); //DRAWING OF BOMB ENEMY
@@ -110,7 +219,7 @@ void Level_Update()
 	//////////////////////////////////////////////////////////////////////////////////////////
 	
 
-	// Exit game if press ESC key
+	// Exit to main menu if ESC key pressed
 	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 	}

@@ -5,12 +5,7 @@
 
 
 void Main_Menu_Init()
-{
-	/*CP_System_Fullscreen();*/
-	/*CP_System_SetWindowSize(CP_System_GetDisplayWidth(), CP_System_GetDisplayHeight());*/
-	CP_System_SetWindowSize(1920, 1080);
-	CP_System_SetFrameRate(60.0f);
-	
+{	
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 }
@@ -44,7 +39,7 @@ void Main_Menu_Update()
 	CP_Settings_TextSize(25.0f);
 	CP_Font_DrawText("Test quiz", 100.0f, CP_System_GetWindowHeight() / 2.0f);
 
-	// Check if left mouse clicked
+	// Check for mouse left click
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
 		// Play button action
