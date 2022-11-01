@@ -23,19 +23,18 @@ float boundaryFloorY;
 int _toleft = 1;
 int _toright = 2;
 
-float circle_size = 100.f;
-float circle_resize = 100.f;
-float speed_adjust = 10.f; // ENEMY SPEED VARIABLE
+float bomb_size = 100.f;
+float bomb_resize = 100.f;
 
 struct Enemy
 {
 	float x_position, y_position;
 	float width, height;
-	float max_x, min_x;
+	float enemy_distance, enemy_speed, max_x, min_x;
+	int enemy_direction;
 };
 
 struct Enemy enemies[ENEMY_SIZE];
-int enemy_direction[ENEMY_SIZE];// DIRECTION VARIABLE FOR EACH ENEMY
 
 
 //////////////////// KENNY ///////////////////////////
@@ -74,13 +73,20 @@ void Level_Init()
 	/////////////  CLEMENT  /////////////////
 	
 	// INITIALIZE ENEMY VARIABLES
-	enemies[0].x_position = 500.f; enemies[1].x_position = 300.f; enemies[2].x_position = 200.f;
+	enemies[0].x_position = 500.f; enemies[1].x_position = 600.f; enemies[2].x_position = 700.f;
 	enemies[0].y_position = 500.f; enemies[1].y_position = 700.f; enemies[2].y_position = 800.f;
-	enemies[0].width = 50.f; enemies[1].width = 50.f; enemies[2].width = 50.f;
-	enemies[0].height = 50.f; enemies[1].height = 50.f; enemies[2].height = 50.f;
-	enemies[0].min_x = 500.f; enemies[1].min_x = 300.f; enemies[2].min_x = 400.f;
-	enemies[0].max_x = 1000.f; enemies[1].max_x = 1200.f; enemies[2].max_x = 800.f;
+	enemies[0].width = 40.f; enemies[1].width = 40.f; enemies[2].width = 40.f;
+	enemies[0].height = 40.f; enemies[1].height = 40.f; enemies[2].height = 40.f;
+	enemies[0].enemy_distance = 500.f; enemies[1].enemy_distance = 300.f; enemies[2].enemy_distance = 400.f;
+	enemies[0].enemy_speed = 100.f; enemies[1].enemy_speed = 150.f; enemies[2].enemy_speed = 50.f;
+	enemies[0].enemy_direction = _toleft; enemies[1].enemy_direction = _toright; enemies[2].enemy_direction = _toleft;
+	for (int i = 0; i < ENEMY_SIZE; ++i)
+	{
+		enemies[i].max_x = enemies[i].enemy_distance + enemies[i].x_position;
+		enemies[i].min_x = enemies[i].x_position - enemies[i].enemy_distance;
+	}
 
+	
 
 	///////////////  KENNY  //////////////////
 	
@@ -270,7 +276,8 @@ void Level_Update()
 	CP_Color color_black = CP_Color_Create(0, 0, 0, 255); // white color
 
 	CP_Settings_Fill(color_black);
-	CP_Graphics_DrawCircle(200.f, 200.f, circle_size); //DRAWING OF BOMB ENEMY
+	CP_Graphics_DrawCircle(200.f, 200.f, bomb_size); //DRAWING OF BOMB ENEMY
+
 
 	for (int i = 0; i < ENEMY_SIZE; ++i) // DRAWING OF THE 3 ENEMIES INITIALIZED
 	{
@@ -280,35 +287,35 @@ void Level_Update()
 
 	if (totalElapsedTime >= 1.f) // CIRCLE EXPANDING (SIMULATE EXPLOSION)
 	{
-		circle_size += circle_resize * currentElapsedTime;
+		bomb_size += bomb_resize * currentElapsedTime;
 	}
-	if (circle_size >= 200.f) // CIRCLE DISAPPEARS AFTER EXPLODING
+	if (bomb_size >= 200.f) // CIRCLE DISAPPEARS AFTER EXPLODING
 	{
-		circle_size = 0;
-		circle_resize = 0;
+		bomb_size = 0;
+		bomb_resize = 0;
 	}
 
 	// LOGIC FOR MOVING ENEMIES TO MOVE LEFT AND RIGHT
 	for (int index = 0; index < ENEMY_SIZE; ++index)
 	{
+		if (enemies[index].enemy_direction == _toright) // ENEMY MOVES TO THE RIGHT
+		{
+			enemies[index].x_position += enemies[index].enemy_speed * currentElapsedTime;
+		}
+		if (enemies[index].enemy_direction == _toleft)// ENEMY MOVES TO THE LEFT
+		{
+			enemies[index].x_position -= enemies[index].enemy_speed * currentElapsedTime;
+		}
+
+
 		if (enemies[index].x_position <= enemies[index].min_x) // WHEN ENEMY REACHES MINIMUM X POSITION
 		{
-			enemy_direction[index] = _toright;
+			enemies[index].enemy_direction = _toright;
 		}
 
 		if (enemies[index].x_position >= enemies[index].max_x) // WHEN ENEMY REACHES THE MAXIMUN X POSITION
 		{
-			enemy_direction[index] = _toleft;
-		}
-
-
-		if (enemy_direction[index] == _toright) // ENEMY MOVES TO THE RIGHT
-		{
-			enemies[index].x_position += (speed_adjust * 10) * currentElapsedTime;
-		}
-		if (enemy_direction[index] == _toleft)// ENEMY MOVES TO THE LEFT
-		{
-			enemies[index].x_position -= (speed_adjust * 10) * currentElapsedTime;
+			enemies[index].enemy_direction = _toleft;
 		}
 	}
 
