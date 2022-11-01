@@ -5,6 +5,8 @@
 
 
 #define ENEMY_SIZE 3 // NUMBER OF ENEMIES IN THE LEVEL
+#define SIZE_STAT 9 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
+#define SIZE_SPIKES 48 // NUMBER OF SPIKES IN THE LEVEL
 
 
 ///////////////////	YEE LEI	/////////////////////////////
@@ -38,7 +40,16 @@ int enemy_direction[ENEMY_SIZE];// DIRECTION VARIABLE FOR EACH ENEMY
 
 //////////////////// KENNY ///////////////////////////
 
+struct platform
+{
+	float pos_x, pos_y, width, height, rotation, distance, limit;
+	int direction, speed;
+}; struct platform stat_plat[SIZE_STAT];
 
+struct spike
+{
+	float x1, y1, x2, y2, x3, y3, deg;
+}; struct spike spikes[SIZE_SPIKES];
 
 
 void Level_Init()
@@ -73,6 +84,71 @@ void Level_Init()
 
 	///////////////  KENNY  //////////////////
 	
+	// Initialize stationary platforms variables
+	stat_plat[0].pos_x = 0.f;
+	stat_plat[0].pos_y = 900.f;
+	stat_plat[0].width = 100.f;
+	stat_plat[0].height = 30.f;
+	stat_plat[0].rotation = 0.f;
+
+	stat_plat[1].pos_x = 200.f;
+	stat_plat[1].pos_y = 900.f;
+	stat_plat[1].width = 150.f;
+	stat_plat[1].height = 30.f;
+	stat_plat[1].rotation = 0.f;
+
+	stat_plat[2].pos_x = 400.f;
+	stat_plat[2].pos_y = 750.f;
+	stat_plat[2].width = 100.f;
+	stat_plat[2].height = 30.f;
+	stat_plat[2].rotation = 0.f;
+
+	stat_plat[3].pos_x = 550.f;
+	stat_plat[3].pos_y = 900.f;
+	stat_plat[3].width = 200.f;
+	stat_plat[3].height = 30.f;
+	stat_plat[3].rotation = 0.f;
+
+	stat_plat[4].pos_x = 850.f;
+	stat_plat[4].pos_y = 950.f;
+	stat_plat[4].width = 100.f;
+	stat_plat[4].height = 30.f;
+	stat_plat[4].rotation = 0.f;
+
+	stat_plat[5].pos_x = 1000.f;
+	stat_plat[5].pos_y = 850.f;
+	stat_plat[5].width = 200.f;
+	stat_plat[5].height = 30.f;
+	stat_plat[5].rotation = 0.f;
+
+	stat_plat[6].pos_x = 1400.f;
+	stat_plat[6].pos_y = 950.f;
+	stat_plat[6].width = 100.f;
+	stat_plat[6].height = 30.f;
+	stat_plat[6].rotation = 0.f;
+
+	stat_plat[7].pos_x = 1550.f;
+	stat_plat[7].pos_y = 850.f;
+	stat_plat[7].width = 100.f;
+	stat_plat[7].height = 30.f;
+	stat_plat[7].rotation = 0.f;
+
+	stat_plat[8].pos_x = 1700.f;
+	stat_plat[8].pos_y = 750.f;
+	stat_plat[8].width = 100.f;
+	stat_plat[8].height = 30.f;
+	stat_plat[8].rotation = 0.f;
+
+	// Initialize the spikes variables
+	spikes[0].x1 = 20.f;
+	spikes[0].y1 = 1030.f;
+	spikes[0].x2 = 0.f;
+	spikes[0].y2 = 1080.f;
+	spikes[0].x3 = 40.f;
+	spikes[0].y3 = 1080.f;
+	spikes[0].deg = 0.f;
+
+
 }
 
 void Level_Update()
@@ -161,12 +237,32 @@ void Level_Update()
 	
 	////////////////////// KENNY /////////////////////////
 	
-	// Set starting point of rectangles
+	// Draw platforms and spikes settings
 	CP_Settings_RectMode(CP_POSITION_CORNER);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() / 12.8f, CP_System_GetWindowHeight() / 7.2f, 50.f, 20.f, 90.f, 0.f);
-	
+	CP_Color color_brown = (CP_Color_Create(181, 101, 29, 255));
+	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
 
+	// Drawing of all stationary platforms
+	CP_Settings_Fill(color_brown);
+	for (int i = 0; i < SIZE_STAT; ++i) {
+		CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
+	}
 
+	// Draw 48 spikes at the bottom of the map
+	CP_Settings_Fill(color_grey);
+	int current = 0;
+	int spikesWanted = 48;
+	int size = current + spikesWanted;
+
+	for (int i = 0; current < size; ++current, ++i) {
+		spikes[current].x1 = spikes[0].x1 + (i * 40.f);
+		spikes[current].y1 = spikes[0].y1;
+		spikes[current].x2 = spikes[0].x2 + (i * 40.f);
+		spikes[current].y2 = spikes[0].y2;
+		spikes[current].x3 = spikes[0].x3 + (i * 40.f);
+		spikes[current].y3 = spikes[0].y3;
+		CP_Graphics_DrawTriangleAdvanced(spikes[current].x1, spikes[current].y1, spikes[current].x2, spikes[current].y2, spikes[current].x3, spikes[current].y3, spikes[current].deg);
+	}
 	//////////////////////////// CLEMENT /////////////////////////////////
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
