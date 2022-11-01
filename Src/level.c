@@ -11,11 +11,20 @@
 
 ///////////////////	YEE LEI	/////////////////////////////
 
-float playerPosX, playerPosY, playerWidth, playerHeight;
-float playerMoveSpeed, playerJumpHeight, playerFallSpeed;
-bool playerIsJumping = FALSE, playerCollidingY = TRUE;
-float playerJumpEndPointY;
-float boundaryFloorY;
+//Game boundary collision points
+float boundary_posY = 1080.0f;
+
+struct PLAYER 
+{
+	float posX, posY;
+	float width, height;
+	float moveSpeed, fallSpeed;
+	float jumpHeight, jumpSpeed;
+	float jumpEnd_posX, jumpEnd_posY;
+	bool isJumping, isColliding;
+};
+
+struct PLAYER player;
 
 
 /////////////////// CLEMENT //////////////////////////////
@@ -56,19 +65,17 @@ void Level_Init()
 	///////////////	YEE LEI	/////////////////
 	
 	// Player spawn point
-	playerPosX = 10.0f;
-	playerPosY = 1000.0f;
+	player.posX = 10.0f;
+	player.posY = 1000.0f;
 
 	// Initialize player stats
-	playerWidth = 30.0f;
-	playerHeight = 60.0f;
-	playerMoveSpeed = 300.0f;	// Point movement per sec
-	playerJumpHeight = 200.0f;
-	playerFallSpeed = 750.0f;
+	player.width = 30.0f;
+	player.height = 60.0f;
+	player.moveSpeed = 300.0f;	// Point movement per sec
+	player.fallSpeed = 1000.0f;
+	player.jumpHeight = 200.0f;
+	player.jumpSpeed = 1000.0f;
 
-	// Initialize collision boundary points
-	boundaryFloorY = 1080.0f;
-	
 	
 	/////////////  CLEMENT  /////////////////
 	
@@ -174,7 +181,7 @@ void Level_Update()
 	// Draw player model
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-	CP_Graphics_DrawRect(playerPosX, playerPosY, playerWidth, playerHeight);
+	CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
 
 	// TEST PLATFORMS
 	float plat1X = 100.0f, plat1Y = 950.0f;
@@ -184,43 +191,43 @@ void Level_Update()
 
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A)) {
-		playerPosX -= playerMoveSpeed * currentElapsedTime;
+		player.posX -= player.moveSpeed * currentElapsedTime;
 	}
 	if (CP_Input_KeyDown(KEY_D)) {
-		playerPosX += playerMoveSpeed * currentElapsedTime;
+		player.posX += player.moveSpeed * currentElapsedTime;
 	}
 
 	// Player jump control
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
-		if (!playerIsJumping && playerCollidingY) {
-			playerJumpEndPointY = playerPosY - playerJumpHeight;
-			playerIsJumping = TRUE;
-			playerCollidingY = FALSE;
+		if (!player.isJumping && player.isColliding) {
+			player.jumpEnd_posY = player.posY - player.jumpHeight;
+			player.isJumping = TRUE;
+			player.isColliding = FALSE;
 		}
 	}
 
 	// Jumping mechanic
-	if (playerIsJumping) {
-		if (playerPosY > playerJumpEndPointY) {
-			playerPosY -= playerJumpHeight * (currentElapsedTime * 5.0f);
+	if (player.isJumping) {
+		if (player.posY > player.jumpEnd_posY) {
+			player.posY -= player.jumpSpeed * currentElapsedTime;
 
-			if (playerPosY < playerJumpEndPointY) playerPosY = playerJumpEndPointY;
+			if (player.posY < player.jumpEnd_posY) player.posY = player.jumpEnd_posY;
 		}
 		else {
-			playerIsJumping = FALSE;
+			player.isJumping = FALSE;
 		}
 	}
 	else {
 		// Player collision checking
-		float playerPosX_left = playerPosX, playerPosX_right = playerPosX + playerWidth;
-		float playerPosY_top = playerPosY, playerPosY_bottom = playerPosY + playerHeight;
-		playerCollidingY = FALSE;
+		float playerPosX_left = player.posX, playerPosX_right = player.posX + player.width;
+		float playerPosY_top = player.posY, playerPosY_bottom = player.posY + player.height;
+		player.isColliding = FALSE;
 
 		// Window boundary checking
-		if (playerPosY_bottom >= boundaryFloorY) {
-			playerCollidingY = TRUE;
+		if (playerPosY_bottom >= boundary_posY) {
+			player.isColliding = TRUE;
 
-			if (playerPosY_bottom > boundaryFloorY) playerPosY = boundaryFloorY - playerHeight;
+			if (playerPosY_bottom > boundary_posY) player.posY = boundary_posY - player.height;
 		}
 		// Platform boundary checking
 		else {
@@ -228,15 +235,15 @@ void Level_Update()
 			float yTop = plat1Y, yBottom = plat1Y + plat1Height;
 
 			if (playerPosX_right >= xLeft && playerPosX_left <= xRight && playerPosY_bottom >= yTop && playerPosY_bottom <= yBottom) {
-				playerCollidingY = TRUE;
+				player.isColliding = TRUE;
 
-				if (playerPosY_bottom > yTop) playerPosY = yTop - playerHeight;
+				if (playerPosY_bottom > yTop) player.posY = yTop - player.height;
 			}
 		}
 
-		// Make player fall downwards if not colliding with any object
-		if (!playerCollidingY) {
-			playerPosY += playerFallSpeed * currentElapsedTime;
+		// Make player fall downwards if not colliding with any platform
+		if (!player.isColliding) {
+			player.posY += player.fallSpeed * currentElapsedTime;
 		}
 	}
 
