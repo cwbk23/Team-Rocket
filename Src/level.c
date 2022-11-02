@@ -6,7 +6,9 @@
 
 #define ENEMY_SIZE 3 // NUMBER OF ENEMIES IN THE LEVEL
 #define SIZE_STAT 9 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
+#define SIZE_MOVE 4 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 48 // NUMBER OF SPIKES IN THE LEVEL
+#define PLAT_SPEED 50.f // GENERAL MOVING SPEED OF THE PLATFORM (FOR TESTING)
 
 
 ///////////////////	YEE LEI	/////////////////////////////
@@ -50,15 +52,15 @@ struct Enemy enemies[ENEMY_SIZE];
 
 struct platform
 {
-	float pos_x, pos_y, width, height, rotation, distance, limit;
-	int direction, speed;
+	float pos_x, pos_y, width, height, rotation, distance, limit, speed;
+	char *direction, movement;
 }; struct platform stat_plat[SIZE_STAT];
+struct platform move_plat[SIZE_MOVE];
 
 struct spike
 {
 	float x1, y1, x2, y2, x3, y3, deg;
 }; struct spike spikes[SIZE_SPIKES];
-
 
 void Level_Init()
 {
@@ -152,6 +154,51 @@ void Level_Init()
 	stat_plat[8].height = 30.f;
 	stat_plat[8].rotation = 0.f;
 
+	// Initialize variables for moving platform
+	move_plat[0].pos_x = 1000.f;
+	move_plat[0].pos_y = 200.f;
+	move_plat[0].width = 50.f;
+	move_plat[0].height = 25.f;
+	move_plat[0].rotation = 0.f;
+	move_plat[0].direction = "R_L";
+	move_plat[0].movement = 'R';
+	move_plat[0].speed = PLAT_SPEED;
+	move_plat[0].distance = 50.f;
+	move_plat[0].limit = 1000.f; // Follows pos_x for left/right and pos_y for up/down
+
+	move_plat[1].pos_x = 1200.f;
+	move_plat[1].pos_y = 200.f;
+	move_plat[1].width = 50.f;
+	move_plat[1].height = 25.f;
+	move_plat[1].rotation = 0.f;
+	move_plat[1].direction = "D_U";
+	move_plat[1].movement = 'D';
+	move_plat[1].speed = PLAT_SPEED;
+	move_plat[1].distance = 50.f;
+	move_plat[1].limit = 200.f; // Follows pos_x for left/right and pos_y for up/down
+
+	move_plat[2].pos_x = 1400.f;
+	move_plat[2].pos_y = 200.f;
+	move_plat[2].width = 50.f;
+	move_plat[2].height = 25.f;
+	move_plat[2].rotation = 0.f;
+	move_plat[2].direction = "L_R";
+	move_plat[2].movement = 'L';
+	move_plat[2].speed = PLAT_SPEED;
+	move_plat[2].distance = 50.f;
+	move_plat[2].limit = 1400.f; // Follows pos_x for left/right and pos_y for up/down
+
+	move_plat[3].pos_x = 1600.f;
+	move_plat[3].pos_y = 200.f;
+	move_plat[3].width = 50.f;
+	move_plat[3].height = 25.f;
+	move_plat[3].rotation = 0.f;
+	move_plat[3].direction = "U_D";
+	move_plat[3].movement = 'U';
+	move_plat[3].speed = PLAT_SPEED;
+	move_plat[3].distance = 50.f;
+	move_plat[3].limit = 200.f; // Follows pos_x for left/right and pos_y for up/down
+
 	// Initialize the spikes variables
 	spikes[0].x1 = 20.f;
 	spikes[0].y1 = 1030.f;
@@ -161,7 +208,7 @@ void Level_Init()
 	spikes[0].y3 = 1080.f;
 	spikes[0].deg = 0.f;
 
-
+	
 }
 
 void Level_Update()
@@ -260,22 +307,90 @@ void Level_Update()
 	for (int i = 0; i < SIZE_STAT; ++i) {
 		CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
 	}
+	
+	// Drawing of all moving platforms
+	for (int i = 0; i < SIZE_MOVE; ++i) {
+		CP_Graphics_DrawRectAdvanced(move_plat[i].pos_x, move_plat[i].pos_y, move_plat[i].width, move_plat[i].height, move_plat[i].rotation, 0.f);
+
+		// Logic for moving platform right then left
+		if (move_plat[i].direction == "R_L") {
+			float right_limit = move_plat[i].limit + move_plat[i].distance;
+
+			if (move_plat[i].pos_x <= move_plat[i].limit) { // Check if platform exceeds left limit
+				move_plat[i].movement = 'R';
+			}
+			if (move_plat[i].pos_x >= right_limit) { // Check if platform exceeds right limit
+				move_plat[i].movement = 'L';
+			}
+		}
+
+		// Logic for moving platform left then right
+		if (move_plat[i].direction == "L_R") {
+			float left_limit = move_plat[i].limit - move_plat[i].distance;
+
+			if (move_plat[i].pos_x >= move_plat[i].limit) { // Check if platform exceeds right limit
+				move_plat[i].movement = 'L';
+			}
+			if (move_plat[i].pos_x <= left_limit) { // Check if platform exceeds left limit
+				move_plat[i].movement = 'R';
+			}
+		}
+
+		// Logic for moving platform down then up
+		if (move_plat[i].direction == "D_U") {
+			float lower_limit = move_plat[i].limit + move_plat[i].distance;
+
+			if (move_plat[i].pos_y <= move_plat[i].limit) { // Check if platform exceeds upper limit
+				move_plat[i].movement = 'D';
+			}
+			if (move_plat[i].pos_y >= lower_limit) { // Check if platform exceeds lower limit
+				move_plat[i].movement = 'U';
+			}
+		}
+
+		// Logic for moving platform up then down
+		if (move_plat[i].direction == "U_D") {
+			float upper_limit = move_plat[i].limit - move_plat[i].distance;
+
+			if (move_plat[i].pos_y >= move_plat[i].limit) { // Check if platform exceeds lower limit
+				move_plat[i].movement = 'U';
+			}
+			if (move_plat[i].pos_y <= upper_limit) { // Check if platform exceeds upper limit
+				move_plat[i].movement = 'D';
+			}
+		}
+
+		// Check the direction of the movement and move platform accordingly
+		if (move_plat[i].movement == 'L') { // Move left
+			move_plat[i].pos_x -= move_plat[i].speed * currentElapsedTime;
+		}
+		if (move_plat[i].movement == 'R') { // Move right
+			move_plat[i].pos_x += move_plat[i].speed * currentElapsedTime;
+		}
+		if (move_plat[i].movement == 'U') { // Move up
+			move_plat[i].pos_y -= move_plat[i].speed * currentElapsedTime;
+		}
+		if (move_plat[i].movement == 'D') { // Move down
+			move_plat[i].pos_y += move_plat[i].speed * currentElapsedTime;
+		}
+	}
 
 	// Draw 48 spikes at the bottom of the map
 	CP_Settings_Fill(color_grey);
-	int current = 0;
+	int currentSpike = 0;
 	int spikesWanted = 48;
-	int size = current + spikesWanted;
+	int size = currentSpike + spikesWanted;
 
-	for (int i = 0; current < size; ++current, ++i) {
-		spikes[current].x1 = spikes[0].x1 + (i * 40.f);
-		spikes[current].y1 = spikes[0].y1;
-		spikes[current].x2 = spikes[0].x2 + (i * 40.f);
-		spikes[current].y2 = spikes[0].y2;
-		spikes[current].x3 = spikes[0].x3 + (i * 40.f);
-		spikes[current].y3 = spikes[0].y3;
-		CP_Graphics_DrawTriangleAdvanced(spikes[current].x1, spikes[current].y1, spikes[current].x2, spikes[current].y2, spikes[current].x3, spikes[current].y3, spikes[current].deg);
+	for (int i = 0; currentSpike < size; ++currentSpike, ++i) {
+		spikes[currentSpike].x1 = spikes[0].x1 + (i * 40.f);
+		spikes[currentSpike].y1 = spikes[0].y1;
+		spikes[currentSpike].x2 = spikes[0].x2 + (i * 40.f);
+		spikes[currentSpike].y2 = spikes[0].y2;
+		spikes[currentSpike].x3 = spikes[0].x3 + (i * 40.f);
+		spikes[currentSpike].y3 = spikes[0].y3;
+		CP_Graphics_DrawTriangleAdvanced(spikes[currentSpike].x1, spikes[currentSpike].y1, spikes[currentSpike].x2, spikes[currentSpike].y2, spikes[currentSpike].x3, spikes[currentSpike].y3, spikes[currentSpike].deg);
 	}
+
 	//////////////////////////// CLEMENT /////////////////////////////////
 
 	CP_Settings_RectMode(CP_POSITION_CORNER);
