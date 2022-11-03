@@ -75,7 +75,7 @@ void Level_Init()
 	player.width = 30.0f;
 	player.height = 60.0f;
 	player.moveSpeed = 300.0f;	// Point movement per sec
-	player.fallSpeed = 1000.0f;
+	player.fallSpeed = 800.0f;
 	player.jumpHeight = 200.0f;
 	player.jumpSpeed = 1000.0f;
 	player.blockLeft = FALSE;
@@ -225,19 +225,19 @@ void Level_Update()
 	static float totalElapsedTime = 0;
 	totalElapsedTime += currentElapsedTime;
 
-
-	///////////////////////	YEE LEI	/////////////////////////////////////////
 	
+	///////////////////////	YEE LEI	/////////////////////////////////////////
+
 	// Draw player model
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
 	CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
 
 	// TEST PLATFORMS
-	float plat1X = 100.0f, plat1Y = 950.0f;
+	/*float plat1X = 100.0f, plat1Y = 950.0f;
 	float plat1Width = 200.0f, plat1Height = 50.0f;
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(plat1X, plat1Y, plat1Width, plat1Height);
+	CP_Graphics_DrawRect(plat1X, plat1Y, plat1Width, plat1Height);*/
 
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
@@ -261,6 +261,13 @@ void Level_Update()
 		if (player.posY > player.jumpEnd_posY) {
 			player.posY -= player.jumpSpeed * currentElapsedTime;
 
+			if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
+				player.posX -= 50.0f * currentElapsedTime;
+			}
+			if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
+				player.posX += 50.0f * currentElapsedTime;
+			}
+
 			if (player.posY < player.jumpEnd_posY) {
 				player.posY = player.jumpEnd_posY;
 				player.isJumping = FALSE;
@@ -270,8 +277,8 @@ void Level_Update()
 			player.isJumping = FALSE;
 		}
 	}
-	
-	// Player collision system
+
+	// Player hit box position
 	float playerPosX_left = player.posX, playerPosX_right = player.posX + player.width;
 	float playerPosY_top = player.posY, playerPosY_bottom = player.posY + player.height;
 
@@ -280,7 +287,7 @@ void Level_Update()
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
 
-	// Window boundary checking
+	// Window boundary collision checking
 	if (playerPosY_bottom >= boundary_posY) {
 		player.isColliding = TRUE;
 		/*if (playerPosY_bottom > boundary_posY) */player.posY = boundary_posY - player.height;
@@ -288,38 +295,62 @@ void Level_Update()
 		playerPosY_bottom = player.posY + player.height;
 	}
 
-	// Platform boundary checking
-	float xLeft = plat1X, xRight = plat1X + plat1Width;
-	float yTop = plat1Y, yBottom = plat1Y + plat1Height;
-	
-	if (playerPosY_bottom > yTop && playerPosY_top < yBottom) {
-		if (playerPosX_right > xLeft && playerPosX_left < xLeft && CP_Input_KeyDown(KEY_D)) {
-			player.posX = xLeft - player.width;
-			player.blockRight = TRUE;
-		}
-		else if (playerPosX_left < xRight && playerPosX_right > xRight && CP_Input_KeyDown(KEY_A)) {
-			player.posX = xRight;
-			player.blockLeft = TRUE;
-		}
+	// Store coordinate values of all platforms in an array for processing
+	struct platform all_platforms[SIZE_STAT + SIZE_MOVE];
+	int platCount = 0;
 
-		playerPosX_left = player.posX;
-		playerPosX_right = player.posX + player.width;
+	for (int i = 0; i < SIZE_STAT; i++, platCount++) {
+		all_platforms[platCount].pos_x = stat_plat[i].pos_x;
+		all_platforms[platCount].pos_y = stat_plat[i].pos_y;
+		all_platforms[platCount].width = stat_plat[i].width;
+		all_platforms[platCount].height = stat_plat[i].height;
 	}
-	
-	if (playerPosX_right > xLeft && playerPosX_left < xRight) {
-		if (playerPosY_bottom >= yTop && playerPosY_bottom <= yBottom) {
 
-			player.isColliding = TRUE;
-			/*if (playerPosY_bottom > yTop) */player.posY = yTop - player.height;
+	for (int i = 0; i < SIZE_MOVE; i++, platCount++) {
+		all_platforms[platCount].pos_x = move_plat[i].pos_x;
+		all_platforms[platCount].pos_y = move_plat[i].pos_y;
+		all_platforms[platCount].width = move_plat[i].width;
+		all_platforms[platCount].height = move_plat[i].height;
+	}
+
+	// Platform collision checking
+	for (int i = 0; i < platCount; i++) {
+		float xLeft = all_platforms[i].pos_x, xRight = xLeft + all_platforms[i].width;
+		float yTop = all_platforms[i].pos_y, yBottom = yTop + all_platforms[i].height;
+
+		// Block left or right side
+		if (playerPosY_bottom > yTop && playerPosY_top < yBottom) {
+			if (playerPosX_right > xLeft && playerPosX_left < xLeft && CP_Input_KeyDown(KEY_D)) {
+				player.posX = xLeft - player.width;
+				playerPosX_left = player.posX;
+				playerPosX_right = player.posX + player.width;
+				player.blockRight = TRUE;
+			}
+			else if (playerPosX_left < xRight && playerPosX_right > xRight && CP_Input_KeyDown(KEY_A)) {
+				player.posX = xRight;
+				playerPosX_left = player.posX;
+				playerPosX_right = player.posX + player.width;
+				player.blockLeft = TRUE;
+			}
 		}
-		else if (playerPosY_top < yBottom && playerPosY_top >= yTop && !player.isColliding) {
 
-			player.posY = yBottom;
-			player.isJumping = FALSE;
+		// Block top or bottom
+		if (playerPosX_right > xLeft && playerPosX_left < xRight) {
+			if (playerPosY_bottom >= yTop && playerPosY_bottom <= yBottom) {
+
+				player.isColliding = TRUE;
+				/*if (playerPosY_bottom > yTop) */player.posY = yTop - player.height;
+				playerPosY_top = player.posY;
+				playerPosY_bottom = player.posY + player.height;
+			}
+			else if (playerPosY_top < yBottom && playerPosY_top >= yTop && !player.isColliding) {
+
+				player.posY = yBottom;
+				playerPosY_top = player.posY;
+				playerPosY_bottom = player.posY + player.height;
+				player.isJumping = FALSE;
+			}
 		}
-
-		playerPosY_top = player.posY;
-		playerPosY_bottom = player.posY + player.height;
 	}
 
 	// Make player fall downwards if not colliding with any platform
