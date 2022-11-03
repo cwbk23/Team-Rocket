@@ -8,7 +8,7 @@ void splash_screen_init(void)
 {
 	CP_System_Fullscreen();
 	//CP_System_SetWindowSize(CP_System_GetDisplayWidth(), CP_System_GetDisplayHeight());
-	//CP_System_SetWindowSize(1280, 720);
+	//CP_System_SetWindowSize(1920, 1080);
 	CP_System_SetFrameRate(60.0f);
 
 	logo = CP_Image_Load("Assets/DigiPen_BLACK.png");
