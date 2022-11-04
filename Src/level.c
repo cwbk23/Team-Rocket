@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 
-#define ENEMY_SIZE 3 // NUMBER OF ENEMIES IN THE LEVEL
+#define MOVING_ENEMY_SIZE 3 // NUMBER OF MOVING ENEMIES IN THE LEVEL
 #define SIZE_STAT 9 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 4 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 48 // NUMBER OF SPIKES IN THE LEVEL
@@ -46,7 +46,7 @@ struct Enemy
 	int enemy_direction;
 };
 
-struct Enemy enemies[ENEMY_SIZE];
+struct Enemy enemies[MOVING_ENEMY_SIZE];
 
 
 //////////////////// KENNY ///////////////////////////
@@ -81,25 +81,8 @@ void Level_Init()
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
 
-	
-	/////////////  CLEMENT  /////////////////
-	
-	// INITIALIZE ENEMY VARIABLES
-	enemies[0].x_position = 500.f; enemies[1].x_position = 600.f; enemies[2].x_position = 700.f;
-	enemies[0].y_position = 500.f; enemies[1].y_position = 700.f; enemies[2].y_position = 800.f;
-	enemies[0].width = 40.f; enemies[1].width = 40.f; enemies[2].width = 40.f;
-	enemies[0].height = 40.f; enemies[1].height = 40.f; enemies[2].height = 40.f;
-	enemies[0].enemy_distance = 500.f; enemies[1].enemy_distance = 300.f; enemies[2].enemy_distance = 400.f;
-	enemies[0].enemy_speed = 100.f; enemies[1].enemy_speed = 150.f; enemies[2].enemy_speed = 50.f;
-	enemies[0].enemy_direction = _toleft; enemies[1].enemy_direction = _toright; enemies[2].enemy_direction = _toleft;
-	for (int i = 0; i < ENEMY_SIZE; ++i)
-	{
-		enemies[i].max_x = enemies[i].enemy_distance + enemies[i].x_position;
-		enemies[i].min_x = enemies[i].x_position - enemies[i].enemy_distance;
-	}
 
 	
-
 	///////////////  KENNY  //////////////////
 	
 	// Initialize stationary platforms variables
@@ -210,6 +193,36 @@ void Level_Init()
 	spikes[0].x3 = 40.f;
 	spikes[0].y3 = 1080.f;
 	spikes[0].deg = 0.f;
+
+
+
+	//////////////////// CLEMENT ///////////////////////
+
+	// INITIALIZE ENEMY VARIABLES
+	enemies[0].width = 40.f; enemies[1].width = 40.f; enemies[2].width = 40.f;
+	enemies[0].height = 40.f; enemies[1].height = 40.f; enemies[2].height = 40.f;
+
+	enemies[0].enemy_distance = stat_plat[0].width / 2;
+	enemies[1].enemy_distance = stat_plat[3].width / 2;
+	enemies[2].enemy_distance = stat_plat[5].width / 2;
+
+	enemies[0].enemy_speed = 100.f; enemies[1].enemy_speed = 150.f; enemies[2].enemy_speed = 50.f;
+
+	enemies[0].x_position = stat_plat[0].pos_x + (stat_plat[0].width / 2);
+	enemies[1].x_position = stat_plat[3].pos_x + (stat_plat[3].width / 2);
+	enemies[2].x_position = stat_plat[5].pos_x + (stat_plat[5].width / 2);
+
+	enemies[0].y_position = stat_plat[0].pos_y - enemies[0].height;
+	enemies[1].y_position = stat_plat[3].pos_y - enemies[1].height;
+	enemies[2].y_position = stat_plat[5].pos_y - enemies[2].height;
+
+	enemies[0].enemy_direction = _toleft; enemies[1].enemy_direction = _toright; enemies[2].enemy_direction = _toleft;
+	
+	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i)
+	{
+		enemies[i].max_x = (enemies[i].enemy_distance + enemies[i].x_position) - enemies[i].width;
+		enemies[i].min_x = enemies[i].x_position - enemies[i].enemy_distance;
+	}
 
 	
 }
@@ -467,7 +480,7 @@ void Level_Update()
 	CP_Graphics_DrawCircle(200.f, 200.f, bomb_size); //DRAWING OF BOMB ENEMY
 
 
-	for (int i = 0; i < ENEMY_SIZE; ++i) // DRAWING OF THE 3 ENEMIES INITIALIZED
+	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i) // DRAWING OF THE 3 ENEMIES INITIALIZED
 	{
 		CP_Settings_Fill(color_black);
 		CP_Graphics_DrawRect(enemies[i].x_position, enemies[i].y_position, enemies[i].width, enemies[i].height);
@@ -484,7 +497,7 @@ void Level_Update()
 	}
 
 	// LOGIC FOR MOVING ENEMIES TO MOVE LEFT AND RIGHT
-	for (int index = 0; index < ENEMY_SIZE; ++index)
+	for (int index = 0; index < MOVING_ENEMY_SIZE; ++index)
 	{
 		if (enemies[index].enemy_direction == _toright) // ENEMY MOVES TO THE RIGHT
 		{
@@ -506,6 +519,18 @@ void Level_Update()
 			enemies[index].enemy_direction = _toleft;
 		}
 	}
+
+	// COLLISION CHECKING BETWEEN MOVING ENEMIES PLAYERS
+	for (int index = 0; index < MOVING_ENEMY_SIZE; ++index)
+	{
+		if (CollisionCheck(player.posX, player.posY, player.width, player.height, enemies[index].x_position, enemies[index].y_position,
+			enemies[index].width, enemies[index].height))
+		{
+			player.posX = 10.f;
+			player.posY = 1000.f;
+		}
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	

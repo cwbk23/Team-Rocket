@@ -1,5 +1,6 @@
 #include "cprocessing.h"
 #include <math.h>
+#include "utils.h"
 
 
 int IsAreaClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y)
@@ -26,6 +27,23 @@ int IsCircleClicked(float circle_center_x, float circle_center_y, float diameter
 	float distance = CP_Math_Distance(circle_center_x, circle_center_y, click_x, click_y);
 
 	if (distance < radius) {
+		return 1;
+	}
+
+	return 0;
+}
+
+int CollisionCheck(float player_x, float player_y, float player_width, float player_height, float object_x, float object_y,
+	float object_width, float object_height)
+{
+	float object_rightside = object_x + object_width;
+	float player_rightside = player_x + player_width;
+	float object_bottom = object_y + object_height;
+	float player_bottom = player_y + player_height;
+
+	if (player_x <= object_rightside && player_rightside >= object_x &&
+		player_y <= object_bottom && player_bottom >= object_y)
+	{
 		return 1;
 	}
 
