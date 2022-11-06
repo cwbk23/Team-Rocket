@@ -14,7 +14,7 @@
 ///////////////////	YEE LEI	/////////////////////////////
 
 //Game boundary collision points
-float boundary_posY = 1080.0f;
+//float boundary_posY = 1080.0f;
 
 struct PLAYER 
 {
@@ -74,10 +74,10 @@ void Level_Init()
 	// Initialize player stats
 	player.width = 30.0f;
 	player.height = 60.0f;
-	player.moveSpeed = 300.0f;	// Point movement per sec
-	player.fallSpeed = 800.0f;
+	player.moveSpeed = 250.0f;	// X movement per sec
+	player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
-	player.jumpSpeed = 1000.0f;
+	player.jumpSpeed = 800.0f;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
 
@@ -301,11 +301,30 @@ void Level_Update()
 	player.blockRight = FALSE;
 
 	// Window boundary collision checking
-	if (playerPosY_bottom >= boundary_posY) {
+	if (playerPosY_bottom >= CP_System_GetWindowHeight()) {
 		player.isColliding = TRUE;
-		/*if (playerPosY_bottom > boundary_posY) */player.posY = boundary_posY - player.height;
+		/*if (playerPosY_bottom > boundary_posY) */player.posY = CP_System_GetWindowHeight() - player.height;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
+	}
+	else if (playerPosY_top < 0) {
+		player.isJumping = FALSE;
+		player.posY = 0;
+		playerPosY_top = player.posY;
+		playerPosY_bottom = player.posY + player.height;
+	}
+
+	if (playerPosX_left < 0) {
+		player.posX = 0;
+		playerPosX_left = player.posX;
+		playerPosX_right = player.posX + player.width;
+		player.blockLeft = TRUE;
+	}
+	else if (playerPosX_right > CP_System_GetWindowWidth()) {
+		player.posX = CP_System_GetWindowWidth() - player.width;
+		playerPosX_left = player.posX;
+		playerPosX_right = player.posX + player.width;
+		player.blockRight = TRUE;
 	}
 
 	// Store coordinate values of all platforms in an array for processing
@@ -358,10 +377,10 @@ void Level_Update()
 			}
 			else if (playerPosY_top < yBottom && playerPosY_top >= yTop && !player.isColliding) {
 
+				player.isJumping = FALSE;
 				player.posY = yBottom;
 				playerPosY_top = player.posY;
 				playerPosY_bottom = player.posY + player.height;
-				player.isJumping = FALSE;
 			}
 		}
 	}
