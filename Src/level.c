@@ -2,6 +2,7 @@
 #include "mainmenu.h"
 #include "utils.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 
 #define MOVING_ENEMY_SIZE 3 // NUMBER OF MOVING ENEMIES IN THE LEVEL
@@ -13,8 +14,16 @@
 
 ///////////////////	YEE LEI	/////////////////////////////
 
-//Game boundary collision points
+// Game boundary collision points
 //float boundary_posY = 1080.0f;
+
+// Fall speed multiplier
+// Default for short jumps and falling
+float fallMultiplier = 0.85f;
+
+// Jump charge settings
+const float jumpChargeMax = 1.5f;
+float jumpCharge = 1.0f;
 
 struct PLAYER 
 {
@@ -78,9 +87,9 @@ void Level_Init()
 	player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
 	player.jumpSpeed = 800.0f;
+	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
-
 
 	
 	///////////////  KENNY  //////////////////
@@ -259,8 +268,8 @@ void Level_Update()
 	if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
 	}
-
-	// Player jump control
+	
+	// Player short jump control
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
 		if (!player.isJumping && player.isColliding) {
 			player.jumpEnd_posY = player.posY - player.jumpHeight;
@@ -269,22 +278,50 @@ void Level_Update()
 		}
 	}
 
-	// Jumping mechanic
+	// Variable vertical jump control
+	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT)) {
+		if (!player.isJumping && player.isColliding && jumpCharge < jumpChargeMax) {
+			jumpCharge += 1.0f * currentElapsedTime;
+
+			if (jumpCharge > jumpChargeMax) jumpCharge = jumpChargeMax;
+		}
+	}
+	else if (CP_Input_MouseReleased(MOUSE_BUTTON_LEFT)) {
+		if (!player.isJumping && player.isColliding) {
+			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
+			player.isJumping = TRUE;
+			player.isColliding = FALSE;
+			fallMultiplier = 1.0f; // Faster falling for high jumps
+		}
+
+		jumpCharge = 1.0f;
+	}
+
+	// Jump charge indicator
+	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+	CP_Settings_TextSize(30.0f);
+	char jumpChargePercent[50] = { 0 };
+	sprintf_s(jumpChargePercent, 50, "Jump Charge: %.2f", (jumpCharge));
+	CP_Font_DrawText(jumpChargePercent, CP_System_GetWindowWidth() / 2.0f, 30.0f);
+	
+	// Up vector scaled with jump speed
+	CP_Vector jumpVec = CP_Vector_Set(0.0f, 1.0f);
+	CP_Vector jumpVec_scaled = CP_Vector_Scale(jumpVec, player.jumpSpeed);
+
+	// Apply jump movement
 	if (player.isJumping) {
 		if (player.posY > player.jumpEnd_posY) {
-			player.posY -= player.jumpSpeed * currentElapsedTime;
+			//player.posY -= player.jumpSpeed * currentElapsedTime;
+			player.posY -= jumpVec_scaled.y * currentElapsedTime;
 
-			if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
+			/*if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
 				player.posX -= 50.0f * currentElapsedTime;
 			}
 			if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 				player.posX += 50.0f * currentElapsedTime;
-			}
+			}*/
 
-			if (player.posY < player.jumpEnd_posY) {
-				player.posY = player.jumpEnd_posY;
-				player.isJumping = FALSE;
-			}
+			if (player.posY < player.jumpEnd_posY) player.posY = player.jumpEnd_posY;
 		}
 		else {
 			player.isJumping = FALSE;
@@ -300,7 +337,8 @@ void Level_Update()
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
 
-	// Window boundary collision checking
+	// Window boundary collision blocking
+	// Top and bottom boundaries
 	if (playerPosY_bottom >= CP_System_GetWindowHeight()) {
 		player.isColliding = TRUE;
 		/*if (playerPosY_bottom > boundary_posY) */player.posY = CP_System_GetWindowHeight() - player.height;
@@ -314,6 +352,7 @@ void Level_Update()
 		playerPosY_bottom = player.posY + player.height;
 	}
 
+	// Left and right boundaries
 	if (playerPosX_left < 0) {
 		player.posX = 0;
 		playerPosX_left = player.posX;
@@ -350,7 +389,7 @@ void Level_Update()
 		float xLeft = all_platforms[i].pos_x, xRight = xLeft + all_platforms[i].width;
 		float yTop = all_platforms[i].pos_y, yBottom = yTop + all_platforms[i].height;
 
-		// Block left or right side
+		// Block left and right side
 		if (playerPosY_bottom > yTop && playerPosY_top < yBottom) {
 			if (playerPosX_right > xLeft && playerPosX_left < xLeft && CP_Input_KeyDown(KEY_D)) {
 				player.posX = xLeft - player.width;
@@ -366,7 +405,7 @@ void Level_Update()
 			}
 		}
 
-		// Block top or bottom
+		// Block top and bottom
 		if (playerPosX_right > xLeft && playerPosX_left < xRight) {
 			if (playerPosY_bottom >= yTop && playerPosY_bottom <= yBottom) {
 
@@ -387,9 +426,15 @@ void Level_Update()
 
 	// Make player fall downwards if not colliding with any platform
 	if (!player.isColliding && !player.isJumping) {
-		player.posY += player.fallSpeed * currentElapsedTime;
+		//player.posY += player.fallSpeed * currentElapsedTime;
+		player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
+	}
+
+	// Reset fall speed back to default after finish falling
+	if (player.isColliding) {
+		fallMultiplier = 0.85f;
 	}
 
 	
