@@ -1,6 +1,7 @@
 #include "cprocessing.h"
 #include "mainmenu.h"
 #include "utils.h"
+#include "quiz.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -9,6 +10,7 @@
 #define SIZE_STAT 9 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 4 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 48 // NUMBER OF SPIKES IN THE LEVEL
+#define SIZE_CHECKPOINTS 4 // NUMBER OF CHECKPOINTS IN THE LEVEL
 #define PLAT_SPEED 50.f // GENERAL MOVING SPEED OF THE PLATFORM (FOR TESTING)
 
 
@@ -59,18 +61,33 @@ struct Enemy enemies[MOVING_ENEMY_SIZE];
 
 
 //////////////////// KENNY ///////////////////////////
+enum {
+	RIGHT_LEFT, LEFT_RIGHT, DOWN_UP, UP_DOWN, // Types of directions 
+	LEFT, RIGHT, DOWN, UP // Movement directions
+};
 
-struct platform
+struct PLATFORMS
 {
-	float pos_x, pos_y, width, height, rotation, distance, limit, speed;
-	char *direction, movement;
-}; struct platform stat_plat[SIZE_STAT];
-struct platform move_plat[SIZE_MOVE];
+	float pos_x, pos_y;
+	float width, height;
+	float rotation, distance, limit, speed;
+	int direction, movement;
+}; struct PLATFORMS stat_plat[SIZE_STAT], move_plat[SIZE_MOVE];
 
-struct spike
+struct SPIKES
 {
 	float x1, y1, x2, y2, x3, y3, deg;
-}; struct spike spikes[SIZE_SPIKES];
+}; struct SPIKES spikes[SIZE_SPIKES];
+
+struct CHECKPOINTS {
+	float pos_x, pos_y;
+	float width, height;
+}; struct CHECKPOINTS checkpoint[SIZE_CHECKPOINTS], checkpoint_hitbox[SIZE_CHECKPOINTS];
+struct CHECKPOINTS endpoint, endpoint_hitbox;
+
+checkpoint_no = 0;
+
+CP_Image CPoint, EPoint;
 
 void Level_Init()
 {
@@ -96,55 +113,55 @@ void Level_Init()
 	
 	// Initialize stationary platforms variables
 	stat_plat[0].pos_x = 0.f;
-	stat_plat[0].pos_y = 900.f;
+	stat_plat[0].pos_y = 950.f;
 	stat_plat[0].width = 100.f;
 	stat_plat[0].height = 30.f;
 	stat_plat[0].rotation = 0.f;
 
 	stat_plat[1].pos_x = 200.f;
-	stat_plat[1].pos_y = 900.f;
+	stat_plat[1].pos_y = 950.f;
 	stat_plat[1].width = 150.f;
 	stat_plat[1].height = 30.f;
 	stat_plat[1].rotation = 0.f;
 
 	stat_plat[2].pos_x = 400.f;
-	stat_plat[2].pos_y = 750.f;
+	stat_plat[2].pos_y = 800.f;
 	stat_plat[2].width = 100.f;
 	stat_plat[2].height = 30.f;
 	stat_plat[2].rotation = 0.f;
 
 	stat_plat[3].pos_x = 550.f;
-	stat_plat[3].pos_y = 900.f;
+	stat_plat[3].pos_y = 950.f;
 	stat_plat[3].width = 200.f;
 	stat_plat[3].height = 30.f;
 	stat_plat[3].rotation = 0.f;
 
 	stat_plat[4].pos_x = 850.f;
-	stat_plat[4].pos_y = 950.f;
+	stat_plat[4].pos_y = 1000.f;
 	stat_plat[4].width = 100.f;
 	stat_plat[4].height = 30.f;
 	stat_plat[4].rotation = 0.f;
 
 	stat_plat[5].pos_x = 1000.f;
-	stat_plat[5].pos_y = 850.f;
+	stat_plat[5].pos_y = 900.f;
 	stat_plat[5].width = 200.f;
 	stat_plat[5].height = 30.f;
 	stat_plat[5].rotation = 0.f;
 
-	stat_plat[6].pos_x = 1400.f;
-	stat_plat[6].pos_y = 950.f;
+	stat_plat[6].pos_x = 1300.f;
+	stat_plat[6].pos_y = 1000.f;
 	stat_plat[6].width = 100.f;
 	stat_plat[6].height = 30.f;
 	stat_plat[6].rotation = 0.f;
 
-	stat_plat[7].pos_x = 1550.f;
-	stat_plat[7].pos_y = 850.f;
+	stat_plat[7].pos_x = 1450.f;
+	stat_plat[7].pos_y = 900.f;
 	stat_plat[7].width = 100.f;
 	stat_plat[7].height = 30.f;
 	stat_plat[7].rotation = 0.f;
 
-	stat_plat[8].pos_x = 1700.f;
-	stat_plat[8].pos_y = 750.f;
+	stat_plat[8].pos_x = 1600.f;
+	stat_plat[8].pos_y = 800.f;
 	stat_plat[8].width = 100.f;
 	stat_plat[8].height = 30.f;
 	stat_plat[8].rotation = 0.f;
@@ -155,55 +172,110 @@ void Level_Init()
 	move_plat[0].width = 50.f;
 	move_plat[0].height = 25.f;
 	move_plat[0].rotation = 0.f;
-	move_plat[0].direction = "R_L";
-	move_plat[0].movement = 'R';
+	move_plat[0].direction = RIGHT_LEFT;
+	move_plat[0].movement = RIGHT;
 	move_plat[0].speed = PLAT_SPEED;
 	move_plat[0].distance = 50.f;
-	move_plat[0].limit = 1000.f; // Follows pos_x for left/right and pos_y for up/down
+	move_plat[0].limit = 1000.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[1].pos_x = 1200.f;
 	move_plat[1].pos_y = 200.f;
 	move_plat[1].width = 50.f;
 	move_plat[1].height = 25.f;
 	move_plat[1].rotation = 0.f;
-	move_plat[1].direction = "D_U";
-	move_plat[1].movement = 'D';
+	move_plat[1].direction = DOWN_UP;
+	move_plat[1].movement = DOWN;
 	move_plat[1].speed = PLAT_SPEED;
 	move_plat[1].distance = 50.f;
-	move_plat[1].limit = 200.f; // Follows pos_x for left/right and pos_y for up/down
+	move_plat[1].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
 
-	move_plat[2].pos_x = 1400.f;
-	move_plat[2].pos_y = 200.f;
-	move_plat[2].width = 50.f;
+	move_plat[2].pos_x = 200.f;
+	move_plat[2].pos_y = 800.f;
+	move_plat[2].width = 100.f;
 	move_plat[2].height = 25.f;
 	move_plat[2].rotation = 0.f;
-	move_plat[2].direction = "L_R";
-	move_plat[2].movement = 'L';
+	move_plat[2].direction = LEFT_RIGHT;
+	move_plat[2].movement = LEFT;
 	move_plat[2].speed = PLAT_SPEED;
-	move_plat[2].distance = 50.f;
-	move_plat[2].limit = 1400.f; // Follows pos_x for left/right and pos_y for up/down
+	move_plat[2].distance = 100.f;
+	move_plat[2].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
 
-	move_plat[3].pos_x = 1600.f;
-	move_plat[3].pos_y = 200.f;
-	move_plat[3].width = 50.f;
+	move_plat[3].pos_x = 600.f;
+	move_plat[3].pos_y = 800.f;
+	move_plat[3].width = 100.f;
 	move_plat[3].height = 25.f;
 	move_plat[3].rotation = 0.f;
-	move_plat[3].direction = "U_D";
-	move_plat[3].movement = 'U';
+	move_plat[3].direction = UP_DOWN;
+	move_plat[3].movement = UP;
 	move_plat[3].speed = PLAT_SPEED;
-	move_plat[3].distance = 50.f;
-	move_plat[3].limit = 200.f; // Follows pos_x for left/right and pos_y for up/down
+	move_plat[3].distance = 100.f;
+	move_plat[3].limit = 800.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	// Initialize the spikes variables
 	spikes[0].x1 = 20.f;
-	spikes[0].y1 = 1030.f;
+	spikes[0].y1 = 1050.f;
 	spikes[0].x2 = 0.f;
 	spikes[0].y2 = 1080.f;
 	spikes[0].x3 = 40.f;
 	spikes[0].y3 = 1080.f;
 	spikes[0].deg = 0.f;
 
+	// Initialize the checkpoints and its corresponding hitbox variables
+	checkpoint[0].width = 50.f;
+	checkpoint[0].height = 50.f;
+	checkpoint[0].pos_x = stat_plat[4].pos_x + (stat_plat[4].width / 2); // Takes the x-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_y = stat_plat[4].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
 
+	checkpoint_hitbox[0].width = checkpoint[0].width;
+	checkpoint_hitbox[0].height = checkpoint[0].height;
+	checkpoint_hitbox[0].pos_x = checkpoint[0].pos_x - (checkpoint[0].width / 2);
+	checkpoint_hitbox[0].pos_y = checkpoint[0].pos_y - (checkpoint[0].height / 2);
+
+	//checkpoint[1].width = 50.f;
+	//checkpoint[1].height = 50.f;
+	//checkpoint[1].pos_x = 800.f;
+	//checkpoint[1].pos_y = 750.f;
+	//
+	//checkpoint_hitbox[1].width = checkpoint[1].width;
+	//checkpoint_hitbox[1].height = checkpoint[1].height;
+	//checkpoint_hitbox[1].pos_x = checkpoint[1].pos_x - (checkpoint[1].width / 2);
+	//checkpoint_hitbox[1].pos_y = checkpoint[1].pos_y - (checkpoint[1].height / 2);
+	//
+	//checkpoint[2].width = 40.f;
+	//checkpoint[2].height = 40.f;
+	//checkpoint[2].pos_x = 900.f;
+	//checkpoint[2].pos_y = 110.f;
+	//
+	//checkpoint_hitbox[2].width = checkpoint[2].width;
+	//checkpoint_hitbox[2].height = checkpoint[2].height;
+	//checkpoint_hitbox[2].pos_x = checkpoint[2].pos_x - (checkpoint[2].width / 2);
+	//checkpoint_hitbox[2].pos_y = checkpoint[2].pos_y - (checkpoint[2].height / 2);
+	//
+	//checkpoint[3].width = 40.f;
+	//checkpoint[3].height = 40.f;
+	//checkpoint[3].pos_x = 1010.f;
+	//checkpoint[3].pos_y = 110.f;
+	//
+	//checkpoint_hitbox[3].width = checkpoint[3].width;
+	//checkpoint_hitbox[3].height = checkpoint[3].height;
+	//checkpoint_hitbox[3].pos_x = checkpoint[3].pos_x - (checkpoint[3].width / 2);
+	//checkpoint_hitbox[3].pos_y = checkpoint[3].pos_y - (checkpoint[3].height / 2);
+
+	// Initialize the endpoint and its corresponding hitbox variables
+
+	endpoint.width = 60.f;
+	endpoint.height = 80.f;
+	endpoint.pos_x = stat_plat[8].pos_x + (stat_plat[8].width / 2) + (endpoint.width / 2); // Takes the x-coordinates relative to the platform
+	endpoint.pos_y = stat_plat[8].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
+
+	endpoint_hitbox.width = endpoint.width;
+	endpoint_hitbox.height = endpoint.height;
+	endpoint_hitbox.pos_x = endpoint.pos_x - (endpoint.width / 2);
+	endpoint_hitbox.pos_y = endpoint.pos_y - (endpoint.height / 2);
+
+	// Load images for checkpoint and endpoint
+	CPoint = CP_Image_Load("Assets/Checkpoint.png");
+	EPoint = CP_Image_Load("Assets/Endpoint.png");
 
 	//////////////////// CLEMENT ///////////////////////
 
@@ -367,7 +439,7 @@ void Level_Update()
 	}
 
 	// Store coordinate values of all platforms in an array for processing
-	struct platform all_platforms[SIZE_STAT + SIZE_MOVE];
+	struct PLATFORMS all_platforms[SIZE_STAT + SIZE_MOVE];
 	int platCount = 0;
 
 	for (int i = 0; i < SIZE_STAT; i++, platCount++) {
@@ -444,6 +516,7 @@ void Level_Update()
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Color color_brown = (CP_Color_Create(181, 101, 29, 255));
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
+	CP_Color color_yellow = (CP_Color_Create(255, 255, 0, 255));;
 
 	// Drawing of all stationary platforms
 	CP_Settings_Fill(color_brown);
@@ -456,73 +529,73 @@ void Level_Update()
 		CP_Graphics_DrawRectAdvanced(move_plat[i].pos_x, move_plat[i].pos_y, move_plat[i].width, move_plat[i].height, move_plat[i].rotation, 0.f);
 
 		// Logic for moving platform right then left
-		if (move_plat[i].direction == "R_L") {
+		if (move_plat[i].direction == RIGHT_LEFT) {
 			float right_limit = move_plat[i].limit + move_plat[i].distance;
 
 			if (move_plat[i].pos_x <= move_plat[i].limit) { // Check if platform exceeds left limit
-				move_plat[i].movement = 'R';
+				move_plat[i].movement = RIGHT;
 			}
 			if (move_plat[i].pos_x >= right_limit) { // Check if platform exceeds right limit
-				move_plat[i].movement = 'L';
+				move_plat[i].movement = LEFT;
 			}
 		}
 
 		// Logic for moving platform left then right
-		if (move_plat[i].direction == "L_R") {
+		if (move_plat[i].direction == LEFT_RIGHT) {
 			float left_limit = move_plat[i].limit - move_plat[i].distance;
 
 			if (move_plat[i].pos_x >= move_plat[i].limit) { // Check if platform exceeds right limit
-				move_plat[i].movement = 'L';
+				move_plat[i].movement = LEFT;
 			}
 			if (move_plat[i].pos_x <= left_limit) { // Check if platform exceeds left limit
-				move_plat[i].movement = 'R';
+				move_plat[i].movement = RIGHT;
 			}
 		}
 
 		// Logic for moving platform down then up
-		if (move_plat[i].direction == "D_U") {
+		if (move_plat[i].direction == DOWN_UP) {
 			float lower_limit = move_plat[i].limit + move_plat[i].distance;
 
 			if (move_plat[i].pos_y <= move_plat[i].limit) { // Check if platform exceeds upper limit
-				move_plat[i].movement = 'D';
+				move_plat[i].movement = DOWN;
 			}
 			if (move_plat[i].pos_y >= lower_limit) { // Check if platform exceeds lower limit
-				move_plat[i].movement = 'U';
+				move_plat[i].movement = UP;
 			}
 		}
 
 		// Logic for moving platform up then down
-		if (move_plat[i].direction == "U_D") {
+		if (move_plat[i].direction == UP_DOWN) {
 			float upper_limit = move_plat[i].limit - move_plat[i].distance;
 
 			if (move_plat[i].pos_y >= move_plat[i].limit) { // Check if platform exceeds lower limit
-				move_plat[i].movement = 'U';
+				move_plat[i].movement = UP;
 			}
 			if (move_plat[i].pos_y <= upper_limit) { // Check if platform exceeds upper limit
-				move_plat[i].movement = 'D';
+				move_plat[i].movement = DOWN;
 			}
 		}
 
 		// Check the direction of the movement and move platform accordingly
-		if (move_plat[i].movement == 'L') { // Move left
+		if (move_plat[i].movement == LEFT) { // Move left
 			move_plat[i].pos_x -= move_plat[i].speed * currentElapsedTime;
 		}
-		if (move_plat[i].movement == 'R') { // Move right
+		if (move_plat[i].movement == RIGHT) { // Move right
 			move_plat[i].pos_x += move_plat[i].speed * currentElapsedTime;
 		}
-		if (move_plat[i].movement == 'U') { // Move up
+		if (move_plat[i].movement == UP) { // Move up
 			move_plat[i].pos_y -= move_plat[i].speed * currentElapsedTime;
 		}
-		if (move_plat[i].movement == 'D') { // Move down
+		if (move_plat[i].movement == DOWN) { // Move down
 			move_plat[i].pos_y += move_plat[i].speed * currentElapsedTime;
 		}
 	}
 
 	// Draw 48 spikes at the bottom of the map
 	CP_Settings_Fill(color_grey);
-	int currentSpike = 0;
-	int spikesWanted = 48;
-	int size = currentSpike + spikesWanted;
+	int currentSpike = 0; // The number of the vurrent selected spike
+	int spikesWanted = 48; 
+	int size = currentSpike + spikesWanted; 
 
 	for (int i = 0; currentSpike < size; ++currentSpike, ++i) {
 		spikes[currentSpike].x1 = spikes[0].x1 + (i * 40.f);
@@ -533,6 +606,31 @@ void Level_Update()
 		spikes[currentSpike].y3 = spikes[0].y3;
 		CP_Graphics_DrawTriangleAdvanced(spikes[currentSpike].x1, spikes[currentSpike].y1, spikes[currentSpike].x2, spikes[currentSpike].y2, spikes[currentSpike].x3, spikes[currentSpike].y3, spikes[currentSpike].deg);
 	}
+
+	// Draw checkpoints
+	for (int i = 0; i < SIZE_CHECKPOINTS; ++i) {
+		CP_Graphics_DrawRect(checkpoint_hitbox[i].pos_x, checkpoint_hitbox[i].pos_y, checkpoint_hitbox[i].width, checkpoint_hitbox[i].height); // Checkpoint hitbox boundary checking
+		CP_Image_Draw(CPoint, checkpoint[i].pos_x, checkpoint[i].pos_y, checkpoint[i].width, checkpoint[i].height, 255);
+
+		// Collision checking of checkpoints
+		if (CollisionCheck(player.posX, player.posY, player.width, player.height, checkpoint_hitbox[i].pos_x, checkpoint_hitbox[i].pos_y, checkpoint_hitbox[i].width, checkpoint_hitbox[i].height)) {
+			checkpoint_no = i + 1; // Saves the current checkpoint
+			CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
+		}
+	}
+
+	// Draw endpoint
+	CP_Graphics_DrawRect(endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height); // Endpoint hitbox boundary checking
+	CP_Image_Draw(EPoint, endpoint.pos_x, endpoint.pos_y, endpoint.width, endpoint.height, 255);
+
+	// Collision checking of endpoint
+	if (CollisionCheck(player.posX, player.posY, player.width, player.height, endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height)) {
+		/*  Set to Win Screen State   */
+	}
+
+
+
+	// Collision checking for endpoint
 
 	//////////////////////////// CLEMENT /////////////////////////////////
 
@@ -607,5 +705,6 @@ void Level_Update()
 
 void Level_Exit()
 {
-	
+	CP_Image_Free(&CPoint);
+	CP_Image_Free(&EPoint);
 }
