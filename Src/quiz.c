@@ -109,12 +109,16 @@ void Quiz_Update()
 	if (timercounter == true)
 	{
 		CP_Font_DrawText("Timer:", width / 15, height / 5.5);
+		CP_Font_DrawText(" :    ", width / 5.6, height / 5.5);
 		float currentElapsedTime = CP_System_GetDt();
-		static float totalElapsedTime = 60;
-		totalElapsedTime -= currentElapsedTime ;
-		char buffer[16] = { 0 };
-		sprintf_s(buffer, _countof(buffer), "%.f", (totalElapsedTime/60));
-		CP_Font_DrawText(buffer, width/7, height/5.5 );
+		static float totalElapsedTime = 300;
+		totalElapsedTime -= currentElapsedTime;
+		char minute[16] = { 0 };
+		char second[16] = { 0 };
+		sprintf_s(minute, _countof(minute), "%d",(int) totalElapsedTime/60);
+		sprintf_s(second, _countof(second), "%.d", ((int)totalElapsedTime%60));
+		CP_Font_DrawText(minute, width/8, height/5.5 );
+		CP_Font_DrawText(second, width/4.8, height / 5.5);
 
 		if (totalElapsedTime <= 0)
 		{
@@ -181,7 +185,7 @@ void Quiz_Update()
 		CP_Font_DrawText(" False ", width / 1.7, height / 1.4);
 		
 		//If mouse click is within a certain area
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT))
+		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)&&(clicked_q1 == FALSE) && (question_1ans == FALSE))
 		{
 			if (IsAreaClicked(width / 2.4f, height / 1.4f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 			{
@@ -194,7 +198,7 @@ void Quiz_Update()
 		
 
 		}
-			if (clicked_q1 == TRUE)
+			if ((clicked_q1 == TRUE))
 			{
 				CP_Font_DrawText(" Correct ", width / 2, height / 1.8);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -210,7 +214,7 @@ void Quiz_Update()
 						question_2 = TRUE;
 					}
 				}
-			} if(question_1ans == TRUE)
+			} if((question_1ans == TRUE)&&(clicked_q1 == FALSE))
 			{
 				CP_Font_DrawText(" Wrong ", width / 2, height / 1.8);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -249,7 +253,7 @@ void Quiz_Update()
 		CP_Font_DrawText(" False ", width / 1.7, height / 1.4);
 
 		//If mouse click is within a certain area
-		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (clicked_q2 == FALSE) && (question_2ans == FALSE))
 		{
 			if (IsAreaClicked(width / 2.4f, height / 1.4f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 			{
@@ -281,6 +285,19 @@ void Quiz_Update()
 		if ((clicked_q2 == FALSE) && (question_2ans == TRUE))
 		{
 			CP_Font_DrawText(" Wrong ", width / 2, height / 1.8);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+			CP_Graphics_DrawRectAdvanced(width / 1.3, height / 1.3, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Font_DrawText(" Next ", width / 1.3, height / 1.3);
+			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			{
+				if (IsAreaClicked(width / 1.3f, height / 1.3f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+
+					question_2 = FALSE;
+					question_3 = TRUE;
+				}
+			}
 		}
 	}
 
@@ -303,7 +320,7 @@ void Quiz_Update()
 		CP_Font_DrawText(" False ", width / 1.7, height / 1.4);
 
 		//If mouse click is within a certain area
-		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (clicked_q3 == FALSE) && (question_3ans == FALSE))
 		{
 			if (IsAreaClicked(width / 2.4f, height / 1.4f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 			{
@@ -334,6 +351,19 @@ void Quiz_Update()
 		if ((clicked_q3 == FALSE) && (question_3ans == TRUE))
 		{
 			CP_Font_DrawText(" Wrong ", width / 2, height / 1.8);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+			CP_Graphics_DrawRectAdvanced(width / 1.3, height / 1.3, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Font_DrawText(" Next ", width / 1.3, height / 1.3);
+			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			{
+				if (IsAreaClicked(width / 1.3f, height / 1.3f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+
+					question_3 = FALSE;
+					question_4 = TRUE;
+				}
+			}
 		}
 	}
 
@@ -359,7 +389,7 @@ void Quiz_Update()
 		CP_Font_DrawText(" False ", width / 1.7, height / 1.4);
 
 		//If mouse click is within a certain area
-		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (clicked_q4 == FALSE) && (question_4ans == FALSE))
 		{
 			if (IsAreaClicked(width / 2.4f, height / 1.4f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 			{
@@ -390,6 +420,19 @@ void Quiz_Update()
 		if ((clicked_q4 == FALSE) && (question_4ans == TRUE))
 		{
 			CP_Font_DrawText(" Wrong ", width / 2, height / 1.8);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+			CP_Graphics_DrawRectAdvanced(width / 1.3, height / 1.3, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Font_DrawText(" Next ", width / 1.3, height / 1.3);
+			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			{
+				if (IsAreaClicked(width / 1.3f, height / 1.3f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+
+					question_4 = FALSE;
+					question_5 = TRUE;
+				}
+			}
 		}
 	}
 
@@ -412,7 +455,7 @@ void Quiz_Update()
 		CP_Font_DrawText(" False ", width / 1.7, height / 1.4);
 
 		//If mouse click is within a certain area
-		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+		if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && (clicked_q5 == FALSE) && (question_5ans == FALSE))
 		{
 			if (IsAreaClicked(width / 2.4f, height / 1.4f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 			{
@@ -443,6 +486,19 @@ void Quiz_Update()
 		if ((clicked_q5 == FALSE) && (question_5ans == TRUE))
 		{
 			CP_Font_DrawText(" Wrong ", width / 2, height / 1.8);
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.3, 500, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.3);
+			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			{
+				if (IsAreaClicked(width / 1.2f, height / 1.3f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
+
+				}
+			}
+
 		}
 	
 
