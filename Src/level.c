@@ -490,7 +490,7 @@ void Level_Update()
 		all_platforms[platCount].movement = move_plat[i].movement;
 	}
 
-	// Player position X offset when on moving platforms (-999 = NONE)
+	// Player position X offset when on side-moving platforms (-999 = NONE)
 	static float Xoffset = -999.0f;
 
 	// Index of down-moving platform that player is standing on (-1 = NONE)
@@ -536,17 +536,20 @@ void Level_Update()
 					downPlatIndex = -1;
 				}
 
-				// Update player position X to follow moving platform when colliding
-				if (Xoffset == -999.0f) {
-					Xoffset = player.posX - xLeft;
-				}
-				if (CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_D)) {
-					Xoffset = player.posX - xLeft;
-				}
+				// Update player position X to follow side-moving platform when colliding
+				if (all_platforms[i].movement == LEFT || all_platforms[i].movement == RIGHT) {
+					if (Xoffset == -999.0f) {
+						Xoffset = player.posX - xLeft;
+					}
 
-				player.posX = xLeft + Xoffset;
-				playerPosX_left = player.posX;
-				playerPosX_right = player.posX + player.width;
+					if (CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_D)) {
+						Xoffset = player.posX - xLeft;
+					}
+
+					player.posX = xLeft + Xoffset;
+					playerPosX_left = player.posX;
+					playerPosX_right = player.posX + player.width;
+				}
 
 				/*if (playerPosY_bottom > yTop) */player.posY = yTop - player.height;
 				playerPosY_top = player.posY;
@@ -563,21 +566,27 @@ void Level_Update()
 		}
 	}
 	
+	// Update player position Y if standing on a down-moving platform
+	if (downPlatIndex >= 0) {
+		if (!player.isJumping) {
+			player.isColliding = TRUE;
+			player.posY = all_platforms[downPlatIndex].pos_y - player.height;
+			playerPosY_top = player.posY;
+			playerPosY_bottom = player.posY + player.height;
+		}
+		else {
+			downPlatIndex = -1;
+		}
+	}
+	
 	// Make player fall downwards if not colliding with any platform
 	if (!player.isColliding && !player.isJumping) {
 		player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
+		playerPosY_top = player.posY;
+		playerPosY_bottom = player.posY + player.height;
 
 		// Reset player position X offset for moving platforms (-999.0f = NONE)
 		Xoffset = -999.0f;
-
-		// Update player position Y if standing on a down-moving platform
-		if (downPlatIndex >= 0) {
-			player.isColliding = TRUE;
-			player.posY = all_platforms[downPlatIndex].pos_y - player.height;
-		}
-
-		playerPosY_top = player.posY;
-		playerPosY_bottom = player.posY + player.height;
 	}
 
 	// Reset fall speed back to default after finish falling
