@@ -2,6 +2,7 @@
 #include "mainmenu.h"
 #include "utils.h"
 #include "quiz.h"
+#include "level.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -35,6 +36,7 @@ struct PLAYER
 	float moveSpeed, fallSpeed;
 	float jumpHeight, jumpSpeed;
 	float jumpEnd_posX, jumpEnd_posY;
+	bool alive;
 	bool isJumping, isColliding;
 	bool blockLeft, blockRight;
 };
@@ -92,14 +94,11 @@ checkpoint_no = 0;
 
 CP_Image CPoint, EPoint;
 
+
 void Level_Init()
 {
 	///////////////	YEE LEI	/////////////////
 	
-	// Player spawn point
-	player.posX = 10.0f;
-	player.posY = 1000.0f;
-
 	// Initialize player stats
 	player.width = 30.0f;
 	player.height = 60.0f;
@@ -107,6 +106,7 @@ void Level_Init()
 	player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
 	player.jumpSpeed = 800.0f;
+	player.alive = FALSE;
 	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
@@ -340,6 +340,20 @@ void Level_Update()
 	
 	///////////////////////	YEE LEI	/////////////////////////////////////////
 
+	// Set player spawn point based on checkpoint
+	if (player.alive == FALSE) {
+		if (checkpoint_no == 0) {
+			player.posX = 250.0f;
+			player.posY = 900.0f;
+		}
+		else if (checkpoint_no == 1) {
+			player.posX = 450.0f;
+			player.posY = 700.0f;
+		}
+
+		player.alive = TRUE;
+	}
+
 	// Draw player model
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
@@ -465,6 +479,7 @@ void Level_Update()
 		all_platforms[platCount].pos_y = stat_plat[i].pos_y;
 		all_platforms[platCount].width = stat_plat[i].width;
 		all_platforms[platCount].height = stat_plat[i].height;
+		//all_platforms[platCount].movement = 0;
 	}
 
 	for (int i = 0; i < SIZE_MOVE; i++, platCount++) {
@@ -472,12 +487,24 @@ void Level_Update()
 		all_platforms[platCount].pos_y = move_plat[i].pos_y;
 		all_platforms[platCount].width = move_plat[i].width;
 		all_platforms[platCount].height = move_plat[i].height;
+		all_platforms[platCount].movement = move_plat[i].movement;
 	}
+
+	// Player position X offset when on moving platforms (-999 = NONE)
+	static float Xoffset = -999.0f;
+
+	// Index of down-moving platform that player is standing on (-1 = NONE)
+	static int downPlatIndex = -1;
 
 	// Platform collision checking
 	for (int i = 0; i < platCount; i++) {
 		float xLeft = all_platforms[i].pos_x, xRight = xLeft + all_platforms[i].width;
 		float yTop = all_platforms[i].pos_y, yBottom = yTop + all_platforms[i].height;
+
+		// Reset index var if player no longer on the same moving platform
+		if (downPlatIndex == i) {
+			if (playerPosX_right < xLeft || playerPosX_left > xRight) downPlatIndex = -1;
+		}
 
 		// Block left and right side
 		if (playerPosY_bottom > yTop && playerPosY_top < yBottom) {
@@ -494,12 +521,33 @@ void Level_Update()
 				player.blockLeft = TRUE;
 			}
 		}
-
+		
 		// Block top and bottom
 		if (playerPosX_right > xLeft && playerPosX_left < xRight) {
 			if (playerPosY_bottom >= yTop && playerPosY_bottom <= yBottom) {
 
 				player.isColliding = TRUE;
+
+				// Save moving platform index if going down, else reset
+				if (all_platforms[i].movement == DOWN) {
+					downPlatIndex = i;
+				}
+				else {
+					downPlatIndex = -1;
+				}
+
+				// Update player position X to follow moving platform when colliding
+				if (Xoffset == -999.0f) {
+					Xoffset = player.posX - xLeft;
+				}
+				if (CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_D)) {
+					Xoffset = player.posX - xLeft;
+				}
+
+				player.posX = xLeft + Xoffset;
+				playerPosX_left = player.posX;
+				playerPosX_right = player.posX + player.width;
+
 				/*if (playerPosY_bottom > yTop) */player.posY = yTop - player.height;
 				playerPosY_top = player.posY;
 				playerPosY_bottom = player.posY + player.height;
@@ -507,17 +555,27 @@ void Level_Update()
 			else if (playerPosY_top < yBottom && playerPosY_top >= yTop && !player.isColliding) {
 
 				player.isJumping = FALSE;
+
 				player.posY = yBottom;
 				playerPosY_top = player.posY;
 				playerPosY_bottom = player.posY + player.height;
 			}
 		}
 	}
-
+	
 	// Make player fall downwards if not colliding with any platform
 	if (!player.isColliding && !player.isJumping) {
-		//player.posY += player.fallSpeed * currentElapsedTime;
 		player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
+
+		// Reset player position X offset for moving platforms (-999.0f = NONE)
+		Xoffset = -999.0f;
+
+		// Update player position Y if standing on a down-moving platform
+		if (downPlatIndex >= 0) {
+			player.isColliding = TRUE;
+			player.posY = all_platforms[downPlatIndex].pos_y - player.height;
+		}
+
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
 	}
