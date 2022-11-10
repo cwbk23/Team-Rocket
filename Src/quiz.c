@@ -517,12 +517,12 @@ void Quiz_Update()
 			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
 			CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.3, height / 1.1, 500, 100, 0, 5); // false button
+			CP_Graphics_DrawRectAdvanced(width / 1.2	, height / 1.1, 500, 100, 0, 5); // false button
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Continue game ", width / 1.1, height / 1.1);
+			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
 			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 
@@ -535,12 +535,12 @@ void Quiz_Update()
 			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 			CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.3, height / 1.1, 500, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Continue game ", width / 1.1, height / 1.1);
+			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
 			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 
