@@ -508,16 +508,16 @@ void Level_Update()
 		}
 
 		// Block left and right side
-		if (playerPosY_bottom > yTop && playerPosY_top < yBottom /*&& !player.isJumping*/ 
-			&& movement != UP && movement != DOWN) {
+		if (playerPosY_bottom > (yTop + jumpVec_scaled.y * currentElapsedTime) 
+			&& playerPosY_top < (yBottom - jumpVec_scaled.y * currentElapsedTime)) {
 
-			if (playerPosX_right > xLeft && playerPosX_left < xLeft && CP_Input_KeyDown(KEY_D)) {
+			if (playerPosX_right > xLeft && playerPosX_left < xLeft /*&& CP_Input_KeyDown(KEY_D)*/) {
 				player.posX = xLeft - player.width;
 				playerPosX_left = player.posX;
 				playerPosX_right = player.posX + player.width;
 				player.blockRight = TRUE;
 			}
-			else if (playerPosX_left < xRight && playerPosX_right > xRight && CP_Input_KeyDown(KEY_A)) {
+			else if (playerPosX_left < xRight && playerPosX_right > xRight /*&& CP_Input_KeyDown(KEY_A)*/) {
 				player.posX = xRight;
 				playerPosX_left = player.posX;
 				playerPosX_right = player.posX + player.width;
