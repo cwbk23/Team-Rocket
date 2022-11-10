@@ -479,7 +479,7 @@ void Level_Update()
 		all_platforms[platCount].pos_y = stat_plat[i].pos_y;
 		all_platforms[platCount].width = stat_plat[i].width;
 		all_platforms[platCount].height = stat_plat[i].height;
-		//all_platforms[platCount].movement = 0;
+		all_platforms[platCount].movement = -1;
 	}
 
 	for (int i = 0; i < SIZE_MOVE; i++, platCount++) {
@@ -500,6 +500,7 @@ void Level_Update()
 	for (int i = 0; i < platCount; i++) {
 		float xLeft = all_platforms[i].pos_x, xRight = xLeft + all_platforms[i].width;
 		float yTop = all_platforms[i].pos_y, yBottom = yTop + all_platforms[i].height;
+		int movement = all_platforms[i].movement;
 
 		// Reset index var if player no longer on the same moving platform
 		if (downPlatIndex == i) {
@@ -507,7 +508,9 @@ void Level_Update()
 		}
 
 		// Block left and right side
-		if (playerPosY_bottom > yTop && playerPosY_top < yBottom) {
+		if (playerPosY_bottom > yTop && playerPosY_top < yBottom && !player.isJumping 
+			&& movement != UP && movement != DOWN) {
+
 			if (playerPosX_right > xLeft && playerPosX_left < xLeft && CP_Input_KeyDown(KEY_D)) {
 				player.posX = xLeft - player.width;
 				playerPosX_left = player.posX;
@@ -529,7 +532,7 @@ void Level_Update()
 				player.isColliding = TRUE;
 
 				// Save moving platform index if going down, else reset
-				if (all_platforms[i].movement == DOWN) {
+				if (movement == DOWN) {
 					downPlatIndex = i;
 				}
 				else {
@@ -537,7 +540,7 @@ void Level_Update()
 				}
 
 				// Update player position X to follow side-moving platform when colliding
-				if (all_platforms[i].movement == LEFT || all_platforms[i].movement == RIGHT) {
+				if (movement == LEFT || movement == RIGHT) {
 					if (Xoffset == -999.0f) {
 						Xoffset = player.posX - xLeft;
 					}
