@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "quiz.h"
 #include "level.h"
+#include "lose.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -33,9 +34,12 @@ struct PLAYER
 	float moveSpeed, fallSpeed;
 	float jumpHeight, jumpSpeed;
 	float jumpEnd_posX, jumpEnd_posY;
+
 	bool alive;
 	bool isJumping, isColliding;
 	bool blockLeft, blockRight;
+
+	int lives;
 };
 
 struct PLAYER player;
@@ -103,10 +107,15 @@ void Level_Init()
 	player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
 	player.jumpSpeed = 800.0f;
-	player.alive = FALSE;
+	player.alive = TRUE;
 	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
+	player.lives = 3;
+
+	// Default spawn point
+	player.posX = 250.0f;
+	player.posY = 900.0f;
 
 	
 	///////////////  KENNY  //////////////////
@@ -339,6 +348,14 @@ void Level_Update()
 
 	// Set player spawn point based on checkpoint
 	if (player.alive == FALSE) {
+		if (player.lives > 0) {
+			player.lives--;
+		}
+
+		if (player.lives <= 0) {
+			CP_Engine_SetNextGameState(Lose_Screen_Init, Lose_Screen_Update, Lose_Screen_Exit);
+		}
+
 		player.posX = 0.0f;
 		player.posY = 0.0f;
 
@@ -353,6 +370,13 @@ void Level_Update()
 
 		player.alive = TRUE;
 	}
+
+	// Player lives display
+	CP_Settings_Fill(CP_Color_Create(0, 128, 0, 255));
+	CP_Settings_TextSize(40.0f);
+	char playerLivesStr[50] = { 0 };
+	sprintf_s(playerLivesStr, 50, "Lives Left: %d", player.lives);
+	CP_Font_DrawText(playerLivesStr, 200.0f, 30.0f);
 
 	// Draw player model
 	CP_Settings_RectMode(CP_POSITION_CORNER);
@@ -407,9 +431,10 @@ void Level_Update()
 	// Jump charge indicator
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 	CP_Settings_TextSize(30.0f);
-	char jumpChargePercent[50] = { 0 };
-	sprintf_s(jumpChargePercent, 50, "Jump Charge: %.2f", (jumpCharge));
-	CP_Font_DrawText(jumpChargePercent, CP_System_GetWindowWidth() / 2.0f, 30.0f);
+	char jumpChargeStr[50] = { 0 };
+	//float jumpChargePercent = (jumpCharge / jumpChargeMax) * 100;
+	sprintf_s(jumpChargeStr, 50, "Jump Charge: %.1fx", jumpCharge);
+	CP_Font_DrawText(jumpChargeStr, CP_System_GetWindowWidth() / 2.0f, 30.0f);
 	
 	// Up vector scaled with jump speed
 	CP_Vector jumpVec = CP_Vector_Set(0.0f, 1.0f);
