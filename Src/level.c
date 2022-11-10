@@ -491,7 +491,7 @@ void Level_Update()
 	}
 
 	// Player position X offset when on side-moving platforms (-999 = NONE)
-	static float Xoffset = -999.0f;
+	static float player_Xoffset = -999.0f;
 
 	// Index of down-moving platform that player is standing on (-1 = NONE)
 	static int downPlatIndex = -1;
@@ -508,7 +508,7 @@ void Level_Update()
 		}
 
 		// Block left and right side
-		if (playerPosY_bottom > yTop && playerPosY_top < yBottom && !player.isJumping 
+		if (playerPosY_bottom > yTop && playerPosY_top < yBottom /*&& !player.isJumping*/ 
 			&& movement != UP && movement != DOWN) {
 
 			if (playerPosX_right > xLeft && playerPosX_left < xLeft && CP_Input_KeyDown(KEY_D)) {
@@ -541,15 +541,15 @@ void Level_Update()
 
 				// Update player position X to follow side-moving platform when colliding
 				if (movement == LEFT || movement == RIGHT) {
-					if (Xoffset == -999.0f) {
-						Xoffset = player.posX - xLeft;
+					if (player_Xoffset == -999.0f) {
+						player_Xoffset = player.posX - xLeft;
 					}
 
 					if (CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_D)) {
-						Xoffset = player.posX - xLeft;
+						player_Xoffset = player.posX - xLeft;
 					}
 
-					player.posX = xLeft + Xoffset;
+					player.posX = xLeft + player_Xoffset;
 					playerPosX_left = player.posX;
 					playerPosX_right = player.posX + player.width;
 				}
@@ -589,7 +589,7 @@ void Level_Update()
 		playerPosY_bottom = player.posY + player.height;
 
 		// Reset player position X offset for moving platforms (-999.0f = NONE)
-		Xoffset = -999.0f;
+		player_Xoffset = -999.0f;
 	}
 
 	// Reset fall speed back to default after finish falling
