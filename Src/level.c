@@ -18,12 +18,9 @@
 
 ///////////////////	YEE LEI	/////////////////////////////
 
-// Game boundary collision points
-//float boundary_posY = 1080.0f;
-
-// Fall speed multiplier
-// Default for short jumps and falling
-float fallMultiplier = 0.85f;
+// Fall speed multiplier for short and long jumps
+const float fallMultiplier_short = 0.85f;
+const float fallMultiplier_long = 1.0f;
 
 // Jump charge settings
 const float jumpChargeMax = 1.5f;
@@ -342,6 +339,9 @@ void Level_Update()
 
 	// Set player spawn point based on checkpoint
 	if (player.alive == FALSE) {
+		player.posX = 0.0f;
+		player.posY = 0.0f;
+
 		if (checkpoint_no == 0) {
 			player.posX = 250.0f;
 			player.posY = 900.0f;
@@ -372,6 +372,9 @@ void Level_Update()
 	if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
 	}
+
+	// Initialize default fall multiplier
+	static float fallMultiplier = 0.85f;
 	
 	// Player short jump control
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
@@ -395,7 +398,7 @@ void Level_Update()
 			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
-			fallMultiplier = 1.0f; // Faster falling for high jumps
+			fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
 		}
 
 		jumpCharge = 1.0f;
@@ -592,9 +595,20 @@ void Level_Update()
 		player_Xoffset = -999.0f;
 	}
 
-	// Reset fall speed back to default after finish falling
+	// Reset fall speed back to default after falling
 	if (player.isColliding) {
-		fallMultiplier = 0.85f;
+		fallMultiplier = fallMultiplier_short;
+	}
+
+	// Trigger player death if colliding with spikes
+	for (int i = 0; i < SIZE_SPIKES; i++) {
+		float LeftX = spikes[i].x2;
+		float topY = spikes[i].y1;
+
+		if (CollisionCheck(player.posX, player.posY, player.width, player.height, LeftX, topY, 40.0f, 30.0f)) {
+			player.alive = FALSE;
+			break;
+		}
 	}
 
 	
