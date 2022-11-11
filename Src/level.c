@@ -27,6 +27,9 @@ const float fallMultiplier_long = 1.0f;
 const float jumpChargeMax = 1.5f;
 float jumpCharge = 1.0f;
 
+// Initialize quiz score
+int quiz_score = 0;
+
 struct PLAYER 
 {
 	float posX, posY;
@@ -372,11 +375,18 @@ void Level_Update()
 	}
 
 	// Player lives display
-	CP_Settings_Fill(CP_Color_Create(0, 128, 0, 255));
+	CP_Settings_Fill(CP_Color_Create(34, 139, 34, 255));
 	CP_Settings_TextSize(40.0f);
 	char playerLivesStr[50] = { 0 };
 	sprintf_s(playerLivesStr, 50, "Lives Left: %d", player.lives);
-	CP_Font_DrawText(playerLivesStr, 200.0f, 30.0f);
+	CP_Font_DrawText(playerLivesStr, 100.0f, 30.0f);
+
+	// Current score display
+	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
+	CP_Settings_TextSize(40.0f);
+	char currentScoreStr[50] = { 0 };
+	sprintf_s(currentScoreStr, 50, "Current Score: %d", quiz_score);
+	CP_Font_DrawText(currentScoreStr, CP_System_GetWindowWidth() - 160.0f, 30.0f);
 
 	// Draw player model
 	CP_Settings_RectMode(CP_POSITION_CORNER);
@@ -429,12 +439,12 @@ void Level_Update()
 	}
 
 	// Jump charge indicator
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(30.0f);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 128, 255));
+	CP_Settings_TextSize(50.0f);
 	char jumpChargeStr[50] = { 0 };
 	//float jumpChargePercent = (jumpCharge / jumpChargeMax) * 100;
 	sprintf_s(jumpChargeStr, 50, "Jump Charge: %.1fx", jumpCharge);
-	CP_Font_DrawText(jumpChargeStr, CP_System_GetWindowWidth() / 2.0f, 30.0f);
+	CP_Font_DrawText(jumpChargeStr, CP_System_GetWindowWidth() / 2.0f, 40.0f);
 	
 	// Up vector scaled with jump speed
 	CP_Vector jumpVec = CP_Vector_Set(0.0f, 1.0f);
