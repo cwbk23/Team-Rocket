@@ -10,7 +10,9 @@
 
 
 #define MOVING_ENEMY_SIZE 3 // NUMBER OF MOVING ENEMIES IN THE LEVEL
-#define BOMB_ENEMY_SIZE 3 // NUMBER OR BOMB ENEMIES IN THE LEVEL
+#define BOMB_ENEMY_SIZE 3 // NUMBER OF BOMB ENEMIES IN THE LEVEL
+#define SHOOTING_ENEMY_SIZE 1 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
+#define BULLET_SIZE 10
 #define SIZE_STAT 9 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 4 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 48 // NUMBER OF SPIKES IN THE LEVEL
@@ -54,7 +56,6 @@ struct PLAYER player;
 int _toleft = 1;
 int _toright = 2;
 float explosion_size;
-bool explosion_draw;
 
 struct Enemy
 {
@@ -62,12 +63,24 @@ struct Enemy
 	float width, height;
 	float enemy_distance, enemy_speed, max_x, min_x;
 	int enemy_direction;
-	bool enemy_draw;
+	bool enemy_draw, explosion_draw;
+};
+
+struct Bullet
+{
+	float bullet_x, bullet_y;
+	float bullet_width, bullet_height;
+	float bullet_speed;
+	bool bullet_move;
 };
 
 struct Enemy mov_enemies[MOVING_ENEMY_SIZE];
 
 struct Enemy bomb_enemies[BOMB_ENEMY_SIZE];
+
+struct Bullet bullet[BULLET_SIZE];
+
+//struct Enemy shooting_enemies[SHOOTING_ENEMY_SIZE];
 
 
 //////////////////// KENNY ///////////////////////////
@@ -297,12 +310,11 @@ void Level_Init()
 	EPoint = CP_Image_Load("Assets/Endpoint.png");
 
 	//////////////////// CLEMENT ///////////////////////
-	explosion_draw = TRUE;
 	explosion_size = 40.f;
 
 	// INITIALIZE MOVING ENEMY VARIABLES
-	mov_enemies[0].width = 40.f; mov_enemies[1].width = 40.f; mov_enemies[2].width = 40.f;
-	mov_enemies[0].height = 40.f; mov_enemies[1].height = 40.f; mov_enemies[2].height = 40.f;
+	mov_enemies[0].width = 0.f; mov_enemies[1].width = 40.f; mov_enemies[2].width = 0.f;
+	mov_enemies[0].height =40.f; mov_enemies[1].height = 40.f; mov_enemies[2].height = 0.f;
 
 	mov_enemies[0].enemy_distance = stat_plat[0].width / 2;
 	mov_enemies[1].enemy_distance = stat_plat[3].width / 2;
@@ -310,15 +322,17 @@ void Level_Init()
 
 	mov_enemies[0].enemy_speed = 100.f; mov_enemies[1].enemy_speed = 150.f; mov_enemies[2].enemy_speed = 50.f;
 
-	mov_enemies[0].x_position = stat_plat[0].pos_x + (stat_plat[0].width / 2);
+	mov_enemies[0].x_position = -1;//stat_plat[0].pos_x + (stat_plat[0].width / 2);
 	mov_enemies[1].x_position = stat_plat[3].pos_x + (stat_plat[3].width / 2);
-	mov_enemies[2].x_position = stat_plat[5].pos_x + (stat_plat[5].width / 2);
+	mov_enemies[2].x_position = -1;//stat_plat[5].pos_x + (stat_plat[5].width / 2);
 
-	mov_enemies[0].y_position = stat_plat[0].pos_y - mov_enemies[0].height;
+	mov_enemies[0].y_position = -1;//stat_plat[0].pos_y - mov_enemies[0].height;
 	mov_enemies[1].y_position = stat_plat[3].pos_y - mov_enemies[1].height;
-	mov_enemies[2].y_position = stat_plat[5].pos_y - mov_enemies[2].height;
+	mov_enemies[2].y_position = -1;//stat_plat[5].pos_y - mov_enemies[2].height;
 
-	mov_enemies[0].enemy_direction = _toleft; mov_enemies[1].enemy_direction = _toright; mov_enemies[2].enemy_direction = _toleft;
+	//mov_enemies[0].enemy_direction = _toleft; 
+	mov_enemies[1].enemy_direction = _toright; 
+	//mov_enemies[2].enemy_direction = _toleft;
 	
 	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i)
 	{
@@ -327,19 +341,36 @@ void Level_Init()
 	}
 
 	// INITIALIZE BOMB ENEMY VARIABLES
-	bomb_enemies[0].width = 30.f; bomb_enemies[1].width = 30.f; bomb_enemies[2].width = 30.f;
-	bomb_enemies[0].height = 30.f; bomb_enemies[1].height = 30.f; bomb_enemies[2].height = 30.f;
+	bomb_enemies[0].width = 30.f; bomb_enemies[1].width = 0.f; bomb_enemies[2].width = 0.f;
+	bomb_enemies[0].height = 30.f; bomb_enemies[1].height = 0.f; bomb_enemies[2].height = 0.f;
 
-	bomb_enemies[0].x_position = 0.f; // stat_plat[2].pos_x + (stat_plat[2].width / 2);
-	bomb_enemies[1].x_position = 40.f; // stat_plat[7].pos_x + (stat_plat[7].width / 2);
-	bomb_enemies[2].x_position = 400.f;
+	bomb_enemies[0].x_position = stat_plat[1].pos_x + (stat_plat[1].width / 2) - (bomb_enemies[0].width / 2);
+	bomb_enemies[1].x_position = -1;//stat_plat[7].pos_x + (stat_plat[7].width / 2);
+	bomb_enemies[2].x_position = -1;//stat_plat[1].pos_x + (stat_plat[1].width / 2);
 
-	bomb_enemies[0].y_position = 0.f; // stat_plat[2].pos_y - bomb_enemies[0].height;
-	bomb_enemies[1].y_position = 0.f; // stat_plat[7].pos_y - bomb_enemies[1].height;
-	bomb_enemies[2].y_position = 900.f;
-
-	bomb_enemies[0].enemy_draw = TRUE; bomb_enemies[1].enemy_draw = TRUE; bomb_enemies[2].enemy_draw = TRUE;
+	bomb_enemies[0].y_position = stat_plat[1].pos_y - bomb_enemies[0].height;
+	bomb_enemies[1].y_position = -1;//stat_plat[7].pos_y - bomb_enemies[1].height;
+	bomb_enemies[2].y_position = -1;//stat_plat[1].pos_y - bomb_enemies[1].height;
 	
+	bomb_enemies[0].enemy_draw = TRUE; bomb_enemies[1].enemy_draw = FALSE; bomb_enemies[2].enemy_draw = FALSE;
+
+	for (int i = 0; i < BOMB_ENEMY_SIZE; ++i)
+	{
+		bomb_enemies[i].explosion_draw = FALSE;
+	}
+
+	//INITIALIZE SHOOTING ENEMY VARIABLES
+
+	for (int i = 0; i < BULLET_SIZE; ++i)
+	{
+		bullet[i].bullet_x = 80.f;
+		bullet[i].bullet_y = 620.f;
+		bullet[i].bullet_width = 40.f;
+		bullet[i].bullet_height = 10.f;
+		bullet[i].bullet_speed = 200.f;
+		bullet[i].bullet_move = FALSE;
+	}
+	bullet[0].bullet_move = TRUE;
 }
 
 void Level_Update()
@@ -795,7 +826,7 @@ void Level_Update()
 		}
 		else
 		{
-			if (explosion_draw == TRUE) // DRAW EXPLOSION IF BOMB ENEMY HAS EXPLODED AND BEEN CLEARED
+			if (bomb_enemies[i].explosion_draw == TRUE) // DRAW EXPLOSION IF BOMB ENEMY HAS EXPLODED AND BEEN CLEARED
 			{
 				CP_Settings_Fill(color_orange);
 				CP_Graphics_DrawCircle(bomb_enemies[i].x_position + bomb_enemies[i].width / 2,
@@ -804,7 +835,7 @@ void Level_Update()
 				explosion_size += (explosion_size * currentElapsedTime) * 4; // INCREASE EXPLOSION SIZE
 				if (explosion_size >= 100.f)
 				{
-					explosion_draw = FALSE; // CLEAR THE EXPLOSION DRAWING
+					bomb_enemies[i].explosion_draw = FALSE; // CLEAR THE EXPLOSION DRAWING
 				}
 			}
 		}
@@ -840,8 +871,7 @@ void Level_Update()
 		if (CollisionCheck(player.posX, player.posY, player.width, player.height, mov_enemies[index].x_position, mov_enemies[index].y_position,
 			mov_enemies[index].width, mov_enemies[index].height))
 		{
-			player.posX = 10.f;
-			player.posY = 1000.f;
+			player.alive = FALSE;
 		}
 	}
 
@@ -853,13 +883,55 @@ void Level_Update()
 			if (CollisionCheck(player.posX, player.posY, player.width, player.height, bomb_enemies[index].x_position, bomb_enemies[index].y_position,
 				bomb_enemies[index].width, bomb_enemies[index].height))
 			{
+				player.alive = FALSE;
+				bomb_enemies[index].explosion_draw = TRUE;
 				bomb_enemies[index].enemy_draw = FALSE; // CLEAR THE BOMB ENEMY DRAWING IF ITS HAS COLLIDED WITH PLAYER
-
-				player.posX = 10.f;
-				player.posY = 1000.f;
 			}
 		}
 	}
+
+	// DRAW SHOOTING ENEMIES
+
+	for (int i = 0; i < BULLET_SIZE; ++i)
+	{
+		CP_Settings_Fill(color_black);
+		CP_Graphics_DrawRect(bullet[i].bullet_x, bullet[i].bullet_y, bullet[i].bullet_width, bullet[i].bullet_height);
+	}
+
+
+	for (int i = 0; i < BULLET_SIZE; ++i)
+	{
+		if (bullet[i].bullet_move == TRUE)
+		{
+			bullet[i].bullet_x += bullet[i].bullet_speed * currentElapsedTime;
+			continue;
+		}
+		if (totalElapsedTime >= 2.0f)
+		{
+			bullet[i].bullet_move = TRUE;
+			totalElapsedTime = 0.0f;
+		}
+	}
+
+	for (int i = 0; i < BULLET_SIZE; ++i)
+	{
+		if (bullet[i].bullet_x >= 2000.f && bullet[9].bullet_x >= 480.f)
+		{
+			bullet[i].bullet_x = 80.f;
+		}
+	}
+
+	for (int index = 0; index < BULLET_SIZE; ++index)
+	{
+		if (CollisionCheck(player.posX, player.posY, player.width, player.height, bullet[index].bullet_x, bullet[index].bullet_y,
+			bullet[index].bullet_width, bullet[index].bullet_height))
+		{
+			player.alive = FALSE;
+		}
+	}
+
+	CP_Settings_Fill(color_grey);
+	CP_Graphics_DrawCircle(100.f, 620.f, 70.f);
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////
