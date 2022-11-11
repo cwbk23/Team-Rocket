@@ -4,6 +4,7 @@
 #include "quiz.h"
 #include "level.h"
 #include "lose.h"
+#include "win.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -243,16 +244,16 @@ void Level_Init()
 	checkpoint_hitbox[0].pos_x = checkpoint[0].pos_x - (checkpoint[0].width / 2);
 	checkpoint_hitbox[0].pos_y = checkpoint[0].pos_y - (checkpoint[0].height / 2);
 
-	//checkpoint[1].width = 50.f;
-	//checkpoint[1].height = 50.f;
-	//checkpoint[1].pos_x = 800.f;
-	//checkpoint[1].pos_y = 750.f;
-	//
-	//checkpoint_hitbox[1].width = checkpoint[1].width;
-	//checkpoint_hitbox[1].height = checkpoint[1].height;
-	//checkpoint_hitbox[1].pos_x = checkpoint[1].pos_x - (checkpoint[1].width / 2);
-	//checkpoint_hitbox[1].pos_y = checkpoint[1].pos_y - (checkpoint[1].height / 2);
-	//
+	checkpoint[1].width = 50.f;
+	checkpoint[1].height = 50.f;
+	checkpoint[1].pos_x = 800.f;
+	checkpoint[1].pos_y = 750.f;
+	 
+	checkpoint_hitbox[1].width = checkpoint[1].width;
+	checkpoint_hitbox[1].height = checkpoint[1].height;
+	checkpoint_hitbox[1].pos_x = checkpoint[1].pos_x - (checkpoint[1].width / 2);
+	checkpoint_hitbox[1].pos_y = checkpoint[1].pos_y - (checkpoint[1].height / 2);
+	
 	//checkpoint[2].width = 40.f;
 	//checkpoint[2].height = 40.f;
 	//checkpoint[2].pos_x = 900.f;
@@ -267,7 +268,7 @@ void Level_Init()
 	//checkpoint[3].height = 40.f;
 	//checkpoint[3].pos_x = 1010.f;
 	//checkpoint[3].pos_y = 110.f;
-	//
+	// 
 	//checkpoint_hitbox[3].width = checkpoint[3].width;
 	//checkpoint_hitbox[3].height = checkpoint[3].height;
 	//checkpoint_hitbox[3].pos_x = checkpoint[3].pos_x - (checkpoint[3].width / 2);
@@ -745,7 +746,8 @@ void Level_Update()
 	}
 
 	// Draw checkpoints
-	for (int i = 0; i < SIZE_CHECKPOINTS; ++i) {
+	for (int i = checkpoint_no; i < SIZE_CHECKPOINTS; ++i) {
+		
 		CP_Graphics_DrawRect(checkpoint_hitbox[i].pos_x, checkpoint_hitbox[i].pos_y, checkpoint_hitbox[i].width, checkpoint_hitbox[i].height); // Checkpoint hitbox boundary checking
 		CP_Image_Draw(CPoint, checkpoint[i].pos_x, checkpoint[i].pos_y, checkpoint[i].width, checkpoint[i].height, 255);
 
@@ -762,12 +764,8 @@ void Level_Update()
 
 	// Collision checking of endpoint
 	if (CollisionCheck(player.posX, player.posY, player.width, player.height, endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height)) {
-		/*  Set to Win Screen State   */
+		CP_Engine_SetNextGameState(Win_Init, Win_Update, Win_Exit);
 	}
-
-
-
-	// Collision checking for endpoint
 
 	//////////////////////////// CLEMENT /////////////////////////////////
 

@@ -18,6 +18,7 @@
     <ClCompile Include="..\Src\splashscreen.c" />
     <ClCompile Include="..\Src\utils.c" />
     <ClCompile Include="..\Src\lose.c" />
+    <ClCompile Include="..\Src\win.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Inc\level.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="..\Inc\quiz.h" />
     <ClInclude Include="..\Inc\splashscreen.h" />
     <ClInclude Include="..\Inc\utils.h" />
+    <ClInclude Include="..\Inc\win.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
