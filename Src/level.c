@@ -127,102 +127,108 @@ void Level_Init()
 	// Initialize stationary platforms variables
 	stat_plat[0].pos_x = 0.f;
 	stat_plat[0].pos_y = 950.f;
-	stat_plat[0].width = 100.f;
+	stat_plat[0].width = 150.f;
 	stat_plat[0].height = 30.f;
 	stat_plat[0].rotation = 0.f;
 
-	stat_plat[1].pos_x = 200.f;
+	stat_plat[1].pos_x = 500.f;
 	stat_plat[1].pos_y = 950.f;
-	stat_plat[1].width = 150.f;
+	stat_plat[1].width = 300.f;
 	stat_plat[1].height = 30.f;
 	stat_plat[1].rotation = 0.f;
 
-	stat_plat[2].pos_x = 400.f;
-	stat_plat[2].pos_y = 800.f;
-	stat_plat[2].width = 100.f;
+	stat_plat[2].pos_x = 1100.f;
+	stat_plat[2].pos_y = 850.f;
+	stat_plat[2].width = 150.f;
 	stat_plat[2].height = 30.f;
 	stat_plat[2].rotation = 0.f;
 
-	stat_plat[3].pos_x = 550.f;
+	stat_plat[3].pos_x = 1350.f;
 	stat_plat[3].pos_y = 950.f;
-	stat_plat[3].width = 200.f;
+	stat_plat[3].width = 300.f;
 	stat_plat[3].height = 30.f;
 	stat_plat[3].rotation = 0.f;
 
-	stat_plat[4].pos_x = 850.f;
-	stat_plat[4].pos_y = 1000.f;
-	stat_plat[4].width = 100.f;
+	stat_plat[4].pos_x = 1770.f;
+	stat_plat[4].pos_y = 950.f;
+	stat_plat[4].width = 150.f;
 	stat_plat[4].height = 30.f;
 	stat_plat[4].rotation = 0.f;
 
-	stat_plat[5].pos_x = 1000.f;
-	stat_plat[5].pos_y = 900.f;
-	stat_plat[5].width = 200.f;
-	stat_plat[5].height = 30.f;
-	stat_plat[5].rotation = 0.f;
-
-	stat_plat[6].pos_x = 1300.f;
-	stat_plat[6].pos_y = 1000.f;
-	stat_plat[6].width = 100.f;
-	stat_plat[6].height = 30.f;
-	stat_plat[6].rotation = 0.f;
-
-	stat_plat[7].pos_x = 1450.f;
-	stat_plat[7].pos_y = 900.f;
-	stat_plat[7].width = 100.f;
-	stat_plat[7].height = 30.f;
-	stat_plat[7].rotation = 0.f;
-
-	stat_plat[8].pos_x = 1600.f;
-	stat_plat[8].pos_y = 800.f;
-	stat_plat[8].width = 100.f;
-	stat_plat[8].height = 30.f;
-	stat_plat[8].rotation = 0.f;
+	//stat_plat[4].pos_x = 850.f;
+	//stat_plat[4].pos_y = 1000.f;
+	//stat_plat[4].width = 100.f;
+	//stat_plat[4].height = 30.f;
+	//stat_plat[4].rotation = 0.f;
+	//
+	//stat_plat[5].pos_x = 1000.f;
+	//stat_plat[5].pos_y = 900.f;
+	//stat_plat[5].width = 200.f;
+	//stat_plat[5].height = 30.f;
+	//stat_plat[5].rotation = 0.f;
+	//
+	//stat_plat[6].pos_x = 1300.f;
+	//stat_plat[6].pos_y = 1000.f;
+	//stat_plat[6].width = 100.f;
+	//stat_plat[6].height = 30.f;
+	//stat_plat[6].rotation = 0.f;
+	//
+	//stat_plat[7].pos_x = 1450.f;
+	//stat_plat[7].pos_y = 900.f;
+	//stat_plat[7].width = 100.f;
+	//stat_plat[7].height = 30.f;
+	//stat_plat[7].rotation = 0.f;
+	//
+	//stat_plat[8].pos_x = 1770.f;
+	//stat_plat[8].pos_y = 950.f;
+	//stat_plat[8].width = 150.f;
+	//stat_plat[8].height = 30.f;
+	//stat_plat[8].rotation = 0.f;
 
 	// Initialize variables for moving platform
-	move_plat[0].pos_x = 1000.f;
-	move_plat[0].pos_y = 200.f;
-	move_plat[0].width = 50.f;
-	move_plat[0].height = 25.f;
+	move_plat[0].pos_x = 250.f;
+	move_plat[0].pos_y = 950.f;
+	move_plat[0].width = 100.f;
+	move_plat[0].height = 30.f;
 	move_plat[0].rotation = 0.f;
 	move_plat[0].direction = RIGHT_LEFT;
 	move_plat[0].movement = RIGHT;
 	move_plat[0].speed = PLAT_SPEED;
 	move_plat[0].distance = 50.f;
-	move_plat[0].limit = 1000.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[0].limit = 250.f; // Follows value from pos_x for left/right and pos_y for up/down
 
-	move_plat[1].pos_x = 1200.f;
-	move_plat[1].pos_y = 200.f;
-	move_plat[1].width = 50.f;
-	move_plat[1].height = 25.f;
+	move_plat[1].pos_x = 900.f;
+	move_plat[1].pos_y = 950.f;
+	move_plat[1].width = 100.f;
+	move_plat[1].height = 30.f;
 	move_plat[1].rotation = 0.f;
-	move_plat[1].direction = DOWN_UP;
-	move_plat[1].movement = DOWN;
+	move_plat[1].direction = UP_DOWN;
+	move_plat[1].movement = UP;
 	move_plat[1].speed = PLAT_SPEED;
-	move_plat[1].distance = 50.f;
-	move_plat[1].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[1].distance = 100.f;
+	move_plat[1].limit = 950.f; // Follows value from pos_x for left/right and pos_y for up/down
 
-	move_plat[2].pos_x = 200.f;
-	move_plat[2].pos_y = 800.f;
-	move_plat[2].width = 100.f;
-	move_plat[2].height = 25.f;
-	move_plat[2].rotation = 0.f;
-	move_plat[2].direction = LEFT_RIGHT;
-	move_plat[2].movement = LEFT;
-	move_plat[2].speed = PLAT_SPEED;
-	move_plat[2].distance = 100.f;
-	move_plat[2].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
-
-	move_plat[3].pos_x = 600.f;
-	move_plat[3].pos_y = 800.f;
-	move_plat[3].width = 100.f;
-	move_plat[3].height = 25.f;
-	move_plat[3].rotation = 0.f;
-	move_plat[3].direction = UP_DOWN;
-	move_plat[3].movement = UP;
-	move_plat[3].speed = PLAT_SPEED;
-	move_plat[3].distance = 100.f;
-	move_plat[3].limit = 800.f; // Follows value from pos_x for left/right and pos_y for up/down
+	//move_plat[2].pos_x = 200.f;
+	//move_plat[2].pos_y = 800.f;
+	//move_plat[2].width = 100.f;
+	//move_plat[2].height = 25.f;
+	//move_plat[2].rotation = 0.f;
+	//move_plat[2].direction = LEFT_RIGHT;
+	//move_plat[2].movement = LEFT;
+	//move_plat[2].speed = PLAT_SPEED;
+	//move_plat[2].distance = 100.f;
+	//move_plat[2].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
+	//
+	//move_plat[3].pos_x = 600.f;
+	//move_plat[3].pos_y = 800.f;
+	//move_plat[3].width = 100.f;
+	//move_plat[3].height = 25.f;
+	//move_plat[3].rotation = 0.f;
+	//move_plat[3].direction = UP_DOWN;
+	//move_plat[3].movement = UP;
+	//move_plat[3].speed = PLAT_SPEED;
+	//move_plat[3].distance = 100.f;
+	//move_plat[3].limit = 800.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	// Initialize the spikes variables
 	spikes[0].x1 = 20.f;
@@ -236,23 +242,23 @@ void Level_Init()
 	// Initialize the checkpoints and its corresponding hitbox variables
 	checkpoint[0].width = 50.f;
 	checkpoint[0].height = 50.f;
-	checkpoint[0].pos_x = stat_plat[4].pos_x + (stat_plat[4].width / 2); // Takes the x-coordinates relative to the platform with adjustments
-	checkpoint[0].pos_y = stat_plat[4].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_x = stat_plat[2].pos_x + (stat_plat[2].width / 2); // Takes the x-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_y = stat_plat[2].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
 
 	checkpoint_hitbox[0].width = checkpoint[0].width;
 	checkpoint_hitbox[0].height = checkpoint[0].height;
 	checkpoint_hitbox[0].pos_x = checkpoint[0].pos_x - (checkpoint[0].width / 2);
 	checkpoint_hitbox[0].pos_y = checkpoint[0].pos_y - (checkpoint[0].height / 2);
 
-	checkpoint[1].width = 50.f;
-	checkpoint[1].height = 50.f;
-	checkpoint[1].pos_x = 800.f;
-	checkpoint[1].pos_y = 750.f;
-	 
-	checkpoint_hitbox[1].width = checkpoint[1].width;
-	checkpoint_hitbox[1].height = checkpoint[1].height;
-	checkpoint_hitbox[1].pos_x = checkpoint[1].pos_x - (checkpoint[1].width / 2);
-	checkpoint_hitbox[1].pos_y = checkpoint[1].pos_y - (checkpoint[1].height / 2);
+	//checkpoint[1].width = 50.f;
+	//checkpoint[1].height = 50.f;
+	//checkpoint[1].pos_x = 800.f;
+	//checkpoint[1].pos_y = 750.f;
+	// 
+	//checkpoint_hitbox[1].width = checkpoint[1].width;
+	//checkpoint_hitbox[1].height = checkpoint[1].height;
+	//checkpoint_hitbox[1].pos_x = checkpoint[1].pos_x - (checkpoint[1].width / 2);
+	//checkpoint_hitbox[1].pos_y = checkpoint[1].pos_y - (checkpoint[1].height / 2);
 	
 	//checkpoint[2].width = 40.f;
 	//checkpoint[2].height = 40.f;
@@ -278,8 +284,8 @@ void Level_Init()
 
 	endpoint.width = 60.f;
 	endpoint.height = 80.f;
-	endpoint.pos_x = stat_plat[8].pos_x + (stat_plat[8].width / 2) + (endpoint.width / 2); // Takes the x-coordinates relative to the platform
-	endpoint.pos_y = stat_plat[8].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
+	endpoint.pos_x = stat_plat[4].pos_x + (stat_plat[4].width / 2) + (endpoint.width / 2); // Takes the x-coordinates relative to the platform
+	endpoint.pos_y = stat_plat[4].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
 
 	endpoint_hitbox.width = endpoint.width;
 	endpoint_hitbox.height = endpoint.height;

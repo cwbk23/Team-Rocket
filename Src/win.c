@@ -119,12 +119,12 @@ void Win_Update() {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
 		// Play again action
-		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f) - 200.f, CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f - 200.f), CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 		}
 		// Return to main menu action
-		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f) + 200.f, CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
+		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f + 200.f), CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
 	}
 }
