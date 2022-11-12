@@ -8,6 +8,8 @@ void Lose_Screen_Init()
 {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+
+	checkpoint_no = -1;
 }
 
 void Lose_Screen_Update()

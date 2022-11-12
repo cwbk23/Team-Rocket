@@ -22,7 +22,7 @@ void Win_Init() {
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
 	// Reset checkpoint number to 0
-	checkpoint_no = 0;
+	checkpoint_no = -1;
 
 	new_highscore = FALSE;
 

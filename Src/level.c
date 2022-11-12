@@ -30,8 +30,19 @@ const float fallMultiplier_long = 1.0f;
 const float jumpChargeMax = 1.5f;
 float jumpCharge = 1.0f;
 
+// Default no. of player lives
+int playerLives = 3;
+
+// Starting spawn point
+float startingSpawnX = 50.0f;
+float startingSpawnY = 850.0f;
+
+// Initialize starting checkpoint (-1 means new game)
+int current_checkpoint = -1;
+
 // Initialize quiz score
 int quiz_score = 0;
+
 
 struct PLAYER 
 {
@@ -40,12 +51,9 @@ struct PLAYER
 	float moveSpeed, fallSpeed;
 	float jumpHeight, jumpSpeed;
 	float jumpEnd_posX, jumpEnd_posY;
-
 	bool alive;
 	bool isJumping, isColliding;
 	bool blockLeft, blockRight;
-
-	int lives;
 };
 
 struct PLAYER player;
@@ -128,11 +136,6 @@ void Level_Init()
 	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
-	player.lives = 3;
-
-	// Default spawn point
-	player.posX = 250.0f;
-	player.posY = 900.0f;
 
 	
 	///////////////  KENNY  //////////////////
@@ -388,35 +391,48 @@ void Level_Update()
 	///////////////////////	YEE LEI	/////////////////////////////////////////
 
 	// Set player spawn point based on checkpoint
-	if (player.alive == FALSE) {
-		if (player.lives > 0) {
-			player.lives--;
+	if (checkpoint_no == -1) {
+		checkpoint_no = 0;
+		current_checkpoint = 0;
+
+		playerLives = 3;
+		player.alive = TRUE;
+		player.posX = startingSpawnX;
+		player.posY = startingSpawnY;
+	}
+	else if (current_checkpoint != checkpoint_no) {
+		current_checkpoint = checkpoint_no;
+		
+		player.posX = checkpoint[current_checkpoint - 1].pos_x;
+		player.posY = checkpoint[current_checkpoint - 1].pos_y;
+	}
+	else if (player.alive == FALSE) {
+		if (playerLives > 0) {
+			playerLives--;
 		}
 
-		if (player.lives <= 0) {
+		if (playerLives == 0) {
 			CP_Engine_SetNextGameState(Lose_Screen_Init, Lose_Screen_Update, Lose_Screen_Exit);
 		}
+		else {
+			if (current_checkpoint == 0) {
+				player.posX = startingSpawnX;
+				player.posY = startingSpawnY;
+			}
+			else {
+				player.posX = checkpoint[current_checkpoint - 1].pos_x;
+				player.posY = checkpoint[current_checkpoint - 1].pos_y;
+			}
 
-		player.posX = 0.0f;
-		player.posY = 0.0f;
-
-		if (checkpoint_no == 0) {
-			player.posX = 250.0f;
-			player.posY = 900.0f;
+			player.alive = TRUE;
 		}
-		else if (checkpoint_no == 1) {
-			player.posX = 450.0f;
-			player.posY = 700.0f;
-		}
-
-		player.alive = TRUE;
 	}
 
 	// Player lives display
 	CP_Settings_Fill(CP_Color_Create(34, 139, 34, 255));
 	CP_Settings_TextSize(40.0f);
 	char playerLivesStr[50] = { 0 };
-	sprintf_s(playerLivesStr, 50, "Lives Left: %d", player.lives);
+	sprintf_s(playerLivesStr, 50, "Lives Left: %d", playerLives);
 	CP_Font_DrawText(playerLivesStr, 100.0f, 30.0f);
 
 	// Current score display
