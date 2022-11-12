@@ -133,6 +133,7 @@ void Level_Init()
 	player.jumpHeight = 200.0f;
 	player.jumpSpeed = 800.0f;
 	player.alive = TRUE;
+	player.isColliding = FALSE;
 	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
@@ -394,9 +395,7 @@ void Level_Update()
 	if (checkpoint_no == -1) {
 		checkpoint_no = 0;
 		current_checkpoint = 0;
-
 		playerLives = 3;
-		player.alive = TRUE;
 		player.posX = startingSpawnX;
 		player.posY = startingSpawnY;
 	}
@@ -425,6 +424,10 @@ void Level_Update()
 			}
 
 			player.alive = TRUE;
+			player.isColliding = FALSE;
+			player.isJumping = FALSE;
+			player.blockLeft = FALSE;
+			player.blockRight = FALSE;
 		}
 	}
 
