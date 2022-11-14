@@ -368,7 +368,7 @@ void Level_Init()
 	for (int i = 0; i < BULLET_SIZE; ++i)
 	{
 		bullet[i].bullet_x = 80.f;
-		bullet[i].bullet_y = 620.f;
+		bullet[i].bullet_y = 100.f;
 		bullet[i].bullet_width = 40.f;
 		bullet[i].bullet_height = 10.f;
 		bullet[i].bullet_speed = 200.f;
@@ -962,7 +962,7 @@ void Level_Update()
 	}
 
 	CP_Settings_Fill(color_grey);
-	CP_Graphics_DrawCircle(100.f, 620.f, 70.f);
+	CP_Graphics_DrawCircle(100.f, 100.f, 70.f);
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////
