@@ -131,7 +131,7 @@ void Level_Init()
 	player.moveSpeed = 250.0f;	// X movement per sec
 	player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
-	player.jumpSpeed = 800.0f;
+	player.jumpSpeed = 20.0f;
 	player.alive = TRUE;
 	player.isColliding = FALSE;
 	player.isJumping = FALSE;
@@ -450,12 +450,6 @@ void Level_Update()
 	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
 	CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
 
-	// TEST PLATFORMS
-	/*float plat1X = 100.0f, plat1Y = 950.0f;
-	float plat1Width = 200.0f, plat1Height = 50.0f;
-	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-	CP_Graphics_DrawRect(plat1X, plat1Y, plat1Width, plat1Height);*/
-
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
 		player.posX -= player.moveSpeed * currentElapsedTime;
@@ -463,6 +457,12 @@ void Level_Update()
 	if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
 	}
+
+	// Jump speed deceleration based on time
+	static float jump_totalElapsedTime = 1.0;
+
+	// Fall speed acceleration based on time
+	static float fall_totalElapsedTime = 0.5;
 
 	// Initialize default fall multiplier
 	static float fallMultiplier = 0.85f;
@@ -473,10 +473,12 @@ void Level_Update()
 			player.jumpEnd_posY = player.posY - player.jumpHeight;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
+			jump_totalElapsedTime = 1.0;
+			fall_totalElapsedTime = 0.5;
 		}
 	}
 
-	// Variable vertical jump control
+	// Chargeable vertical jump control
 	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT)) {
 		if (!player.isJumping && player.isColliding && jumpCharge < jumpChargeMax) {
 			jumpCharge += 1.0f * currentElapsedTime;
@@ -489,6 +491,8 @@ void Level_Update()
 			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
+			jump_totalElapsedTime = 1.0;
+			fall_totalElapsedTime = 0.5;
 			fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
 		}
 
@@ -506,19 +510,18 @@ void Level_Update()
 	// Up vector scaled with jump speed
 	CP_Vector jumpVec = CP_Vector_Set(0.0f, 1.0f);
 	CP_Vector jumpVec_scaled = CP_Vector_Scale(jumpVec, player.jumpSpeed);
-
+	
 	// Apply jump movement
 	if (player.isJumping) {
 		if (player.posY > player.jumpEnd_posY) {
-			//player.posY -= player.jumpSpeed * currentElapsedTime;
-			player.posY -= jumpVec_scaled.y * currentElapsedTime;
-
-			/*if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
-				player.posX -= 50.0f * currentElapsedTime;
+			if (jump_totalElapsedTime > 0.1) {
+				jump_totalElapsedTime -= currentElapsedTime;
 			}
-			if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
-				player.posX += 50.0f * currentElapsedTime;
-			}*/
+			else {
+				jump_totalElapsedTime = 0.1;
+			}
+
+			player.posY -= jumpVec_scaled.y * jump_totalElapsedTime;
 
 			if (player.posY < player.jumpEnd_posY) player.posY = player.jumpEnd_posY;
 		}
@@ -603,8 +606,8 @@ void Level_Update()
 		}
 
 		// Block left and right side
-		if (playerPosY_bottom > (yTop + jumpVec_scaled.y * currentElapsedTime) 
-			&& playerPosY_top < (yBottom - jumpVec_scaled.y * currentElapsedTime)) {
+		if (playerPosY_bottom > (yTop + jumpVec_scaled.y * 1.0)
+			&& playerPosY_top < (yBottom - jumpVec_scaled.y * 1.0)) {
 
 			if (playerPosX_right > xLeft && playerPosX_left < xLeft /*&& CP_Input_KeyDown(KEY_D)*/) {
 				player.posX = xLeft - player.width;
@@ -679,7 +682,15 @@ void Level_Update()
 	
 	// Make player fall downwards if not colliding with any platform
 	if (!player.isColliding && !player.isJumping) {
-		player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
+		if (fall_totalElapsedTime < 1.0) {
+			fall_totalElapsedTime += currentElapsedTime;
+		}
+		else {
+			fall_totalElapsedTime = 1.0;
+		}
+
+		//player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
+		player.posY += jumpVec_scaled.y * fall_totalElapsedTime;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
 
@@ -690,6 +701,7 @@ void Level_Update()
 	// Reset fall speed back to default after falling
 	if (player.isColliding) {
 		fallMultiplier = fallMultiplier_short;
+		fall_totalElapsedTime = 0.5;
 	}
 
 	// Trigger player death if colliding with spikes
