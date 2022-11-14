@@ -128,8 +128,8 @@ void Level_Init()
 	// Initialize player stats
 	player.width = 30.0f;
 	player.height = 60.0f;
-	player.moveSpeed = 250.0f;	// X movement per sec
-	player.fallSpeed = 700.0f;
+	player.moveSpeed = 250.0f;
+	//player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
 	player.jumpSpeed = 20.0f;
 	player.alive = TRUE;
@@ -462,7 +462,7 @@ void Level_Update()
 	static float jump_totalElapsedTime = 1.0;
 
 	// Fall speed acceleration based on time
-	static float fall_totalElapsedTime = 0.5;
+	static float fall_totalElapsedTime = 0.1;
 
 	// Initialize default fall multiplier
 	static float fallMultiplier = 0.85f;
@@ -474,7 +474,7 @@ void Level_Update()
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0;
-			fall_totalElapsedTime = 0.5;
+			fall_totalElapsedTime = 0.1;
 		}
 	}
 
@@ -492,7 +492,7 @@ void Level_Update()
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0;
-			fall_totalElapsedTime = 0.5;
+			fall_totalElapsedTime = 0.1;
 			fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
 		}
 
@@ -520,9 +520,9 @@ void Level_Update()
 			else {
 				jump_totalElapsedTime = 0.1;
 			}
-
+			
+			//player.posY -= jumpVec_scaled.y * currentElapsedTime;
 			player.posY -= jumpVec_scaled.y * jump_totalElapsedTime;
-
 			if (player.posY < player.jumpEnd_posY) player.posY = player.jumpEnd_posY;
 		}
 		else {
@@ -690,7 +690,7 @@ void Level_Update()
 		}
 
 		//player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
-		player.posY += jumpVec_scaled.y * fall_totalElapsedTime;
+		player.posY += jumpVec_scaled.y * fall_totalElapsedTime * 2;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
 
@@ -701,7 +701,7 @@ void Level_Update()
 	// Reset fall speed back to default after falling
 	if (player.isColliding) {
 		fallMultiplier = fallMultiplier_short;
-		fall_totalElapsedTime = 0.5;
+		fall_totalElapsedTime = 0.1;
 	}
 
 	// Trigger player death if colliding with spikes
