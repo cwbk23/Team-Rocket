@@ -11,7 +11,7 @@
 
 #define MOVING_ENEMY_SIZE 3 // NUMBER OF MOVING ENEMIES IN THE LEVEL
 #define BOMB_ENEMY_SIZE 3 // NUMBER OF BOMB ENEMIES IN THE LEVEL
-#define SHOOTING_ENEMY_SIZE 1 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
+#define SHOOTING_ENEMY_SIZE 2 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
 #define BULLET_SIZE 10
 #define SIZE_STAT 17 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 7 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
@@ -76,9 +76,10 @@ struct Enemy
 
 struct Bullet
 {
+	float bullet_startX, bullet_startY;
 	float bullet_x, bullet_y;
 	float bullet_width, bullet_height;
-	float bullet_speed;
+	float bullet_speed, bullet_time;
 	bool bullet_move;
 };
 
@@ -86,9 +87,10 @@ struct Enemy mov_enemies[MOVING_ENEMY_SIZE];
 
 struct Enemy bomb_enemies[BOMB_ENEMY_SIZE];
 
-struct Bullet bullet[BULLET_SIZE];
+struct Enemy shooting_enemies[SHOOTING_ENEMY_SIZE];
 
-//struct Enemy shooting_enemies[SHOOTING_ENEMY_SIZE];
+struct Bullet bullet[SHOOTING_ENEMY_SIZE][BULLET_SIZE];
+
 
 
 //////////////////// KENNY ///////////////////////////
@@ -392,8 +394,8 @@ void Level_Init()
 	explosion_size = 40.f;
 
 	// INITIALIZE MOVING ENEMY VARIABLES
-	mov_enemies[0].width = 0.f; mov_enemies[1].width = 40.f; mov_enemies[2].width = 0.f;
-	mov_enemies[0].height =40.f; mov_enemies[1].height = 40.f; mov_enemies[2].height = 0.f;
+	mov_enemies[0].width = 0.f; mov_enemies[1].width = 35.f; mov_enemies[2].width = 0.f;
+	mov_enemies[0].height =0.f; mov_enemies[1].height = 35.f; mov_enemies[2].height = 0.f;
 
 	mov_enemies[0].enemy_distance = stat_plat[0].width / 2;
 	mov_enemies[1].enemy_distance = stat_plat[3].width / 2;
@@ -420,8 +422,8 @@ void Level_Init()
 	}
 
 	// INITIALIZE BOMB ENEMY VARIABLES
-	bomb_enemies[0].width = 30.f; bomb_enemies[1].width = 0.f; bomb_enemies[2].width = 0.f;
-	bomb_enemies[0].height = 30.f; bomb_enemies[1].height = 0.f; bomb_enemies[2].height = 0.f;
+	bomb_enemies[0].width = 35.f; bomb_enemies[1].width = 0.f; bomb_enemies[2].width = 0.f;
+	bomb_enemies[0].height = 35.f; bomb_enemies[1].height = 0.f; bomb_enemies[2].height = 0.f;
 
 	bomb_enemies[0].x_position = stat_plat[1].pos_x + (stat_plat[1].width / 2) - (bomb_enemies[0].width / 2);
 	bomb_enemies[1].x_position = -1;//stat_plat[7].pos_x + (stat_plat[7].width / 2);
@@ -440,16 +442,26 @@ void Level_Init()
 
 	//INITIALIZE SHOOTING ENEMY VARIABLES
 
-	for (int i = 0; i < BULLET_SIZE; ++i)
+	shooting_enemies[0].x_position = 70.f; shooting_enemies[1].x_position = 1850.f;
+	shooting_enemies[0].y_position = 80.f; shooting_enemies[1].y_position = 180.f;
+	shooting_enemies[0].width = 50.f;	   shooting_enemies[1].width = 50.f;
+	shooting_enemies[0].height = 50.f;     shooting_enemies[1].height = 50.f;
+
+	for (int i = 0, j = 0; j < BULLET_SIZE; ++j)
 	{
-		bullet[i].bullet_x = 80.f;
-		bullet[i].bullet_y = 100.f;
-		bullet[i].bullet_width = 40.f;
-		bullet[i].bullet_height = 10.f;
-		bullet[i].bullet_speed = 200.f;
-		bullet[i].bullet_move = FALSE;
+		bullet[i][j].bullet_startX = shooting_enemies[0].x_position + 20.f;
+		bullet[i][j].bullet_startY = shooting_enemies[0].y_position + 20.f;
+
+		bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
+		bullet[i][j].bullet_y = bullet[i][j].bullet_startY;
+
+		bullet[i][j].bullet_width = 30.f;
+		bullet[i][j].bullet_height = 10.f;
+		bullet[i][j].bullet_speed = 200.f;
+		bullet[i][j].bullet_time = 2.0f;
+
+		bullet[i][j].bullet_move = FALSE;
 	}
-	bullet[0].bullet_move = TRUE;
 }
 
 void Level_Update()
@@ -940,10 +952,15 @@ void Level_Update()
 
 	//////////////////////////// CLEMENT /////////////////////////////////
 
+	static float bullet_totalElapsedTime = 0.0f;
+	bullet_totalElapsedTime += currentElapsedTime;
+	
+
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Color color_red = CP_Color_Create(255, 0, 0, 255); // red color
 	CP_Color color_black = CP_Color_Create(0, 0, 0, 255); // black color
 	CP_Color color_orange = CP_Color_Create(249, 105, 14, 255); // orange color
+	CP_Color color_green = CP_Color_Create(0, 255, 0, 255); // green color
 
 	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i) // DRAWING OF THE 3 MOVING ENEMIES INITIALIZED
 	{
@@ -1026,46 +1043,76 @@ void Level_Update()
 
 	// DRAW SHOOTING ENEMIES
 
-	for (int i = 0; i < BULLET_SIZE; ++i)
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i) // DRAWING OF EACH BULLET
 	{
-		CP_Settings_Fill(color_black);
-		CP_Graphics_DrawRect(bullet[i].bullet_x, bullet[i].bullet_y, bullet[i].bullet_width, bullet[i].bullet_height);
-	}
-
-
-	for (int i = 0; i < BULLET_SIZE; ++i)
-	{
-		if (bullet[i].bullet_move == TRUE)
+		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			bullet[i].bullet_x += bullet[i].bullet_speed * currentElapsedTime;
-			continue;
-		}
-		if (totalElapsedTime >= 2.0f)
-		{
-			bullet[i].bullet_move = TRUE;
-			totalElapsedTime = 0.0f;
+			CP_Settings_Fill(color_black);
+			CP_Graphics_DrawRect(bullet[i][j].bullet_x, bullet[i][j].bullet_y, bullet[i][j].bullet_width, bullet[i][j].bullet_height);
 		}
 	}
 
-	for (int i = 0; i < BULLET_SIZE; ++i)
+	// LOGIC FOR BULLETS TO TRAVEL TO THE RIGHT / LEFT
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
-		if (bullet[i].bullet_x >= 2000.f && bullet[9].bullet_x >= 480.f)
+		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			bullet[i].bullet_x = 80.f;
+			// BULLET 1 TRAVELS TO THE RIGHT
+			if (bullet[i][j].bullet_move == TRUE)
+			{
+				bullet[i][j].bullet_x += bullet[i][j].bullet_speed * currentElapsedTime;
+				continue;
+			}
+			if (bullet_totalElapsedTime >= bullet[i][j].bullet_time && bullet[i][j].bullet_move == FALSE) // TIME BEFORE THE NEXT BULLET STARTS TRAVELLING
+			{
+				bullet[i][j].bullet_move = TRUE;
+				bullet_totalElapsedTime = 0.0f;
+			}
 		}
 	}
 
-	for (int index = 0; index < BULLET_SIZE; ++index)
+	// LOGIC TO LOOP THE BULLET BACK TO THE STARTING POSITION CONTINUOUSLY
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
-		if (CollisionCheck(player.posX, player.posY, player.width, player.height, bullet[index].bullet_x, bullet[index].bullet_y,
-			bullet[index].bullet_width, bullet[index].bullet_height))
+		for (int j = 0; j < BULLET_SIZE; ++j)
+		{
+			if (bullet[i][j].bullet_x >= 1920.f && bullet[i][BULLET_SIZE - 1].bullet_x >= ((bullet[i][j].bullet_time * bullet[i][j].bullet_speed) + bullet[i][j].bullet_startX))
+			{
+				bullet[i][j].bullet_move = FALSE;
+				bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
+			}
+		}
+	}
+
+	// COLLISION CHECK BETWEEN THE PLAYER AND BULLETS
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
+	{
+		for (int j = 0; j < BULLET_SIZE; ++j)
+		{
+			if (CollisionCheck(player.posX, player.posY, player.width, player.height, bullet[i][j].bullet_x, bullet[i][j].bullet_y,
+				bullet[i][j].bullet_width, bullet[i][j].bullet_height))
+			{
+				player.alive = FALSE;
+			}
+		}
+	}
+
+	// COLLISION CHECK BETWEEN THE PLAYER AND SHOOTING ENEMIES
+	for (int index = 0; index < SHOOTING_ENEMY_SIZE; ++index)
+	{
+		if (CollisionCheck(player.posX, player.posY, player.width, player.height, shooting_enemies[index].x_position, shooting_enemies[index].y_position,
+			shooting_enemies[index].width, shooting_enemies[index].height))
 		{
 			player.alive = FALSE;
 		}
 	}
 
-	CP_Settings_Fill(color_grey);
-	CP_Graphics_DrawCircle(100.f, 100.f, 70.f);
+	// DRAWING OF THE SHOOTING ENEMIES
+	CP_Settings_Fill(color_green);
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
+	{
+		CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height);
+	}
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////
