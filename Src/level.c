@@ -13,8 +13,9 @@
 #define BOMB_ENEMY_SIZE 3 // NUMBER OF BOMB ENEMIES IN THE LEVEL
 #define SHOOTING_ENEMY_SIZE 2 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
 #define BULLET_SIZE 10
-#define SIZE_STAT 19 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
+#define SIZE_STAT 16 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 7 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
+#define SIZE_BLOCKER 3 // NUMBER OF BLOCKER PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 134 // NUMBER OF SPIKES IN THE LEVEL
 #define SIZE_CHECKPOINTS 3 // NUMBER OF CHECKPOINTS IN THE LEVEL
 #define PLAT_SPEED 50.f // GENERAL MOVING SPEED OF THE PLATFORM (FOR TESTING)
@@ -105,7 +106,7 @@ struct PLATFORMS
 	float width, height;
 	float rotation, distance, limit, speed;
 	int direction, movement;
-}; struct PLATFORMS stat_plat[SIZE_STAT], move_plat[SIZE_MOVE];
+}; struct PLATFORMS stat_plat[SIZE_STAT], move_plat[SIZE_MOVE], blocker_plat[SIZE_BLOCKER];
 
 struct SPIKES
 {
@@ -240,23 +241,25 @@ void Level_Init()
 	stat_plat[15].height = 30.f;
 	stat_plat[15].rotation = 0.f;
 
-	stat_plat[16].pos_x = 1720.f; // 2nd level blocker
-	stat_plat[16].pos_y = 680.f;
-	stat_plat[16].width = 200.f;
-	stat_plat[16].height = 20.f;
-	stat_plat[16].rotation = 0.f;
+	// Initialize variables for blocker platforms
 
-	stat_plat[17].pos_x = 0.f; // 3rd level blocker
-	stat_plat[17].pos_y = 320.f;
-	stat_plat[17].width = 200.f;
-	stat_plat[17].height = 20.f;
-	stat_plat[17].rotation = 0.f;
+	blocker_plat[0].pos_x = 1720.f; // 2nd level blocker
+	blocker_plat[0].pos_y = 680.f;
+	blocker_plat[0].width = 200.f;
+	blocker_plat[0].height = 20.f;
+	blocker_plat[0].rotation = 0.f;
 
-	stat_plat[18].pos_x = 1520.f; // Victory platform blocker
-	stat_plat[18].pos_y = 0.f;
-	stat_plat[18].width = 240.f;
-	stat_plat[18].height = 20.f;
-	stat_plat[18].rotation = 90.f;
+	blocker_plat[1].pos_x = 0.f; // 3rd level blocker
+	blocker_plat[1].pos_y = 320.f;
+	blocker_plat[1].width = 200.f;
+	blocker_plat[1].height = 20.f;
+	blocker_plat[1].rotation = 0.f;
+
+	blocker_plat[2].pos_x = 1520.f; // Victory platform blocker
+	blocker_plat[2].pos_y = 0.f;
+	blocker_plat[2].width = 240.f;
+	blocker_plat[2].height = 20.f;
+	blocker_plat[2].rotation = 90.f;
 
 	// Initialize variables for moving platform
 	move_plat[0].pos_x = 250.f;
@@ -833,19 +836,24 @@ void Level_Update()
 	// Drawing of all stationary platforms
 	CP_Settings_Fill(color_brown);
 	for (int i = 0; i < SIZE_STAT; ++i) {
-		if (checkpoint_no < 1 && i == 16) {
-			CP_Settings_Fill(color_darkgrey);
-			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
-		} else if (checkpoint_no < 2 && i == 17) {
-			CP_Settings_Fill(color_darkgrey);
-			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
-		} else if (checkpoint_no < 3 && i == 18) {
-			CP_Settings_Fill(color_darkgrey);
-			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
-		} else if (i < 16) {
-			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
-		}
+		CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
 	}
+
+	// Drawing of all blocker platforms
+	
+	CP_Settings_Fill(color_darkgrey);
+	if (checkpoint_no < 1) {
+		CP_Graphics_DrawRectAdvanced(blocker_plat[0].pos_x, blocker_plat[0].pos_y, blocker_plat[0].width, blocker_plat[0].height, blocker_plat[0].rotation, 0.f);
+	}
+	
+	if (checkpoint_no < 2) {
+		CP_Graphics_DrawRectAdvanced(blocker_plat[1].pos_x, blocker_plat[1].pos_y, blocker_plat[1].width, blocker_plat[1].height, blocker_plat[1].rotation, 0.f);
+	}
+	
+	if (checkpoint_no < 3) {
+		CP_Graphics_DrawRectAdvanced(blocker_plat[2].pos_x, blocker_plat[2].pos_y, blocker_plat[2].width, blocker_plat[2].height, blocker_plat[2].rotation, 0.f);
+	}
+
 	
 	// Drawing of all moving platforms
 	CP_Settings_Fill(color_brown);
