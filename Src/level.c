@@ -12,8 +12,8 @@
 #define MOVING_ENEMY_SIZE 3 // NUMBER OF MOVING ENEMIES IN THE LEVEL
 #define BOMB_ENEMY_SIZE 3 // NUMBER OF BOMB ENEMIES IN THE LEVEL
 #define SHOOTING_ENEMY_SIZE 2 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
-#define BULLET_SIZE 10
-#define SIZE_STAT 16 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
+#define BULLET_SIZE 10 // NUMBER OF BULLETS FOR EACH ENEMY
+#define SIZE_STAT 19 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 7 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_BLOCKER 3 // NUMBER OF BLOCKER PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 134 // NUMBER OF SPIKES IN THE LEVEL
@@ -73,15 +73,19 @@ struct Enemy
 	float enemy_distance, enemy_speed, max_x, min_x;
 	int enemy_direction;
 	bool enemy_draw, explosion_draw;
+	float bullet_totalElapsedTime;
 };
 
 struct Bullet
 {
 	float bullet_startX, bullet_startY;
 	float bullet_x, bullet_y;
+
 	float bullet_width, bullet_height;
-	float bullet_speed, bullet_time;
+	float bullet_speed, bullet_timeBetween;
+
 	bool bullet_move;
+	char bullet_direction;
 };
 
 struct Enemy mov_enemies[MOVING_ENEMY_SIZE];
@@ -463,25 +467,35 @@ void Level_Init()
 
 	//INITIALIZE SHOOTING ENEMY VARIABLES
 
-	shooting_enemies[0].x_position = 70.f; shooting_enemies[1].x_position = 1850.f;
-	shooting_enemies[0].y_position = 80.f; shooting_enemies[1].y_position = 180.f;
-	shooting_enemies[0].width = 50.f;	   shooting_enemies[1].width = 50.f;
-	shooting_enemies[0].height = 50.f;     shooting_enemies[1].height = 50.f;
+	shooting_enemies[0].width = 40.f;	    shooting_enemies[1].width = 40.f;
+	shooting_enemies[0].height = 40.f;      shooting_enemies[1].height = 40.f;
+	shooting_enemies[0].x_position = 0.0f;  shooting_enemies[1].x_position = CP_System_GetWindowWidth() - shooting_enemies[1].width;
+	shooting_enemies[0].y_position = 185.f; shooting_enemies[1].y_position = 400.f;
 
-	for (int i = 0, j = 0; j < BULLET_SIZE; ++j)
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
-		bullet[i][j].bullet_startX = shooting_enemies[0].x_position + 20.f;
-		bullet[i][j].bullet_startY = shooting_enemies[0].y_position + 20.f;
+		shooting_enemies[i].bullet_totalElapsedTime = 0.0f;
+	}
+	
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
+	{
+		for (int j = 0; j < BULLET_SIZE; ++j)
+		{
+			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + 10.f;
+			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + 20.f;
 
-		bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
-		bullet[i][j].bullet_y = bullet[i][j].bullet_startY;
+			bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
+			bullet[i][j].bullet_y = bullet[i][j].bullet_startY;
 
-		bullet[i][j].bullet_width = 30.f;
-		bullet[i][j].bullet_height = 10.f;
-		bullet[i][j].bullet_speed = 200.f;
-		bullet[i][j].bullet_time = 2.0f;
+			bullet[i][j].bullet_width = 30.f;
+			bullet[i][j].bullet_height = 10.f;
+			bullet[i][j].bullet_speed = 200.f;
+			bullet[i][j].bullet_timeBetween = 2.5f;
 
-		bullet[i][j].bullet_move = FALSE;
+			bullet[i][j].bullet_move = FALSE;
+			bullet[0][j].bullet_direction = 'R';
+			bullet[1][j].bullet_direction = 'L';
+		}
 	}
 }
 
@@ -990,16 +1004,17 @@ void Level_Update()
 	}
 
 	//////////////////////////// CLEMENT /////////////////////////////////
-
-	static float bullet_totalElapsedTime = 0.0f;
-	bullet_totalElapsedTime += currentElapsedTime;
 	
-
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Color color_red = CP_Color_Create(255, 0, 0, 255); // red color
 	CP_Color color_black = CP_Color_Create(0, 0, 0, 255); // black color
 	CP_Color color_orange = CP_Color_Create(249, 105, 14, 255); // orange color
 	CP_Color color_green = CP_Color_Create(0, 255, 0, 255); // green color
+
+	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
+	{
+		shooting_enemies[i].bullet_totalElapsedTime += currentElapsedTime;
+	}
 
 	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i) // DRAWING OF THE 3 MOVING ENEMIES INITIALIZED
 	{
@@ -1080,7 +1095,7 @@ void Level_Update()
 		}
 	}
 
-	// DRAW SHOOTING ENEMIES
+	// DRAW BULLETS
 
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i) // DRAWING OF EACH BULLET
 	{
@@ -1096,16 +1111,35 @@ void Level_Update()
 	{
 		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			// BULLET 1 TRAVELS TO THE RIGHT
-			if (bullet[i][j].bullet_move == TRUE)
+			// BULLET TRAVELS TO THE RIGHT
+			if (bullet[i][j].bullet_direction == 'R')
 			{
-				bullet[i][j].bullet_x += bullet[i][j].bullet_speed * currentElapsedTime;
-				continue;
+				if (bullet[i][j].bullet_move == TRUE)
+				{
+					bullet[i][j].bullet_x += bullet[i][j].bullet_speed * currentElapsedTime;
+					continue;
+				}
+				if (shooting_enemies[0].bullet_totalElapsedTime >= bullet[i][j].bullet_timeBetween && bullet[i][j].bullet_move == FALSE) // TIME BEFORE THE NEXT BULLET STARTS TRAVELLING
+				{
+					bullet[i][j].bullet_move = TRUE;
+					shooting_enemies[0].bullet_totalElapsedTime = 0.0f;
+				}
 			}
-			if (bullet_totalElapsedTime >= bullet[i][j].bullet_time && bullet[i][j].bullet_move == FALSE) // TIME BEFORE THE NEXT BULLET STARTS TRAVELLING
+
+			// BULLET TRAVELS TO THE LEFT
+			if (bullet[i][j].bullet_direction == 'L')
 			{
-				bullet[i][j].bullet_move = TRUE;
-				bullet_totalElapsedTime = 0.0f;
+				if (bullet[i][j].bullet_move == TRUE)
+				{
+					bullet[i][j].bullet_x -= bullet[i][j].bullet_speed * currentElapsedTime;
+					continue;
+				}
+				if (shooting_enemies[1].bullet_totalElapsedTime >= bullet[i][j].bullet_timeBetween && bullet[i][j].bullet_move == FALSE) // TIME BEFORE THE NEXT BULLET STARTS TRAVELLING
+				{
+					bullet[i][j].bullet_move = TRUE;
+					shooting_enemies[1].bullet_totalElapsedTime = 0.0f;
+				}
+
 			}
 		}
 	}
@@ -1115,10 +1149,24 @@ void Level_Update()
 	{
 		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			if (bullet[i][j].bullet_x >= 1920.f && bullet[i][BULLET_SIZE - 1].bullet_x >= ((bullet[i][j].bullet_time * bullet[i][j].bullet_speed) + bullet[i][j].bullet_startX))
+			// BULLETS TRAVELING TO THE RIGHT
+			if (bullet[i][j].bullet_direction == 'R')
 			{
-				bullet[i][j].bullet_move = FALSE;
-				bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
+				if (bullet[i][j].bullet_x + bullet[i][j].bullet_width >= CP_System_GetWindowWidth())
+				{
+					bullet[i][j].bullet_move = FALSE;
+					bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
+				}
+			}
+
+			// BULLETS TRAVELING TO THE LEFT
+			if (bullet[i][j].bullet_direction == 'L')
+			{
+				if (bullet[i][j].bullet_x <= 0.0f)
+				{
+					bullet[i][j].bullet_move = FALSE;
+					bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
+				}
 			}
 		}
 	}
@@ -1147,7 +1195,7 @@ void Level_Update()
 	}
 
 	// DRAWING OF THE SHOOTING ENEMIES
-	CP_Settings_Fill(color_green);
+	CP_Settings_Fill(color_orange);
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
 		CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height);
