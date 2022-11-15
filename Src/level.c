@@ -134,7 +134,7 @@ void Level_Init()
 	
 	// Initialize player stats
 	player.width = 30.0f;
-	player.height = 60.0f;
+	player.height = 50.0f;
 	player.moveSpeed = 250.0f;
 	//player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
@@ -490,7 +490,7 @@ void Level_Init()
 			bullet[i][j].bullet_width = 30.f;
 			bullet[i][j].bullet_height = 10.f;
 			bullet[i][j].bullet_speed = 200.f;
-			bullet[i][j].bullet_timeBetween = 2.5f;
+			bullet[i][j].bullet_timeBetween = 2.0f;
 
 			bullet[i][j].bullet_move = FALSE;
 			bullet[0][j].bullet_direction = 'R';
@@ -513,6 +513,9 @@ void Level_Update()
 	
 	///////////////////////	YEE LEI	/////////////////////////////////////////
 
+	// Initialize respawn effect timer
+	static float spawn_totalElapsedTime = 0;
+
 	// Set player spawn point based on checkpoint
 	if (checkpoint_no == -1) {
 		checkpoint_no = 0;
@@ -527,12 +530,12 @@ void Level_Update()
 		player.posX = checkpoint[current_checkpoint - 1].pos_x;
 		player.posY = checkpoint[current_checkpoint - 1].pos_y;
 	}
-	else if (player.alive == FALSE) {
+	else if (player.alive == FALSE) {	// Respawn player if dead
 		if (playerLives > 0) {
 			playerLives--;
 		}
 
-		if (playerLives == 0) {
+		if (playerLives == 0) {		// Go to Lose screen if 0 lives left
 			CP_Engine_SetNextGameState(Lose_Screen_Init, Lose_Screen_Update, Lose_Screen_Exit);
 		}
 		else {
@@ -550,7 +553,43 @@ void Level_Update()
 			player.isJumping = FALSE;
 			player.blockLeft = FALSE;
 			player.blockRight = FALSE;
+
+			// Respawn effect timer
+			spawn_totalElapsedTime = 1.0f;
 		}
+	}
+
+	// Respawn flashing visual effect
+	if (spawn_totalElapsedTime > 0) {
+		if (spawn_totalElapsedTime < 0.85 && spawn_totalElapsedTime > 0.8 || 
+			spawn_totalElapsedTime < 0.65 && spawn_totalElapsedTime > 0.6 || 
+			spawn_totalElapsedTime < 0.45 && spawn_totalElapsedTime > 0.4 || 
+			spawn_totalElapsedTime < 0.25 && spawn_totalElapsedTime > 0.2 || 
+			spawn_totalElapsedTime < 0.05 && spawn_totalElapsedTime > 0.0) 
+		{
+			CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
+		}
+		else {
+			CP_Settings_RectMode(CP_POSITION_CORNER);
+			CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+			CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
+		}
+
+		spawn_totalElapsedTime -= currentElapsedTime;
+		if (spawn_totalElapsedTime < 0) spawn_totalElapsedTime = 0;
+
+		player.blockLeft = TRUE;
+		player.blockRight = TRUE;
+	}
+	else {
+		// Draw player model
+		CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
+		CP_Settings_RectMode(CP_POSITION_CORNER);
+		CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
+		CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
+
+		player.blockLeft = FALSE;
+		player.blockRight = FALSE;
 	}
 
 	// Player lives display
@@ -566,11 +605,6 @@ void Level_Update()
 	char currentScoreStr[50] = { 0 };
 	sprintf_s(currentScoreStr, 50, "Current Score: %d", quiz_score);
 	CP_Font_DrawText(currentScoreStr, CP_System_GetWindowWidth() - 160.0f, 30.0f);
-
-	// Draw player model
-	CP_Settings_RectMode(CP_POSITION_CORNER);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-	CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
 
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
@@ -599,6 +633,15 @@ void Level_Update()
 			fall_totalElapsedTime = 0.1;
 		}
 	}
+
+	// Jump trajectory indicator
+	/*CP_Graphics_DrawLine((player.posX + player.width), (player.posY + player.height), CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	CP_Vector playerVec = CP_Vector_Set((player.posX + player.width), (player.posY + player.height));
+	CP_Vector mouseVec = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
+	float angle_formatted = CP_Vector_Angle(playerVec, mouseVec);
+	float radian = CP_Math_Radians(angle_formatted);
+	CP_Vector jump_vec = AngleToVector(radian);
+	CP_Vector jump_vec_scaled = CP_Vector_Scale(jump_vec, player.moveSpeed);*/
 
 	// Chargeable vertical jump control
 	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT)) {
@@ -642,6 +685,8 @@ void Level_Update()
 			else {
 				jump_totalElapsedTime = 0.1;
 			}
+
+			//player.posX += jump_vec_scaled.x * currentElapsedTime;
 			
 			//player.posY -= jumpVec_scaled.y * currentElapsedTime;
 			player.posY -= jumpVec_scaled.y * jump_totalElapsedTime;
