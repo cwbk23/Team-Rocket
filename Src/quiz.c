@@ -8,6 +8,33 @@
 #include <stdbool.h>
 #include<level.h>
 
+bool timesuppage;
+bool timercounter;
+
+bool clicked_q1;
+bool question_1ans;
+bool question_1;
+
+bool question_2;
+bool clicked_q2;
+bool question_2ans;
+
+bool question_3;
+bool clicked_q3;
+bool question_3ans;
+
+bool question_4;
+bool clicked_q4;
+bool question_4ans;
+
+bool question_5;
+bool clicked_q5;
+bool question_5ans;
+
+bool fail_page;
+
+
+
 char TrueFalse_x1[10] = { 10 };
 char TrueFalse_y1[10] = { 10 };
 char TrueFalseans1[10] = { 10 };
@@ -85,34 +112,33 @@ int quiz_score = 0;
 	int randomoperator = CP_Random_RangeInt(1,4);
 	sprintf_s(OperatorRandom, _countof(OperatorRandom), "%d", randomoperator);
 
+	timercounter = TRUE;
+	timesuppage = FALSE;
+
+	clicked_q1 = false;
+	question_1ans = false;
+	question_1 = TRUE;
+
+	question_2 = false;
+	clicked_q2 = false;
+	question_2ans = false;
+
+	question_3 = false;
+	clicked_q3 = false;
+	question_3ans = false;
+
+	question_4 = false;
+	clicked_q4 = false;
+	question_4ans = false;
+
+	question_5 = false;
+	clicked_q5 = false;
+	question_5ans = false;
+
+	fail_page = false;
 	
 	
 }
-	bool timesuppage = false;
-	bool timercounter = true;
-	
-	bool clicked_q1	   = false;
-	bool question_1ans = false;
-	bool question_1	   = true;
-
-	bool question_2	   = false;
-	bool clicked_q2    = false;
-	bool question_2ans = false;
-
-	bool question_3	   = false;
-	bool clicked_q3    = false;
-	bool question_3ans = false;
-
-	bool question_4    = false;
-	bool clicked_q4    = false;
-	bool question_4ans = false;
-
-	bool question_5    = false;
-	bool clicked_q5    = false;
-	bool question_5ans = false;
-
-	bool fail_page = false;
-
 
 
 
@@ -609,7 +635,6 @@ void Quiz_Update()
 				fail_page = true;
 			}
 			}
-		}
 		if (question_5ans == TRUE)
 		{
 			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
@@ -625,6 +650,7 @@ void Quiz_Update()
 			}
 		}
 
+	}
 		int total_score = counter * 10;
 		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
@@ -644,7 +670,8 @@ void Quiz_Update()
 				{
 					if (IsAreaClicked(width / 3, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
-						CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
+
+						CP_Engine_SetNextGameStateForced(Quiz_Init, Quiz_Update, Quiz_Exit);
 
 					}
 				}
