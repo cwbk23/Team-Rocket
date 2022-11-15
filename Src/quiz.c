@@ -35,9 +35,16 @@ bool question_6;
 bool clicked_q6;
 bool question_6ans;
 
+bool question_7;
+bool clicked_q7;
+bool question_7ans;
+
+bool question_8;
+bool clicked_q8;
+bool question_8ans;
+
 bool fail_page;
-
-
+bool fail_page1;
 
 char TrueFalse_x1[10] = { 10 };
 char TrueFalse_y1[10] = { 10 };
@@ -72,16 +79,34 @@ char multiplechoice1_2[10] = { 10 };
 char multiplechoice1_3[10] = { 10 };
 char multiplechoice1_ans[10] = { 10 };
 
+
+char multiplechoice2_xvalue[10] = { 10 };
+char multiplechoice2_xconstant[10] = { 10 };
+char multiplechoice2_yvalue[10] = { 10 };
+char multiplechoice2_yconstant[10] = { 10 };
+char multiplechoice2_1[10] = { 10 };
+char multiplechoice2_2[10] = { 10 };
+char multiplechoice2_3[10] = { 10 };
+char multiplechoice2_ans[10] = { 10 };
+
+char multiplechoice3_xvalue[10] = { 10 };
+char multiplechoice3_xconstant[10] = { 10 };
+char multiplechoice3_yvalue[10] = { 10 };
+char multiplechoice3_yconstant[10] = { 10 };
+char multiplechoice3_1[10] = { 10 };
+char multiplechoice3_2[10] = { 10 };
+char multiplechoice3_3[10] = { 10 };
+char multiplechoice3_ans[10] = { 10 };
+
 char OperatorRandom[10] = { 3 };
 char totalscore[10] = { 3 };
 
 int counter = 0;
+int counter1 = 0;
 
 void Quiz_Init()
 {
-int quiz_score = 0;
-	quiz_score = 0;
-	  
+int quiz_score = 0;  
 	 
 	//Setting up the window size
 	CP_Settings_TextSize(70);
@@ -122,18 +147,44 @@ int quiz_score = 0;
 	sprintf_s(TrueFalse_y5, _countof(TrueFalse_y5), "%d", random_y5);
 	sprintf_s(TrueFalseans5, _countof(TrueFalseans5), "%d", random_y5 * random_x5 - 5);
 
-	int randommultiple_xvalue = CP_Random_RangeInt(1, 5);
-	sprintf_s(multiplechoice1_xvalue, _countof(multiplechoice1_xvalue), "%d", randommultiple_xvalue);
-	int randommultiple_xconstant = CP_Random_RangeInt(1, 5);
-	sprintf_s(multiplechoice1_xconstant, _countof(multiplechoice1_xconstant), "%d", randommultiple_xconstant);
-	int randommultiple_yvalue = CP_Random_RangeInt(1, 5);
-	sprintf_s(multiplechoice1_yvalue, _countof(multiplechoice1_yvalue), "%d", randommultiple_yvalue);
-	int randommultiple_yconstant = CP_Random_RangeInt(1, 5);
-	sprintf_s(multiplechoice1_yconstant, _countof(multiplechoice1_yconstant), "%d", randommultiple_yconstant);
-	sprintf_s(multiplechoice1_ans, _countof(multiplechoice1_ans), "%d", (randommultiple_xconstant * randommultiple_xvalue) + (randommultiple_yconstant * randommultiple_yvalue));
-	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple_xconstant * randommultiple_xvalue) + (randommultiple_yconstant * randommultiple_yvalue) + randomoperator);
-	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple_xconstant * randommultiple_xvalue) + (randommultiple_yconstant * randommultiple_yvalue) - randomoperator);
-	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple_xvalue + randommultiple_yvalue));
+	int randommultiple1_xvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_xvalue, _countof(multiplechoice1_xvalue), "%d", randommultiple1_xvalue);
+	int randommultiple1_xconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_xconstant, _countof(multiplechoice1_xconstant), "%d", randommultiple1_xconstant);
+	int randommultiple1_yvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_yvalue, _countof(multiplechoice1_yvalue), "%d", randommultiple1_yvalue);
+	int randommultiple1_yconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_yconstant, _countof(multiplechoice1_yconstant), "%d", randommultiple1_yconstant);
+	sprintf_s(multiplechoice1_ans, _countof(multiplechoice1_ans), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue));
+	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue) + randomoperator);
+	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue) - randomoperator);
+	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple1_xvalue + randommultiple1_yvalue));
+
+	int randommultiple2_xvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice2_xvalue, _countof(multiplechoice2_xvalue), "%d", randommultiple2_xvalue);
+	int randommultiple2_xconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice2_xconstant, _countof(multiplechoice2_xconstant), "%d", randommultiple2_xconstant);
+	int randommultiple2_yvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice2_yvalue, _countof(multiplechoice2_yvalue), "%d", randommultiple2_yvalue);
+	int randommultiple2_yconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice2_yconstant, _countof(multiplechoice2_yconstant), "%d", randommultiple2_yconstant);
+	sprintf_s(multiplechoice2_ans, _countof(multiplechoice2_ans), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue));
+	sprintf_s(multiplechoice2_1, _countof(multiplechoice2_1), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue) + randomoperator);
+	sprintf_s(multiplechoice2_2, _countof(multiplechoice2_2), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue) - randomoperator);
+	sprintf_s(multiplechoice2_3, _countof(multiplechoice2_3), "%d", (randommultiple2_xvalue + randommultiple2_yvalue));
+
+	int randommultiple3_xvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice3_xvalue, _countof(multiplechoice3_xvalue), "%d", randommultiple3_xvalue);
+	int randommultiple3_xconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice3_xconstant, _countof(multiplechoice3_xconstant), "%d", randommultiple3_xconstant);
+	int randommultiple3_yvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice3_yvalue, _countof(multiplechoice3_yvalue), "%d", randommultiple3_yvalue);
+	int randommultiple3_yconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice3_yconstant, _countof(multiplechoice3_yconstant), "%d", randommultiple3_yconstant);
+	sprintf_s(multiplechoice3_ans, _countof(multiplechoice2_ans), "%d", (randommultiple2_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue));
+	sprintf_s(multiplechoice3_1, _countof(multiplechoice3_1), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue) + randomoperator);
+	sprintf_s(multiplechoice3_2, _countof(multiplechoice3_2), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue) - randomoperator);
+	sprintf_s(multiplechoice3_3, _countof(multiplechoice3_3), "%d", (randommultiple3_xvalue - randommultiple3_yvalue));
 
 
 
@@ -164,12 +215,27 @@ int quiz_score = 0;
 	 clicked_q6 = false;
 	 question_6ans = false;
 
+	 question_7 = false;
+	 clicked_q7 = false;
+	 question_7ans = false;
+
+	 question_8 = false;
+	 clicked_q8 = false;
+	 question_8ans = false;
+
+	fail_page = false;
+	fail_page1 = false;
+
 	 if (checkpoint_no == 1)
 	 {
 		 question_1 = TRUE;
 	 }
 
-	fail_page = false;
+	 if (checkpoint_no == 2)
+	 {
+		 question_6 = TRUE;
+	 }
+
 	
 	
 }
@@ -223,7 +289,21 @@ void Quiz_Update()
 				clicked_q5 = false;
 				question_5ans = false;
 
+
+				question_6 = false;
+				clicked_q6 = false;
+				question_6ans = false;
+
+				question_7 = false;
+				clicked_q7 = false;
+				question_7ans = false;
+
+				question_8 = false;
+				clicked_q8 = false;
+				question_8ans = false;
+
 				fail_page = false;
+				fail_page1 = false;
 			}
 		}
 		if (timesuppage == true)
@@ -270,24 +350,6 @@ void Quiz_Update()
 			CP_Font_DrawText(TrueFalse_y1, width / 1.6, height / 4);
 			CP_Font_DrawText(" Does x and y equals to       ?", width / 1.9, height / 3);
 			CP_Font_DrawText(TrueFalseans1, width / 1.49, height / 3);
-			CP_Font_DrawText(OperatorRandom, width / 4, height / 4);
-
-			if (OperatorRandom == 1)
-			{
-				CP_Font_DrawText("+", width / 4, height / 4);
-			}
-			else if (OperatorRandom == 2)
-			{
-				CP_Font_DrawText("-", width / 4, height / 4);
-			}
-			else if (OperatorRandom == 3)
-			{
-				CP_Font_DrawText("x", width / 4, height / 4);
-			}
-			else if (OperatorRandom == 4)
-			{
-				CP_Font_DrawText("/", width / 4, height / 4);
-			}
 
 			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
@@ -743,11 +805,10 @@ void Quiz_Update()
 
 	if (checkpoint_no == 2)
 	{
-		question_6 = true;
 
 		if (question_6 == TRUE)
 		{
-			int total_score = counter * 10;
+			int total_score = (counter1 * 20) + (counter*10);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			CP_Settings_TextSize(50);
@@ -789,7 +850,7 @@ void Quiz_Update()
 				if (IsAreaClicked(width / 2.6f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					clicked_q6 = TRUE;
-					counter = counter + 1;
+					counter1 = counter1 + 1;
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
@@ -813,17 +874,115 @@ void Quiz_Update()
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				CP_Font_DrawText(" Next ", width / 1.2, height / 1.1);
 				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
 					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 
-						CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
+						question_6 = FALSE;
+						question_7 = TRUE;
 					}
 				}
 			}
 			if (question_6ans == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+						question_6 = FALSE;
+						question_7 = TRUE;
+					}
+				}
+			}
+		}
+
+		if (question_7 == TRUE)
+		{
+			int total_score = (counter1 * 20) + (counter * 10);
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
+
+			CP_Settings_TextSize(70);
+			CP_Font_DrawText("q7)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
+			CP_Font_DrawText(multiplechoice2_xvalue, width / 2.1, height / 4);
+			CP_Font_DrawText(multiplechoice2_yvalue, width / 1.63, height / 4);
+			CP_Font_DrawText("What does     x +   y equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(multiplechoice2_xconstant, width / 2.3, height / 3);
+			CP_Font_DrawText(multiplechoice2_yconstant, width / 2, height / 3);
+
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(multiplechoice2_1, width / 2.6, height / 2);
+			CP_Font_DrawText(multiplechoice2_2, width / 1.5, height / 2);
+			CP_Font_DrawText(multiplechoice2_3, width / 1.5, height / 1.5);
+			CP_Font_DrawText(multiplechoice2_ans, width / 2.6, height / 1.5);
+
+
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
+
+
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q7 == FALSE) && (question_7ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q7 = TRUE;
+					counter1 = counter1 + 1;
+
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_7ans = TRUE;
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_7ans = TRUE;
+				}
+				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_7ans = TRUE;
+				}
+			}
+
+			if (clicked_q7 == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+						question_7 = FALSE;
+						question_8 = TRUE;
+					}
+				}
+			}
+			if (question_7ans == TRUE)
 			{
 				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
@@ -835,12 +994,160 @@ void Quiz_Update()
 				{
 					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
-						CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
+						question_7 = FALSE;
+						question_8 = TRUE;
 					}
 				}
 			}
+
 		}
-		quiz_score = counter * 10;
+
+		if (question_8 == TRUE)
+		{
+			int total_score = (counter1 * 20) + (counter * 10);
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
+
+			CP_Settings_TextSize(70);
+			CP_Font_DrawText("q8)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
+			CP_Font_DrawText(multiplechoice3_xvalue, width / 2.1, height / 4);
+			CP_Font_DrawText(multiplechoice3_yvalue, width / 1.63, height / 4);
+			CP_Font_DrawText("What does     x -   y equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(multiplechoice3_xconstant, width / 2.3, height / 3);
+			CP_Font_DrawText(multiplechoice3_yconstant, width / 2, height / 3);
+
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(multiplechoice3_1, width / 2.6, height / 2);
+			CP_Font_DrawText(multiplechoice3_2, width / 1.5, height / 2);
+			CP_Font_DrawText(multiplechoice3_3, width / 1.5, height / 1.5);
+			CP_Font_DrawText(multiplechoice3_ans, width / 2.6, height / 1.5);
+
+
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
+
+
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q8== FALSE) && (question_8ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q8 = TRUE;
+					counter1 = counter1 + 1;
+
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_8ans = TRUE;
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_8ans = TRUE;
+				}
+				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_8ans = TRUE;
+				}
+			}
+
+			if (clicked_q8 == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+
+
+					question_8 = FALSE;
+					fail_page1 = TRUE;
+
+				}
+			}
+			if (question_8ans == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+
+					question_8 = FALSE;
+					fail_page1 = TRUE;
+
+				}
+			}
+
+		}
+
+
+
+		if (fail_page1 == TRUE)
+		{
+
+			if (counter1 <= 1)
+			{
+				CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
+				CP_Font_DrawText("U HAVE FAIL THE REQUIREMENT", width / 2, height / 4);
+				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
+				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+				CP_Font_DrawText(" Retry quiz ", width / 3, height / 1.1);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 3, height / 1.1, 500, 100, 0, 5);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 3, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+						counter1 = 0;
+						CP_Engine_SetNextGameStateForced(Quiz_Init, Quiz_Update, Quiz_Exit);
+
+					}
+				}
+			}
+			else if (counter1 >= 2)
+			{
+				CP_Font_DrawText("U HAVE PASS THE REQUIREMENT", width / 2, height / 4);
+				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
+				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+			}
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			{
+				if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
+
+				}
+			}
+
+		}
+
+		quiz_score = counter * 10 + counter1*20;
+
+		
 	}
 
 	
