@@ -735,10 +735,11 @@ void Level_Update()
 		player.blockRight = TRUE;
 	}
 
-	// Store coordinate values of all platforms in an array for processing
-	struct PLATFORMS all_platforms[SIZE_STAT + SIZE_MOVE];
+	// Store coordinate values of all platforms into an array for collision checking
+	struct PLATFORMS all_platforms[SIZE_STAT + SIZE_MOVE + SIZE_BLOCKER];
 	int platCount = 0;
 
+	// Add all stationary platforms to array
 	for (int i = 0; i < SIZE_STAT; i++, platCount++) {
 		all_platforms[platCount].pos_x = stat_plat[i].pos_x;
 		all_platforms[platCount].pos_y = stat_plat[i].pos_y;
@@ -747,12 +748,41 @@ void Level_Update()
 		all_platforms[platCount].movement = -1;
 	}
 
+	// Add all moving platforms to array
 	for (int i = 0; i < SIZE_MOVE; i++, platCount++) {
 		all_platforms[platCount].pos_x = move_plat[i].pos_x;
 		all_platforms[platCount].pos_y = move_plat[i].pos_y;
 		all_platforms[platCount].width = move_plat[i].width;
 		all_platforms[platCount].height = move_plat[i].height;
 		all_platforms[platCount].movement = move_plat[i].movement;
+	}
+
+	// Add blocker platforms to array based on checkpoint no.
+	if (checkpoint_no < 1) {
+		all_platforms[platCount].pos_x = blocker_plat[0].pos_x;
+		all_platforms[platCount].pos_y = blocker_plat[0].pos_y;
+		all_platforms[platCount].width = blocker_plat[0].width;
+		all_platforms[platCount].height = blocker_plat[0].height;
+		all_platforms[platCount].movement = -1;
+		platCount++;
+	}
+
+	if (checkpoint_no < 2) {
+		all_platforms[platCount].pos_x = blocker_plat[1].pos_x;
+		all_platforms[platCount].pos_y = blocker_plat[1].pos_y;
+		all_platforms[platCount].width = blocker_plat[1].width;
+		all_platforms[platCount].height = blocker_plat[1].height;
+		all_platforms[platCount].movement = -1;
+		platCount++;
+	}
+
+	if (checkpoint_no < 3) {
+		all_platforms[platCount].pos_x = blocker_plat[2].pos_x;
+		all_platforms[platCount].pos_y = blocker_plat[2].pos_y;
+		all_platforms[platCount].width = blocker_plat[2].width;
+		all_platforms[platCount].height = blocker_plat[2].height;
+		all_platforms[platCount].movement = -1;
+		platCount++;
 	}
 
 	// Player position X offset when on side-moving platforms (-999 = NONE)
