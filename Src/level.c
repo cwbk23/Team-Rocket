@@ -32,7 +32,7 @@ const float jumpChargeMax = 1.5f;
 float jumpCharge = 1.0f;
 
 // Default no. of player lives
-int playerLives = 3;
+int playerLives = 5;
 
 // Starting spawn point
 float startingSpawnX = 50.0f;
@@ -42,7 +42,7 @@ float startingSpawnY = 850.0f;
 int current_checkpoint = -1;
 
 // Initialize quiz score
-int quiz_score = 0;
+quiz_score = 0;
 
 
 struct PLAYER 
@@ -520,7 +520,7 @@ void Level_Update()
 	if (checkpoint_no == -1) {
 		checkpoint_no = 0;
 		current_checkpoint = 0;
-		playerLives = 3;
+		playerLives = 5;
 		player.posX = startingSpawnX;
 		player.posY = startingSpawnY;
 	}
@@ -536,7 +536,7 @@ void Level_Update()
 		}
 
 		if (playerLives == 0) {		// Go to Lose screen if 0 lives left
-			CP_Engine_SetNextGameState(Lose_Screen_Init, Lose_Screen_Update, Lose_Screen_Exit);
+			CP_Engine_SetNextGameState(Lose_Init, Lose_Update, Lose_Exit);
 		}
 		else {
 			if (current_checkpoint == 0) {
@@ -644,6 +644,7 @@ void Level_Update()
 	CP_Vector jump_vec_scaled = CP_Vector_Scale(jump_vec, player.moveSpeed);*/
 
 	// Chargeable vertical jump control
+	//if (CP_Input_KeyDown(KEY_SPACE)) {
 	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT)) {
 		if (!player.isJumping && player.isColliding && jumpCharge < jumpChargeMax) {
 			jumpCharge += 1.0f * currentElapsedTime;
@@ -651,6 +652,7 @@ void Level_Update()
 			if (jumpCharge > jumpChargeMax) jumpCharge = jumpChargeMax;
 		}
 	}
+	//else if (CP_Input_KeyReleased(KEY_SPACE)) {
 	else if (CP_Input_MouseReleased(MOUSE_BUTTON_LEFT)) {
 		if (!player.isJumping && player.isColliding) {
 			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
@@ -687,6 +689,12 @@ void Level_Update()
 			}
 
 			//player.posX += jump_vec_scaled.x * currentElapsedTime;
+			/*if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
+				player.posX -= player.moveSpeed * currentElapsedTime;
+			}
+			if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
+				player.posX += player.moveSpeed * currentElapsedTime;
+			}*/
 			
 			//player.posY -= jumpVec_scaled.y * currentElapsedTime;
 			player.posY -= jumpVec_scaled.y * jump_totalElapsedTime;

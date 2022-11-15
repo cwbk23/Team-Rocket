@@ -19,21 +19,26 @@ void Main_Menu_Update()
 
 	// Play button
 	CP_Settings_Fill(CP_Color_Create(0, 102, 255, 255));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.3f, 150.0f, 50.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f);
+
+	// Credits button
+	CP_Settings_Fill(CP_Color_Create(0, 153, 51, 255));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f);
 
 	// Exit button
-	CP_Settings_Fill(CP_Color_Create(0, 153, 51, 255));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.7f, 150.0f, 50.0f);
+	CP_Settings_Fill(CP_Color_Create(128, 128, 128, 255));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f);
 
-	// Play / Exit button text
+	// Buttons text
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(25.0f);
-	CP_Font_DrawText("PLAY", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.3f);
-	CP_Font_DrawText("EXIT", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.7f);
+	CP_Font_DrawText("PLAY", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f);
+	CP_Font_DrawText("CREDITS", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f);
+	CP_Font_DrawText("EXIT", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f);
 
 	// Game title
 	CP_Settings_TextSize(150.0f);
-	CP_Font_DrawText("MATH RUN", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 4.5f);
+	CP_Font_DrawText("MATH RUN", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) - 250.0f);
 
 	// QUIZ TEST BUTTON
 	CP_Graphics_DrawRect(100.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f);
@@ -44,18 +49,23 @@ void Main_Menu_Update()
 	// Check for mouse left click
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
-		// Play button action
-		if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.3f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		// Play game
+		if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 		}
-		// QUIZ TEST button action
+		// Credits screen
+		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+
+			//CP_Engine_SetNextGameState(Credits_Init, Credits_Update, Credits_Exit);
+		}
+		// QUIZ TEST button
 		else if (IsAreaClicked(100.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
 		}
-		// Exit button action
-		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.7f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		// Exit game
+		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_Terminate();
 		}

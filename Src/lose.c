@@ -4,13 +4,13 @@
 #include "utils.h"
 
 
-void Lose_Screen_Init()
+void Lose_Init()
 {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 }
 
-void Lose_Screen_Update()
+void Lose_Update()
 {
 	// Red background colour
 	CP_Graphics_ClearBackground(CP_Color_Create(255, 0, 0, 255));
@@ -28,18 +28,18 @@ void Lose_Screen_Update()
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(50.0f);
 	char checkpointStr[50] = { 0 };
-	sprintf_s(checkpointStr, 50, "Completed %d Checkpoints", checkpoint_no);
+	sprintf_s(checkpointStr, 50, "Completed %d Checkpoint", checkpoint_no);
 	CP_Font_DrawText(checkpointStr, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f);
 	char totalScoreStr[50] = { 0 };
 	sprintf_s(totalScoreStr, 50, "Total Score: %d", quiz_score);
 	CP_Font_DrawText(totalScoreStr, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.7f);
 
 	// Play button
-	CP_Settings_Fill(CP_Color_Create(0, 102, 255, 255));
+	CP_Settings_Fill(CP_Color_Create(128, 128, 128, 255));
 	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f, 200.0f, 100.0f, 0.0f, 10.0f);
 
 	// Main menu button
-	CP_Settings_Fill(CP_Color_Create(0, 102, 255, 255));
+	CP_Settings_Fill(CP_Color_Create(128, 128, 128, 255));
 	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f, 200.0f, 100.0f, 0.0f, 10.0f);
 
 	// Play / Menu button text
@@ -64,7 +64,8 @@ void Lose_Screen_Update()
 	}
 }
 
-void Lose_Screen_Exit()
+void Lose_Exit()
 {
 	checkpoint_no = -1;
+	quiz_score = 0;
 }
