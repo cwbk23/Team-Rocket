@@ -252,6 +252,7 @@ void Quiz_Update()
 
 		if (question_1 == TRUE)
 		{
+			
 			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 			CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
 			int total_score = counter * 10;
@@ -708,7 +709,7 @@ void Quiz_Update()
 				{
 					if (IsAreaClicked(width / 3, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
-
+						counter = 0;
 						CP_Engine_SetNextGameStateForced(Quiz_Init, Quiz_Update, Quiz_Exit);
 
 					}
@@ -736,7 +737,7 @@ void Quiz_Update()
 
 		}
 
-		quiz_score = counter;
+		quiz_score = counter*10;
 	}
 
 
@@ -818,8 +819,7 @@ void Quiz_Update()
 					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 
-						question_6 = FALSE;
-						fail_page = TRUE;
+						CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 					}
 				}
 			}
@@ -835,14 +835,12 @@ void Quiz_Update()
 				{
 					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
-
-						question_6 = FALSE;
-						fail_page = TRUE;
+						CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 					}
 				}
 			}
 		}
-
+		quiz_score = counter * 10;
 	}
 
 	
