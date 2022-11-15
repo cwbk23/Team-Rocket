@@ -31,6 +31,10 @@ bool question_5;
 bool clicked_q5;
 bool question_5ans;
 
+bool question_6;
+bool clicked_q6;
+bool question_6ans;
+
 bool fail_page;
 
 
@@ -58,6 +62,11 @@ char TrueFalse_x5[10] = { 10 };
 char TrueFalse_y5[10] = { 10 };
 char TrueFalseans5[10] = { 10 };
 
+
+char multiplechoice1_xvalue[10] = { 10 };
+char multiplechoice1_xconstant[10] = { 10 };
+char multiplechoice1_yvalue[10] = { 10 };
+char multiplechoice1_yconstant[10] = { 10 };
 char multiplechoice1_1[10] = { 10 };
 char multiplechoice1_2[10] = { 10 };
 char multiplechoice1_3[10] = { 10 };
@@ -78,6 +87,10 @@ int quiz_score = 0;
 	CP_Settings_TextSize(70);
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+
+
+	int randomoperator = CP_Random_RangeInt(1, 4);
+	sprintf_s(OperatorRandom, _countof(OperatorRandom), "%d", randomoperator);
 
 	int random_x1 = CP_Random_RangeInt(1, 10);
 	sprintf_s(TrueFalse_x1, _countof(TrueFalse_x1), "%d", random_x1);
@@ -109,15 +122,27 @@ int quiz_score = 0;
 	sprintf_s(TrueFalse_y5, _countof(TrueFalse_y5), "%d", random_y5);
 	sprintf_s(TrueFalseans5, _countof(TrueFalseans5), "%d", random_y5 * random_x5 - 5);
 
-	int randomoperator = CP_Random_RangeInt(1,4);
-	sprintf_s(OperatorRandom, _countof(OperatorRandom), "%d", randomoperator);
+	int randommultiple_xvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_xvalue, _countof(multiplechoice1_xvalue), "%d", randommultiple_xvalue);
+	int randommultiple_xconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_xconstant, _countof(multiplechoice1_xconstant), "%d", randommultiple_xconstant);
+	int randommultiple_yvalue = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_yvalue, _countof(multiplechoice1_yvalue), "%d", randommultiple_yvalue);
+	int randommultiple_yconstant = CP_Random_RangeInt(1, 5);
+	sprintf_s(multiplechoice1_yconstant, _countof(multiplechoice1_yconstant), "%d", randommultiple_yconstant);
+	sprintf_s(multiplechoice1_ans, _countof(multiplechoice1_ans), "%d", (randommultiple_xconstant * randommultiple_xvalue) + (randommultiple_yconstant * randommultiple_yvalue));
+	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple_xconstant * randommultiple_xvalue) + (randommultiple_yconstant * randommultiple_yvalue) + randomoperator);
+	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple_xconstant * randommultiple_xvalue) + (randommultiple_yconstant * randommultiple_yvalue) - randomoperator);
+	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple_xvalue + randommultiple_yvalue));
+
+
 
 	timercounter = TRUE;
 	timesuppage = FALSE;
 
 	clicked_q1 = false;
 	question_1ans = false;
-	question_1 = TRUE;
+	question_1 = false;
 
 	question_2 = false;
 	clicked_q2 = false;
@@ -135,6 +160,15 @@ int quiz_score = 0;
 	clicked_q5 = false;
 	question_5ans = false;
 
+	 question_6 = false;
+	 clicked_q6 = false;
+	 question_6ans = false;
+
+	 if (checkpoint_no == 1)
+	 {
+		 question_1 = TRUE;
+	 }
+
 	fail_page = false;
 	
 	
@@ -144,7 +178,6 @@ int quiz_score = 0;
 
 void Quiz_Update()
 {
-	int questionnum = 1; 
 	float height = (float)CP_System_GetWindowHeight();
 	float width =  (float)CP_System_GetWindowWidth();
 
@@ -152,48 +185,48 @@ void Quiz_Update()
 	CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
-	if (timercounter == true)
-	{
-		CP_Font_DrawText("Timer:     :", width /1.2, height / 8);
-		float currentElapsedTime = CP_System_GetDt();
-		static float totalElapsedTime = 300;
-		totalElapsedTime -= currentElapsedTime;
-		char minute[16] = { 0 };
-		char second[16] = { 0 };
-		sprintf_s(minute, _countof(minute), "%d",(int) totalElapsedTime/60);
-		sprintf_s(second, _countof(second), "%.d", ((int)totalElapsedTime%60));
-		CP_Font_DrawText(minute, width/1.14, height/8 );
-		CP_Font_DrawText(second, width/1.08, height / 8);
-
-		if (totalElapsedTime <= 0)
+		if (timercounter == true)
 		{
-			timercounter = false;
-			timesuppage = true;
+			CP_Font_DrawText("Timer:     :", width / 1.2, height / 8);
+			float currentElapsedTime = CP_System_GetDt();
+			static float totalElapsedTime = 300;
+			totalElapsedTime -= currentElapsedTime;
+			char minute[16] = { 0 };
+			char second[16] = { 0 };
+			sprintf_s(minute, _countof(minute), "%d", (int)totalElapsedTime / 60);
+			sprintf_s(second, _countof(second), "%.d", ((int)totalElapsedTime % 60));
+			CP_Font_DrawText(minute, width / 1.14, height / 8);
+			CP_Font_DrawText(second, width / 1.08, height / 8);
 
-			clicked_q1    = false;
-			question_1ans = false;
-			question_1    = false;
+			if (totalElapsedTime <= 0)
+			{
+				timercounter = false;
+				timesuppage = true;
 
-			question_2    = false;
-			clicked_q2    = false;
-			question_2ans = false;
+				clicked_q1 = false;
+				question_1ans = false;
+				question_1 = false;
 
-			question_3    = false;
-			clicked_q3    = false;
-			question_3ans = false;
+				question_2 = false;
+				clicked_q2 = false;
+				question_2ans = false;
 
-			question_4    = false;
-			clicked_q4    = false;
-			question_4ans = false;
+				question_3 = false;
+				clicked_q3 = false;
+				question_3ans = false;
 
-			question_5    = false;
-			clicked_q5    = false;
-			question_5ans = false;
+				question_4 = false;
+				clicked_q4 = false;
+				question_4ans = false;
 
-			 fail_page = false;
+				question_5 = false;
+				clicked_q5 = false;
+				question_5ans = false;
+
+				fail_page = false;
+			}
 		}
-	}
-		if (timesuppage == true) 
+		if (timesuppage == true)
 		{
 			CP_Settings_TextSize(100);
 			CP_Font_DrawText("Times up !", width / 2, height / 2);
@@ -202,108 +235,113 @@ void Quiz_Update()
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
-				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			{
+				if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
-					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-					{
-						CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
+					CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 
-					}
 				}
 			}
+		}
+
+
+	if (checkpoint_no == 1)
 		
-	if (question_1 == TRUE)
 	{
-		CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-		CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
-		int total_score = counter * 10;
-		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("Current score :", width / 9, height / 8);
-		CP_Font_DrawText(totalscore , width / 5, height / 8);
-
-		//Drawing and setting the start rectangle position
-		CP_Settings_TextSize(70);
-		CP_Font_DrawText("q1)", width / 3, height / 4);
-		CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
-		CP_Font_DrawText(TrueFalse_x1, width / 2.1, height / 4);
-		CP_Font_DrawText(TrueFalse_y1, width / 1.6, height / 4);
-		CP_Font_DrawText(" Does x and y equals to       ?", width / 1.9, height / 3);
-		CP_Font_DrawText(TrueFalseans1, width / 1.49, height / 3);
-		CP_Font_DrawText(OperatorRandom, width / 4, height / 4);
-
-		if (OperatorRandom == 1)
+		if (question_1 == TRUE)
 		{
-			CP_Font_DrawText("+", width / 4, height / 4);
-		}
-		else if (OperatorRandom == 2)
-		{
-			CP_Font_DrawText("-", width / 4, height / 4);
-		}
-		else if (OperatorRandom == 3)
-		{
-			CP_Font_DrawText("x", width / 4, height / 4);
-		}
-		else if (OperatorRandom == 4)
-		{
-			CP_Font_DrawText("/", width / 4, height / 4);
-		}
+			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+			CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
+			int total_score = counter * 10;
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
-		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-		CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText(" True ", width / 2.6, height / 2);
-		CP_Font_DrawText(" False ", width / 1.5, height / 2);
+			//Drawing and setting the start rectangle position
+			CP_Settings_TextSize(70);
+			CP_Font_DrawText("q1)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
+			CP_Font_DrawText(TrueFalse_x1, width / 2.1, height / 4);
+			CP_Font_DrawText(TrueFalse_y1, width / 1.6, height / 4);
+			CP_Font_DrawText(" Does x and y equals to       ?", width / 1.9, height / 3);
+			CP_Font_DrawText(TrueFalseans1, width / 1.49, height / 3);
+			CP_Font_DrawText(OperatorRandom, width / 4, height / 4);
 
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("10 marks ", width /9, height / 1.1);
-		CP_Settings_TextSize(70);
-		
-		//If mouse click is within a certain area
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)&&(clicked_q1 == FALSE) && (question_1ans == FALSE))
-		{
-			if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+			if (OperatorRandom == 1)
 			{
-				clicked_q1 = TRUE;
-				counter = counter + 1;
+				CP_Font_DrawText("+", width / 4, height / 4);
 			}
-			else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+			else if (OperatorRandom == 2)
 			{
-				 question_1ans = TRUE;
+				CP_Font_DrawText("-", width / 4, height / 4);
 			}
-		
+			else if (OperatorRandom == 3)
+			{
+				CP_Font_DrawText("x", width / 4, height / 4);
+			}
+			else if (OperatorRandom == 4)
+			{
+				CP_Font_DrawText("/", width / 4, height / 4);
+			}
 
-		}
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(" True ", width / 2.6, height / 2);
+			CP_Font_DrawText(" False ", width / 1.5, height / 2);
+
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
+
+			//If mouse click is within a certain area
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q1 == FALSE) && (question_1ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q1 = TRUE;
+					counter = counter + 1;
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_1ans = TRUE;
+				}
+
+
+			}
 			if ((clicked_q1 == TRUE))
 			{
 				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
 				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); 
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
 				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
-					if (IsAreaClicked(width /1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
-						
+
 						question_1 = FALSE;
 						question_2 = TRUE;
 					}
 				}
-			} if((question_1ans == TRUE)&&(clicked_q1 == FALSE))
+			} if ((question_1ans == TRUE) && (clicked_q1 == FALSE))
 			{
 				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
 				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); 
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-				CP_Font_DrawText(" Next ", width / 1.1,height / 1.1);
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
 				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
 					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
@@ -314,350 +352,350 @@ void Quiz_Update()
 					}
 				}
 			}
-	}
-
-	if (question_2 == TRUE )
-	{
-		int total_score = counter * 10;
-		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("Current score :", width / 9, height / 8);
-		CP_Font_DrawText(totalscore, width / 5, height / 8);
-
-		CP_Settings_TextSize(70);
-		//Drawing and setting the start rectangle position
-		CP_Font_DrawText("q2)", width / 3, height / 4);
-		CP_Font_DrawText("If x =      ", width / 2, height / 4);
-		CP_Font_DrawText(TrueFalse_x2, width / 1.9, height / 4);
-		CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
-		CP_Font_DrawText(TrueFalse_y2, width / 2.4, height / 3);
-		//CP_Font_DrawText(TrueFalse_x2, width / 2.15, height / 1.6);
-		CP_Font_DrawText(TrueFalseans2, width / 1.55, height / 3);
-
-		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-		CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
-
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText(" True ", width / 2.6, height / 2);
-		CP_Font_DrawText(" False ", width / 1.5, height / 2);
-
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
-		CP_Settings_TextSize(70);
-
-		//If mouse click is within a certain area
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q2 == FALSE) && (question_2ans == FALSE))
-		{
-			if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				clicked_q2 = TRUE;
-				counter = counter + 1;
-			}
-			else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				question_2ans = TRUE;
-			}
-
-
 		}
-		if ((clicked_q2 == TRUE))
-		{
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-			CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-				{
 
-					question_2 = FALSE;
-					question_3 = TRUE;
+		if (question_2 == TRUE)
+		{
+			int total_score = counter * 10;
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
+
+			CP_Settings_TextSize(70);
+			//Drawing and setting the start rectangle position
+			CP_Font_DrawText("q2)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      ", width / 2, height / 4);
+			CP_Font_DrawText(TrueFalse_x2, width / 1.9, height / 4);
+			CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(TrueFalse_y2, width / 2.4, height / 3);
+			//CP_Font_DrawText(TrueFalse_x2, width / 2.15, height / 1.6);
+			CP_Font_DrawText(TrueFalseans2, width / 1.55, height / 3);
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(" True ", width / 2.6, height / 2);
+			CP_Font_DrawText(" False ", width / 1.5, height / 2);
+
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
+
+			//If mouse click is within a certain area
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q2 == FALSE) && (question_2ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q2 = TRUE;
+					counter = counter + 1;
 				}
-			}
-		} if ((question_2ans == TRUE) && (clicked_q2 == FALSE))
-		{
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-			CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
-
-					question_2 = FALSE;
-					question_3 = TRUE;
+					question_2ans = TRUE;
 				}
+
+
 			}
-		}
-	}
-
-
-	if (question_3 == TRUE)
-	{
-		int total_score = counter * 10;
-		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("Current score :", width / 9, height / 8);
-		CP_Font_DrawText(totalscore, width / 5, height / 8);
-
-		CP_Settings_TextSize(70);
-		CP_Font_DrawText("q3)", width / 3, height / 4);
-		CP_Font_DrawText("If x =      ", width / 2, height / 4);
-		CP_Font_DrawText(TrueFalse_x3, width / 1.9, height / 4);
-		CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
-		CP_Font_DrawText(TrueFalse_y3, width / 2.4, height / 3);
-		CP_Font_DrawText(TrueFalseans3, width / 1.55, height / 3);
-
-		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-		CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
-
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText(" True ", width / 2.6, height / 2);
-		CP_Font_DrawText(" False ", width / 1.5, height / 2);
-
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
-		CP_Settings_TextSize(70);
-
-		//If mouse click is within a certain area
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q3 == FALSE) && (question_3ans == FALSE))
-		{
-			if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+			if ((clicked_q2 == TRUE))
 			{
-				clicked_q3 = TRUE;
-			}
-			else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				question_3ans = TRUE;
-				counter = counter + 1;
-			}
-
-
-		}
-		if ((question_3ans == TRUE))
-		{
-			
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-			CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
 
-					question_3 = FALSE;
-					question_4 = TRUE;
+						question_2 = FALSE;
+						question_3 = TRUE;
+					}
 				}
-			}
-		} if ((clicked_q3 == TRUE) )
-		{
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-			CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+			} if ((question_2ans == TRUE) && (clicked_q2 == FALSE))
 			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
 
-					question_3 = FALSE;
-					question_4 = TRUE;
+						question_2 = FALSE;
+						question_3 = TRUE;
+					}
 				}
 			}
 		}
-	}
 
 
-
-	if (question_4 == TRUE)
-	{
-		int total_score = counter * 10;
-		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("Current score :", width / 9, height / 8);
-		CP_Font_DrawText(totalscore, width / 5, height / 8);
-
-		CP_Settings_TextSize(70);
-		//Drawing and setting the start rectangle position
-		CP_Font_DrawText("q4)", width / 3, height / 4);
-		CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
-		CP_Font_DrawText(TrueFalse_x4, width / 2.1, height / 4);
-		CP_Font_DrawText(TrueFalse_y4, width / 1.6, height / 4);
-		CP_Font_DrawText(" Does x times y equals to       ?", width / 1.9, height / 3);
-		CP_Font_DrawText(TrueFalseans4, width / 1.48, height / 3);
-
-		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-		CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
-
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText(" True ", width / 2.6, height / 2);
-		CP_Font_DrawText(" False ", width / 1.5, height / 2);
-
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
-		CP_Settings_TextSize(70);
-
-		//If mouse click is within a certain area
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q4 == FALSE) && (question_4ans == FALSE))
+		if (question_3 == TRUE)
 		{
-			if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				clicked_q4 = TRUE;
-				counter = counter + 1;
-			}
-			else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				question_4ans = TRUE;
-			}
+			int total_score = counter * 10;
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
-		}
-		if ((clicked_q4 == TRUE))
-		{
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-			CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+			CP_Settings_TextSize(70);
+			CP_Font_DrawText("q3)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      ", width / 2, height / 4);
+			CP_Font_DrawText(TrueFalse_x3, width / 1.9, height / 4);
+			CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(TrueFalse_y3, width / 2.4, height / 3);
+			CP_Font_DrawText(TrueFalseans3, width / 1.55, height / 3);
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(" True ", width / 2.6, height / 2);
+			CP_Font_DrawText(" False ", width / 1.5, height / 2);
+
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-				{
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
 
-					question_4 = FALSE;
-					question_5 = TRUE;
+			//If mouse click is within a certain area
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q3 == FALSE) && (question_3ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q3 = TRUE;
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_3ans = TRUE;
+					counter = counter + 1;
+				}
+
+
+			}
+			if ((question_3ans == TRUE))
+			{
+
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+
+						question_3 = FALSE;
+						question_4 = TRUE;
+					}
+				}
+			} if ((clicked_q3 == TRUE))
+			{
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+
+						question_3 = FALSE;
+						question_4 = TRUE;
+					}
 				}
 			}
-		} if ((question_4ans == TRUE) && (clicked_q4 == FALSE))
-		{
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-			CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-				{
+		}
 
-					question_4 = FALSE;
-					question_5 = TRUE;
+
+
+		if (question_4 == TRUE)
+		{
+			int total_score = counter * 10;
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
+
+			CP_Settings_TextSize(70);
+			//Drawing and setting the start rectangle position
+			CP_Font_DrawText("q4)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
+			CP_Font_DrawText(TrueFalse_x4, width / 2.1, height / 4);
+			CP_Font_DrawText(TrueFalse_y4, width / 1.6, height / 4);
+			CP_Font_DrawText(" Does x times y equals to       ?", width / 1.9, height / 3);
+			CP_Font_DrawText(TrueFalseans4, width / 1.48, height / 3);
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(" True ", width / 2.6, height / 2);
+			CP_Font_DrawText(" False ", width / 1.5, height / 2);
+
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
+
+			//If mouse click is within a certain area
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q4 == FALSE) && (question_4ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q4 = TRUE;
+					counter = counter + 1;
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_4ans = TRUE;
+				}
+
+
+			}
+			if ((clicked_q4 == TRUE))
+			{
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+
+						question_4 = FALSE;
+						question_5 = TRUE;
+					}
+				}
+			} if ((question_4ans == TRUE) && (clicked_q4 == FALSE))
+			{
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Next ", width / 1.1, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.1f, height / 1.1f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+
+						question_4 = FALSE;
+						question_5 = TRUE;
+					}
 				}
 			}
 		}
-	}
 
 
-	if (question_5 == TRUE)
-	{
-		int total_score = counter * 10;
-		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("Current score :", width / 9, height / 8);
-		CP_Font_DrawText(totalscore, width / 5, height / 8);
-
-		CP_Settings_TextSize(70);
-		//Drawing and setting the start rectangle position
-		CP_Font_DrawText("q5)", width / 3, height / 4);
-		CP_Font_DrawText("If x =      ", width / 2, height / 4);
-		CP_Font_DrawText(TrueFalse_x5, width / 1.9, height / 4);
-		CP_Font_DrawText(" Does      x - 5 equals to       ?", width / 2, height / 3);
-		CP_Font_DrawText(TrueFalse_y5, width / 2.4, height / 3);
-		CP_Font_DrawText(TrueFalseans5, width / 1.55, height / 3);
-
-		CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-		CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
-		CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
-
-		CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
-		CP_Font_DrawText(" True ", width / 2.6, height / 2);
-		CP_Font_DrawText(" False ", width / 1.5, height / 2);
-
-		CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-		CP_Settings_TextSize(50);
-		CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
-		CP_Settings_TextSize(70);
-
-		//If mouse click is within a certain area
-		if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q5 == FALSE) && (question_5ans == FALSE))
+		if (question_5 == TRUE)
 		{
-			if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				clicked_q5 = TRUE;
-				counter = counter + 1;
+			int total_score = counter * 10;
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
-			}
-			else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-			{
-				question_5ans = TRUE;
-			}
-		}
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
-	
-		if (clicked_q5 == TRUE)
-		{
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-			CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.2	, height / 1.1, 500, 100, 0, 5); // false button
+			CP_Settings_TextSize(70);
+			//Drawing and setting the start rectangle position
+			CP_Font_DrawText("q5)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      ", width / 2, height / 4);
+			CP_Font_DrawText(TrueFalse_x5, width / 1.9, height / 4);
+			CP_Font_DrawText(" Does      x - 5 equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(TrueFalse_y5, width / 2.4, height / 3);
+			CP_Font_DrawText(TrueFalseans5, width / 1.55, height / 3);
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(" True ", width / 2.6, height / 2);
+			CP_Font_DrawText(" False ", width / 1.5, height / 2);
+
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				question_5 = false;
-				fail_page = true;
-			}
-			}
-		if (question_5ans == TRUE)
-		{
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-			CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				question_5 = false;
-				fail_page = true;
-			}
-		}
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
 
-	}
+			//If mouse click is within a certain area
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q5 == FALSE) && (question_5ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q5 = TRUE;
+					counter = counter + 1;
+
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_5ans = TRUE;
+				}
+			}
+
+
+			if (clicked_q5 == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					question_5 = false;
+					fail_page = true;
+				}
+			}
+			if (question_5ans == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					question_5 = false;
+					fail_page = true;
+				}
+			}
+
+		}
 		int total_score = counter * 10;
 		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 		if (fail_page == true)
 		{
 
-			if (counter <=2)
+			if (counter <= 2)
 			{
 				CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
 				CP_Font_DrawText("U HAVE FAIL THE REQUIREMENT", width / 2, height / 4);
@@ -680,7 +718,7 @@ void Quiz_Update()
 			{
 				CP_Font_DrawText("U HAVE PASS THE REQUIREMENT", width / 2, height / 4);
 				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-				CP_Font_DrawText(totalscore, width /1.4, height / 3);
+				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
 			}
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -699,6 +737,113 @@ void Quiz_Update()
 		}
 
 		quiz_score = counter;
+	}
+
+
+	if (checkpoint_no == 2)
+	{
+		question_6 = true;
+
+		if (question_6 == TRUE)
+		{
+			int total_score = counter * 10;
+			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText(totalscore, width / 5, height / 8);
+
+			CP_Settings_TextSize(70);
+			CP_Font_DrawText("q6)", width / 3, height / 4);
+			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
+			CP_Font_DrawText(multiplechoice1_xvalue, width / 2.1, height / 4);
+			CP_Font_DrawText(multiplechoice1_yvalue, width / 1.63, height / 4);
+			CP_Font_DrawText("What does     x +   y equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(multiplechoice1_xconstant, width / 2.3, height / 3);
+			CP_Font_DrawText(multiplechoice1_yconstant, width / 2, height / 3);
+
+
+			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
+			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
+
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+			CP_Font_DrawText(multiplechoice1_1, width / 2.6, height / 2);
+			CP_Font_DrawText(multiplechoice1_2, width / 1.5, height / 2);
+			CP_Font_DrawText(multiplechoice1_3, width / 1.5, height / 1.5);
+			CP_Font_DrawText(multiplechoice1_ans, width / 2.6, height / 1.5);
+
+
+			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_TextSize(50);
+			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Settings_TextSize(70);
+
+
+			if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT) && (clicked_q6 == FALSE) && (question_6ans == FALSE))
+			{
+				if (IsAreaClicked(width / 2.6f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					clicked_q6 = TRUE;
+					counter = counter + 1;
+
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_6ans = TRUE;
+				}
+				else if (IsAreaClicked(width / 1.5f, height / 1.5, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_6ans = TRUE;
+				}
+				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+				{
+					question_6ans = TRUE;
+				}
+			}
+
+			if (clicked_q6 == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
+				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+
+						question_6 = FALSE;
+						fail_page = TRUE;
+					}
+				}
+			}
+			if (question_6ans == TRUE)
+			{
+				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
+				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
+				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
+				{
+					if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
+					{
+
+						question_6 = FALSE;
+						fail_page = TRUE;
+					}
+				}
+			}
+		}
+
+	}
 
 	
 	// Pressing Q to exit the program
