@@ -13,7 +13,7 @@
 #define BOMB_ENEMY_SIZE 3 // NUMBER OF BOMB ENEMIES IN THE LEVEL
 #define SHOOTING_ENEMY_SIZE 2 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
 #define BULLET_SIZE 10
-#define SIZE_STAT 17 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
+#define SIZE_STAT 19 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 7 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_SPIKES 134 // NUMBER OF SPIKES IN THE LEVEL
 #define SIZE_CHECKPOINTS 3 // NUMBER OF CHECKPOINTS IN THE LEVEL
@@ -175,7 +175,7 @@ void Level_Init()
 	stat_plat[4].rotation = 0.f;
 	
 	stat_plat[5].pos_x = 1820.f;
-	stat_plat[5].pos_y = 750.f;
+	stat_plat[5].pos_y = 780.f;
 	stat_plat[5].width = 100.f;
 	stat_plat[5].height = 30.f;
 	stat_plat[5].rotation = 0.f;
@@ -234,11 +234,29 @@ void Level_Init()
 	stat_plat[14].height = 30.f;
 	stat_plat[14].rotation = 0.f;
 
-	stat_plat[15].pos_x = 1500.f;
+	stat_plat[15].pos_x = 1500.f; // Victory platform
 	stat_plat[15].pos_y = 240.f;
 	stat_plat[15].width = 420.f;
 	stat_plat[15].height = 30.f;
 	stat_plat[15].rotation = 0.f;
+
+	stat_plat[16].pos_x = 1720.f; // 2nd level blocker
+	stat_plat[16].pos_y = 680.f;
+	stat_plat[16].width = 200.f;
+	stat_plat[16].height = 20.f;
+	stat_plat[16].rotation = 0.f;
+
+	stat_plat[17].pos_x = 0.f; // 3rd level blocker
+	stat_plat[17].pos_y = 320.f;
+	stat_plat[17].width = 200.f;
+	stat_plat[17].height = 20.f;
+	stat_plat[17].rotation = 0.f;
+
+	stat_plat[18].pos_x = 1520.f; // Victory platform blocker
+	stat_plat[18].pos_y = 0.f;
+	stat_plat[18].width = 240.f;
+	stat_plat[18].height = 20.f;
+	stat_plat[18].rotation = 90.f;
 
 	// Initialize variables for moving platform
 	move_plat[0].pos_x = 250.f;
@@ -346,8 +364,8 @@ void Level_Init()
 	// Initialize the checkpoints and its corresponding hitbox variables
 	checkpoint[0].width = 50.f;
 	checkpoint[0].height = 50.f;
-	checkpoint[0].pos_x = stat_plat[2].pos_x + (stat_plat[2].width / 2); // Takes the x-coordinates relative to the platform with adjustments
-	checkpoint[0].pos_y = stat_plat[2].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_x = stat_plat[4].pos_x + (stat_plat[4].width / 2); // Takes the x-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_y = stat_plat[4].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
 
 	checkpoint_hitbox[0].width = checkpoint[0].width;
 	checkpoint_hitbox[0].height = checkpoint[0].height;
@@ -809,15 +827,28 @@ void Level_Update()
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Color color_brown = (CP_Color_Create(181, 101, 29, 255));
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
-	CP_Color color_yellow = (CP_Color_Create(255, 255, 0, 255));;
+	CP_Color color_yellow = (CP_Color_Create(255, 255, 0, 255));
+	CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
 
 	// Drawing of all stationary platforms
 	CP_Settings_Fill(color_brown);
 	for (int i = 0; i < SIZE_STAT; ++i) {
-		CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
+		if (checkpoint_no < 1 && i == 16) {
+			CP_Settings_Fill(color_darkgrey);
+			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
+		} else if (checkpoint_no < 2 && i == 17) {
+			CP_Settings_Fill(color_darkgrey);
+			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
+		} else if (checkpoint_no < 3 && i == 18) {
+			CP_Settings_Fill(color_darkgrey);
+			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
+		} else if (i < 16) {
+			CP_Graphics_DrawRectAdvanced(stat_plat[i].pos_x, stat_plat[i].pos_y, stat_plat[i].width, stat_plat[i].height, stat_plat[i].rotation, 0.f);
+		}
 	}
 	
 	// Drawing of all moving platforms
+	CP_Settings_Fill(color_brown);
 	for (int i = 0; i < SIZE_MOVE; ++i) {
 		CP_Graphics_DrawRectAdvanced(move_plat[i].pos_x, move_plat[i].pos_y, move_plat[i].width, move_plat[i].height, move_plat[i].rotation, 0.f);
 
