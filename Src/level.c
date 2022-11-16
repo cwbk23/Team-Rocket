@@ -24,15 +24,20 @@
 ///////////////////	YEE LEI	/////////////////////////////
 
 // Fall speed multiplier for short and long jumps
-const float fallMultiplier_short = 0.85f;
-const float fallMultiplier_long = 1.0f;
+//const float fallMultiplier_short = 0.85f;
+//const float fallMultiplier_long = 1.0f;
 
 // Jump charge settings
 const float jumpChargeMax = 1.5f;
 float jumpCharge = 1.0f;
 
 // Default no. of player lives
+int totalLives = 5;
 int playerLives = 5;
+
+// Player lives heart image
+CP_Image heart_full_img;
+CP_Image heart_empty_img;
 
 // Starting spawn point
 float startingSpawnX = 50.0f;
@@ -144,6 +149,9 @@ void Level_Init()
 	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
+
+	heart_full_img = CP_Image_Load("Assets/hudHeart_full.png");
+	heart_empty_img = CP_Image_Load("Assets/hudHeart_empty.png");
 
 	
 	///////////////  KENNY  //////////////////
@@ -520,7 +528,7 @@ void Level_Update()
 	if (checkpoint_no == -1) {
 		checkpoint_no = 0;
 		current_checkpoint = 0;
-		playerLives = 5;
+		playerLives = totalLives;
 		player.posX = startingSpawnX;
 		player.posY = startingSpawnY;
 	}
@@ -583,7 +591,6 @@ void Level_Update()
 	}
 	else {
 		// Draw player model
-		CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
 		CP_Settings_RectMode(CP_POSITION_CORNER);
 		CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
 		CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
@@ -593,18 +600,27 @@ void Level_Update()
 	}
 
 	// Player lives display
-	CP_Settings_Fill(CP_Color_Create(34, 139, 34, 255));
-	CP_Settings_TextSize(40.0f);
-	char playerLivesStr[50] = { 0 };
-	sprintf_s(playerLivesStr, 50, "Lives Left: %d", playerLives);
-	CP_Font_DrawText(playerLivesStr, 100.0f, 30.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
+	CP_Settings_TextSize(45.0f);
+	CP_Font_DrawText("Lives:", 60.0f, 30.0f);
+	/*char playerLivesStr[50] = { 0 };
+	sprintf_s(playerLivesStr, 50, "Lives: %d", playerLives);
+	CP_Font_DrawText(playerLivesStr, 100.0f, 30.0f);*/
+	
+	for (int i = 0; i < playerLives; i++) {
+		CP_Image_Draw(heart_full_img, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
+	}
+
+	for (int i = playerLives; i < totalLives; i++) {
+		CP_Image_Draw(heart_empty_img, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
+	}
 
 	// Current score display
-	CP_Settings_Fill(CP_Color_Create(255, 255, 0, 255));
-	CP_Settings_TextSize(40.0f);
+	CP_Settings_Fill(CP_Color_Create(255, 215, 0, 255));
+	CP_Settings_TextSize(45.0f);
 	char currentScoreStr[50] = { 0 };
 	sprintf_s(currentScoreStr, 50, "Current Score: %d", quiz_score);
-	CP_Font_DrawText(currentScoreStr, CP_System_GetWindowWidth() - 160.0f, 30.0f);
+	CP_Font_DrawText(currentScoreStr, CP_System_GetWindowWidth() - 170.0f, 30.0f);
 
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
@@ -621,7 +637,7 @@ void Level_Update()
 	static float fall_totalElapsedTime = 0.1;
 
 	// Initialize default fall multiplier
-	static float fallMultiplier = 0.85f;
+	//static float fallMultiplier = 0.85f;
 	
 	// Player short jump control
 	if (CP_Input_KeyTriggered(KEY_SPACE)) {
@@ -633,15 +649,6 @@ void Level_Update()
 			fall_totalElapsedTime = 0.1;
 		}
 	}
-
-	// Jump trajectory indicator
-	/*CP_Graphics_DrawLine((player.posX + player.width), (player.posY + player.height), CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	CP_Vector playerVec = CP_Vector_Set((player.posX + player.width), (player.posY + player.height));
-	CP_Vector mouseVec = CP_Vector_Set(CP_Input_GetMouseX(), CP_Input_GetMouseY());
-	float angle_formatted = CP_Vector_Angle(playerVec, mouseVec);
-	float radian = CP_Math_Radians(angle_formatted);
-	CP_Vector jump_vec = AngleToVector(radian);
-	CP_Vector jump_vec_scaled = CP_Vector_Scale(jump_vec, player.moveSpeed);*/
 
 	// Chargeable vertical jump control
 	//if (CP_Input_KeyDown(KEY_SPACE)) {
@@ -660,7 +667,7 @@ void Level_Update()
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0;
 			fall_totalElapsedTime = 0.1;
-			fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
+			//fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
 		}
 
 		jumpCharge = 1.0f;
@@ -905,7 +912,7 @@ void Level_Update()
 
 	// Reset fall speed back to default after falling
 	if (player.isColliding) {
-		fallMultiplier = fallMultiplier_short;
+		//fallMultiplier = fallMultiplier_short;
 		fall_totalElapsedTime = 0.1;
 	}
 
