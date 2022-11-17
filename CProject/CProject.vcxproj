@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Src\credits.c" />
     <ClCompile Include="..\Src\level.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\mainmenu.c" />
@@ -19,9 +20,9 @@
     <ClCompile Include="..\Src\utils.c" />
     <ClCompile Include="..\Src\lose.c" />
     <ClCompile Include="..\Src\win.c" />
-    <ClCompile Include="credits.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Inc\credits.h" />
     <ClInclude Include="..\Inc\level.h" />
     <ClInclude Include="..\Inc\lose.h" />
     <ClInclude Include="..\Inc\mainmenu.h" />
@@ -29,7 +30,6 @@
     <ClInclude Include="..\Inc\splashscreen.h" />
     <ClInclude Include="..\Inc\utils.h" />
     <ClInclude Include="..\Inc\win.h" />
-    <ClInclude Include="credits.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
