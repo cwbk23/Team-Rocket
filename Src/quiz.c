@@ -186,9 +186,9 @@ char multiplechoice10_ans[10] = { 10 };
 char OperatorRandom[10] = { 3 };
 char totalscore[10] = { 3 };
 
-int counter = 0;
-int counter1 = 0;
-int counter2 = 0;
+ counter = 0;
+ counter1 = 0;
+ counter2 = 0;
 
 void Quiz_Init()
 {
@@ -2125,6 +2125,9 @@ void Quiz_Update()
 	// Pressing Q to exit the program
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
+		counter = 0;
+		counter1 = 0;
+		counter2 = 0;
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit); 
 	}			
 	
