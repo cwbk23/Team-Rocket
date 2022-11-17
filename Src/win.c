@@ -4,47 +4,69 @@
 #include "level.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-bool new_highscore;
 
 struct BOXES {
 	float pos_x, pos_y, width, height;
 }; 
 	
-//int *highscore;
-//int *game_score;
-//int highscore;
+bool NEW_HIGHSCORE;
 
-FILE* highscore_file;
+//errno_t err_HS;
+//FILE *highscore_file;
+
+// Text to be printed on Win screen
+char new_highscore_text[50];
+char highscore_text[50];
+char gamescore_text[50];
+char quizscore_text[50];
+char bonusscore_text[30];
+char lives_left_text[30];
+
+//char highscore_string[20]; // String to hold the highscore from text file
+//char *HS_string = 0;
+
+int game_score, bonus_score;
+//int highscore_num;
+highscore = 0;
 
 void Win_Init() {
+
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
-	// Reset checkpoint number to 0
-	checkpoint_no = -1;
-
-	new_highscore = FALSE;
-
+	NEW_HIGHSCORE = FALSE;
+	
+	//HS_string = &highscore_string;
+	//err_HS = fopen_s(&highscore_file, "Assets/Highscore.txt", "w+"); // Open file
+	//
+	//if (err_HS == 0) {
+	//	//HS_string = fgets(highscore_string, 20, highscore_file);
+	//	//highscore_num = atoi(HS_string);
+	//	//
+	//	//if (highscore_num == NULL) {
+	//	//	highscore_num = 69;
+	//	//}
+	//
+	//	highscore_num = 69;
+	//}
+	//else {
+	//	highscore_num = 500;
+	//}
 }
 
 void Win_Update() {
 
 	// Emerald green background colour
-	//CP_Graphics_ClearBackground(CP_Color_Create(80, 200, 120, 255));
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 153, 51, 255));
 	CP_Color color_white = (CP_Color_Create(255, 255, 255, 255));
 	CP_Color color_blue = (CP_Color_Create(0, 102, 255, 255));
-	CP_Color color_lightgrey = (CP_Color_Create(199, 198, 193, 255));
-	CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
-	CP_Color color_test = (CP_Color_Create(30, 144, 255, 255));
-
-	// Score breakdown box
-	CP_Settings_Fill(color_darkgrey);
-	CP_Graphics_DrawRectAdvanced(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.675f, 450.0f, 250.0f, 0.f, 5.0f);
+	CP_Color color_darkgrey = (CP_Color_Create(128, 128, 128, 255));
+	CP_Color color_gold = (CP_Color_Create(255, 215, 0, 255));
 
 	// Return to main menu button
-	CP_Settings_Fill(color_blue);
+	CP_Settings_Fill(color_darkgrey);
 	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f) - 200.f, CP_System_GetWindowHeight() / 1.20f, 200.f, 100.f, 0.f, 10.f);
 
 	// Play again button
@@ -52,50 +74,64 @@ void Win_Update() {
 
 
 	// Calculate and compare current game score with previous highscore
-		/* game_score = quiz_score + players lives left*/
-	int game_score = 500;
-
+	bonus_score = (playerLives - 1) * 10;
+	game_score = quiz_score + bonus_score;
+	//highscore_num = 0;
 	// Retrieve previous highscore from highscore text file
-	//FILE* highscore_file;
-	//fopen_s(highscore_file, "Highscore.txt", "w+");
-	//if (highscore_file == NULL) {
-	//	return 0;
-	//}
 
-	int highscore = 1000;
-	//fgets(highscore, 10, highscore_file);
-	
-	//fscanf(highscore_file, "%d", highscore);
 
 	// Compare scores
-	CP_Settings_Fill(color_white);
 
 	if (game_score > highscore) {
-		/* Write current game score into highscore text file */
-		//fputs(*game_score, highscore_file);
-		//fclose(highscore_file);
-		new_highscore = TRUE;
+		
+		NEW_HIGHSCORE = TRUE;
+
+		//if (err_HS == 0) {
+		//	rewind(highscore_file); // Set pointer to beginning of file
+		//	//fseek(highscore_file, 0L, SEEK_SET);
+		//	sprintf_s(highscore_string, 20, "%d", game_score);
+		//	fprintf_s(highscore_file, "%s", highscore_string);
+		//
+		//	//fprintf_s(highscore_file, "%d", game_score); // Write data to file
+		//}
+
+		highscore = game_score;
+
 	}
 	
+	// Texts to be drawn 
+	sprintf_s(new_highscore_text, 50, "NEW HIGH SCORE: %ld", game_score);
+	sprintf_s(gamescore_text, 50, "Total Score: %ld", game_score);
+	sprintf_s(highscore_text, 50, "High Score: %ld", highscore);
+	sprintf_s(quizscore_text, 50, "Quiz Score: %d", quiz_score);
+	sprintf_s(bonusscore_text, 30, "Bonus Score: %ld", bonus_score);
+	sprintf_s(lives_left_text, 30, "(%d Lives Left)", playerLives);
+
 	// Draw and display score boxes
-	if (new_highscore == TRUE) {
-	
-		CP_Settings_TextSize(50.0f);
-		new_highscore = FALSE;
+	CP_Settings_TextSize(70.0f);
+	if (NEW_HIGHSCORE == TRUE) {
+
+		CP_Settings_Fill(color_gold);
 
 		// Display new highscore
-		CP_Font_DrawText("NEW HIGH SCORE: 1000", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 3.3f);
+		CP_Font_DrawText(new_highscore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.45f);
+		
+		//NEW_HIGHSCORE = FALSE;
 	
 	} else {
-		
-		CP_Settings_TextSize(50.0f);
+
+		CP_Settings_Fill(color_gold);
 
 		// Display final game score
-		CP_Font_DrawText("Total Score: 500", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 3.0f);
-	
+		CP_Font_DrawText(gamescore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.75f);
+		
+		CP_Settings_Fill(color_white);
+
 		// Display previous highscore
-		CP_Font_DrawText("High Score: 1000", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.5f);
+		CP_Font_DrawText(highscore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.25f);
 	}
+		
+	CP_Settings_Fill(color_white);
 
 	// Text for Victory message
 	CP_Settings_TextSize(150.0f);
@@ -103,11 +139,11 @@ void Win_Update() {
 	CP_Font_DrawText("VICTORY", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 5.0f);
 
 	// Text for Game Score breakdown
-	CP_Settings_TextSize(40.0f);
+	CP_Settings_TextSize(50.0f);
 
-	CP_Font_DrawText("Quiz Score: 300", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.875f);
-	CP_Font_DrawText("Bonus Score: 200", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.67f);
-	CP_Font_DrawText("(3 Lives Left)", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.55f);
+	CP_Font_DrawText(quizscore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.825f);
+	CP_Font_DrawText(bonusscore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.625f);
+	CP_Font_DrawText(lives_left_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.475f);
 
 	// Text for Return to Main Menu & Play Again buttons
 	CP_Settings_TextSize(35.0f);
@@ -127,8 +163,12 @@ void Win_Update() {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
 	}
+
 }
 
 void Win_Exit() {
 
+	//fclose(highscore_file); // Close Highscore.txt
+	quiz_score = 0;
+	checkpoint_no = -1;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+extern int highscore;
+
 void Win_Init(void);
 
 void Win_Update(void);
