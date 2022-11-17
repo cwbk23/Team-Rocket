@@ -186,13 +186,17 @@ char multiplechoice10_ans[10] = { 10 };
 char OperatorRandom[10] = { 3 };
 char totalscore[10] = { 3 };
 
- counter = 0;
- counter1 = 0;
- counter2 = 0;
+ int counter ;
+ int counter1 ;
+ int counter2 ;
 
 void Quiz_Init()
 {
-int quiz_score = 0;  
+ //quiz_score ;  
+ //counter = 0;
+ //counter1 = 0;
+ //counter2 = 0;
+
 	 
 	//Setting up the window size
 	CP_Settings_TextSize(70);
@@ -425,11 +429,13 @@ int quiz_score = 0;
 	 if (checkpoint_no == 1)
 	 {
 		 question_1 = TRUE;
+		 counter = 0;
 	 }
 
 	 if (checkpoint_no == 2)
 	 {
 		 question_6 = TRUE;
+		 counter1 = 0;
 	 }
 
 	 if (checkpoint_no == 3)
@@ -557,7 +563,7 @@ void Quiz_Update()
 		
 	{
 		if (question_1 == TRUE)
-		{
+		{	
 			
 			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 			CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
@@ -1025,16 +1031,16 @@ void Quiz_Update()
 
 		}
 
-		quiz_score = counter*10;
+		quiz_score =  counter*10;
+		
 	}
 
 
 	if (checkpoint_no == 2)
 	{
-
 		if (question_6 == TRUE)
 		{
-			int total_score = (counter1 * 20) + (counter * 10);
+			int total_score = (counter1 * 20) ;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			CP_Settings_TextSize(50);
@@ -1135,7 +1141,7 @@ void Quiz_Update()
 
 		if (question_7 == TRUE)
 		{
-			int total_score = (counter1 * 20) + (counter * 10);
+			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			CP_Settings_TextSize(50);
@@ -1234,7 +1240,7 @@ void Quiz_Update()
 		if (question_8 == TRUE)
 		{
 
-			int total_score = (counter1 * 20) + (counter * 10);
+			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			CP_Settings_TextSize(50);
@@ -1334,7 +1340,7 @@ void Quiz_Update()
 		if (question_9 == TRUE)
 		{
 
-			int total_score = (counter1 * 20) + (counter * 10);
+			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			CP_Settings_TextSize(50);
@@ -1434,7 +1440,7 @@ void Quiz_Update()
 		if (question_10 == TRUE)
 		{
 
-			int total_score = (counter1 * 20) + (counter * 10);
+			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			CP_Settings_TextSize(50);
@@ -1531,7 +1537,7 @@ void Quiz_Update()
 
 		if (fail_page1 == TRUE)
 		{
-			int total_score = (counter1 * 20) + (counter * 10);
+			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 			if (counter1 < 3)
@@ -1575,14 +1581,15 @@ void Quiz_Update()
 
 
 		}
-		quiz_score = counter * 10 + counter1 * 20 + counter2 * 20;
+		 quiz_score =counter*10+ counter1 * 20;
+
 	}
 		if (checkpoint_no == 3)
 		{
 
 			if (question_11 == TRUE)
 			{
-				int total_score = (counter2 * 20) + (counter1 * 20) + (counter * 10);
+				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 				CP_Settings_TextSize(50);
@@ -1678,7 +1685,7 @@ void Quiz_Update()
 		
 			if (question_12 == TRUE)
 			{
-				int total_score = (counter2 * 20) + (counter1 * 20) + (counter * 10);
+				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 				CP_Settings_TextSize(50);
@@ -1776,7 +1783,7 @@ void Quiz_Update()
 
 			if (question_13 == TRUE)
 			{
-				int total_score = (counter2 * 20) + (counter1 * 20) + (counter * 10);
+				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 				CP_Settings_TextSize(50);
@@ -1874,7 +1881,7 @@ void Quiz_Update()
 
 			if (question_14 == TRUE)
 			{
-				int total_score = (counter2 * 20) + (counter1 * 20) + (counter * 10);
+				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 				CP_Settings_TextSize(50);
@@ -1972,7 +1979,7 @@ void Quiz_Update()
 
 			if (question_15== TRUE)
 			{
-				int total_score = (counter2 * 20) + (counter1 * 20) + (counter * 10);
+				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 				CP_Settings_TextSize(50);
@@ -2072,7 +2079,7 @@ void Quiz_Update()
 
 			if (fail_page2 == TRUE)
 			{
-				int total_score = (counter2 * 20) + (counter1 * 20) + (counter * 10);
+				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
 				if (counter2 < 3)
