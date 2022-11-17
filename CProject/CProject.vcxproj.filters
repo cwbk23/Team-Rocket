@@ -39,6 +39,9 @@
     <ClCompile Include="..\Src\win.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="credits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Inc\level.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Inc\win.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="credits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
