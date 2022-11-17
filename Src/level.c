@@ -176,97 +176,97 @@ void Level_Init()
 	
 	// Initialize stationary platforms variables
 	stat_plat[0].pos_x = 0.f;
-	stat_plat[0].pos_y = 950.f;
+	stat_plat[0].pos_y = 1000.f;
 	stat_plat[0].width = 150.f;
 	stat_plat[0].height = 30.f;
 	stat_plat[0].rotation = 0.f;
 
 	stat_plat[1].pos_x = 500.f;
-	stat_plat[1].pos_y = 950.f;
+	stat_plat[1].pos_y = 1000.f;
 	stat_plat[1].width = 300.f;
 	stat_plat[1].height = 30.f;
 	stat_plat[1].rotation = 0.f;
 
 	stat_plat[2].pos_x = 1100.f;
-	stat_plat[2].pos_y = 850.f;
+	stat_plat[2].pos_y = 900.f;
 	stat_plat[2].width = 150.f;
 	stat_plat[2].height = 30.f;
 	stat_plat[2].rotation = 0.f;
 
 	stat_plat[3].pos_x = 1350.f;
-	stat_plat[3].pos_y = 950.f;
+	stat_plat[3].pos_y = 1000.f;
 	stat_plat[3].width = 300.f;
 	stat_plat[3].height = 30.f;
 	stat_plat[3].rotation = 0.f;
 
 	stat_plat[4].pos_x = 1770.f;
-	stat_plat[4].pos_y = 950.f;
+	stat_plat[4].pos_y = 1000.f;
 	stat_plat[4].width = 150.f;
 	stat_plat[4].height = 30.f;
 	stat_plat[4].rotation = 0.f;
 	
 	stat_plat[5].pos_x = 1820.f;
-	stat_plat[5].pos_y = 780.f;
+	stat_plat[5].pos_y = 830.f;
 	stat_plat[5].width = 100.f;
 	stat_plat[5].height = 30.f;
 	stat_plat[5].rotation = 0.f;
 	
-	stat_plat[6].pos_x = 0.f;
-	stat_plat[6].pos_y = 680.f;
+	stat_plat[6].pos_x = 0.f; // Platform for 2nd floor
+	stat_plat[6].pos_y = 710.f;
 	stat_plat[6].width = 1720.f;
 	stat_plat[6].height = 20.f;
 	stat_plat[6].rotation = 0.f;
 	
 	stat_plat[7].pos_x = 1570.f;
-	stat_plat[7].pos_y = 600.f;
+	stat_plat[7].pos_y = 630.f;
 	stat_plat[7].width = 150.f;
 	stat_plat[7].height = 30.f;
 	stat_plat[7].rotation = 0.f;
 	
 	stat_plat[8].pos_x = 770.f;
-	stat_plat[8].pos_y = 600.f;
+	stat_plat[8].pos_y = 580.f;
 	stat_plat[8].width = 300.f;
 	stat_plat[8].height = 30.f;
 	stat_plat[8].rotation = 0.f;
 
 	stat_plat[9].pos_x = 370.f;
-	stat_plat[9].pos_y = 500.f;
+	stat_plat[9].pos_y = 630.f;
 	stat_plat[9].width = 300.f;
 	stat_plat[9].height = 30.f;
 	stat_plat[9].rotation = 0.f;
 
-	stat_plat[10].pos_x = 170.f;
-	stat_plat[10].pos_y = 600.f;
-	stat_plat[10].width = 150.f;
+	stat_plat[10].pos_x = 210.f;
+	stat_plat[10].pos_y = 530.f;
+	stat_plat[10].width = 100.f;
 	stat_plat[10].height = 30.f;
 	stat_plat[10].rotation = 0.f;
 
 	stat_plat[11].pos_x = 0.f;
-	stat_plat[11].pos_y = 400.f;
-	stat_plat[11].width = 100.f;
+	stat_plat[11].pos_y = 430.f;
+	stat_plat[11].width = 150.f;
 	stat_plat[11].height = 30.f;
 	stat_plat[11].rotation = 0.f;
 
-	stat_plat[12].pos_x = 200.f;
-	stat_plat[12].pos_y = 320.f;
+	stat_plat[12].pos_x = 200.f; // Platform for 3rd floor
+	stat_plat[12].pos_y = 340.f;
 	stat_plat[12].width = 1720.f;
 	stat_plat[12].height = 20.f;
 	stat_plat[12].rotation = 0.f;
 
 	stat_plat[13].pos_x = 500.f;
-	stat_plat[13].pos_y = 240.f;
+	stat_plat[13].pos_y = 260.f;
 	stat_plat[13].width = 300.f;
 	stat_plat[13].height = 30.f;
 	stat_plat[13].rotation = 0.f;
 
 	stat_plat[14].pos_x = 1050.f;
-	stat_plat[14].pos_y = 190.f;
+	stat_plat[14].pos_y = 210.f;
 	stat_plat[14].width = 150.f;
 	stat_plat[14].height = 30.f;
 	stat_plat[14].rotation = 0.f;
 
 	stat_plat[15].pos_x = 1500.f; // Victory platform
-	stat_plat[15].pos_y = 240.f;
+	stat_plat[15].pos_y = 260.f;
 	stat_plat[15].width = 420.f;
 	stat_plat[15].height = 30.f;
 	stat_plat[15].rotation = 0.f;
@@ -274,26 +274,26 @@ void Level_Init()
 	// Initialize variables for blocker platforms
 
 	blocker_plat[0].pos_x = 1720.f; // 2nd level blocker
-	blocker_plat[0].pos_y = 680.f;
+	blocker_plat[0].pos_y = 710.f;
 	blocker_plat[0].width = 200.f;
 	blocker_plat[0].height = 20.f;
 	blocker_plat[0].rotation = 0.f;
 
 	blocker_plat[1].pos_x = 0.f; // 3rd level blocker
-	blocker_plat[1].pos_y = 320.f;
+	blocker_plat[1].pos_y = 340.f;
 	blocker_plat[1].width = 200.f;
 	blocker_plat[1].height = 20.f;
 	blocker_plat[1].rotation = 0.f;
 
 	blocker_plat[2].pos_x = 1520.f; // Victory platform blocker
 	blocker_plat[2].pos_y = 0.f;
-	blocker_plat[2].width = 240.f;
+	blocker_plat[2].width = 260.f;
 	blocker_plat[2].height = 20.f;
 	blocker_plat[2].rotation = 90.f;
 
 	// Initialize variables for moving platform
 	move_plat[0].pos_x = 250.f;
-	move_plat[0].pos_y = 950.f;
+	move_plat[0].pos_y = 1000.f;
 	move_plat[0].width = 100.f;
 	move_plat[0].height = 30.f;
 	move_plat[0].rotation = 0.f;
@@ -304,7 +304,7 @@ void Level_Init()
 	move_plat[0].limit = 250.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[1].pos_x = 900.f;
-	move_plat[1].pos_y = 950.f;
+	move_plat[1].pos_y = 1000.f;
 	move_plat[1].width = 100.f;
 	move_plat[1].height = 30.f;
 	move_plat[1].rotation = 0.f;
@@ -312,10 +312,10 @@ void Level_Init()
 	move_plat[1].movement = UP;
 	move_plat[1].speed = PLAT_SPEED;
 	move_plat[1].distance = 100.f;
-	move_plat[1].limit = 950.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[1].limit = 1000.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[2].pos_x = 1420.f;
-	move_plat[2].pos_y = 500.f;
+	move_plat[2].pos_y = 530.f;
 	move_plat[2].width = 100.f;
 	move_plat[2].height = 30.f;
 	move_plat[2].rotation = 0.f;
@@ -326,7 +326,7 @@ void Level_Init()
 	move_plat[2].limit = 1420.f; // Follows value from pos_x for left/right and pos_y for up/down
 	
 	move_plat[3].pos_x = 1170.f;
-	move_plat[3].pos_y = 600.f;
+	move_plat[3].pos_y = 630.f;
 	move_plat[3].width = 100.f;
 	move_plat[3].height = 30.f;
 	move_plat[3].rotation = 0.f;
@@ -334,10 +334,10 @@ void Level_Init()
 	move_plat[3].movement = UP;
 	move_plat[3].speed = PLAT_SPEED;
 	move_plat[3].distance = 100.f;
-	move_plat[3].limit = 600.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[3].limit = 630.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[4].pos_x = 200.f;
-	move_plat[4].pos_y = 240.f;
+	move_plat[4].pos_y = 260.f;
 	move_plat[4].width = 100.f;
 	move_plat[4].height = 30.f;
 	move_plat[4].rotation = 0.f;
@@ -348,7 +348,7 @@ void Level_Init()
 	move_plat[4].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[5].pos_x = 850.f;
-	move_plat[5].pos_y = 240.f;
+	move_plat[5].pos_y = 260.f;
 	move_plat[5].width = 100.f;
 	move_plat[5].height = 30.f;
 	move_plat[5].rotation = 0.f;
@@ -356,10 +356,10 @@ void Level_Init()
 	move_plat[5].movement = UP;
 	move_plat[5].speed = PLAT_SPEED;
 	move_plat[5].distance = 150.f;
-	move_plat[5].limit = 240.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[5].limit = 260.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[6].pos_x = 1300.f;
-	move_plat[6].pos_y = 90.f;
+	move_plat[6].pos_y = 110.f;
 	move_plat[6].width = 100.f;
 	move_plat[6].height = 30.f;
 	move_plat[6].rotation = 0.f;
@@ -367,7 +367,7 @@ void Level_Init()
 	move_plat[6].movement = DOWN;
 	move_plat[6].speed = PLAT_SPEED;
 	move_plat[6].distance = 150.f;
-	move_plat[6].limit = 90.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[6].limit = 110.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	// Initialize the spikes variables
 	spikes[0].x1 = 20.f;
@@ -379,19 +379,19 @@ void Level_Init()
 	spikes[0].deg = 0.f;
 
 	spikes[48].x1 = 20.f;
-	spikes[48].y1 = 650.f;
+	spikes[48].y1 = 680.f;
 	spikes[48].x2 = 0.f;
-	spikes[48].y2 = 680.f;
+	spikes[48].y2 = 710.f;
 	spikes[48].x3 = 40.f;
-	spikes[48].y3 = 680.f;
+	spikes[48].y3 = 710.f;
 	spikes[48].deg = 0.f;
 
 	spikes[91].x1 = 220.f;
-	spikes[91].y1 = 290.f;
+	spikes[91].y1 = 310.f;
 	spikes[91].x2 = 200.f;
-	spikes[91].y2 = 320.f;
+	spikes[91].y2 = 340.f;
 	spikes[91].x3 = 240.f;
-	spikes[91].y3 = 320.f;
+	spikes[91].y3 = 340.f;
 	spikes[91].deg = 0.f;
 
 	// Initialize the checkpoints and its corresponding hitbox variables
@@ -407,8 +407,8 @@ void Level_Init()
 
 	checkpoint[1].width = 50.f;
 	checkpoint[1].height = 50.f;
-	checkpoint[1].pos_x = stat_plat[10].pos_x + (stat_plat[10].width / 2);
-	checkpoint[1].pos_y = stat_plat[10].pos_y - (checkpoint[1].height / 2 + 5.f);
+	checkpoint[1].pos_x = stat_plat[11].pos_x + (stat_plat[11].width / 2);
+	checkpoint[1].pos_y = stat_plat[11].pos_y - (checkpoint[1].height / 2 + 5.f);
 	 
 	checkpoint_hitbox[1].width = checkpoint[1].width;
 	checkpoint_hitbox[1].height = checkpoint[1].height;
@@ -991,7 +991,6 @@ void Level_Update()
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Color color_brown = (CP_Color_Create(181, 101, 29, 255));
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
-	CP_Color color_yellow = (CP_Color_Create(255, 255, 0, 255));
 	CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
 
 	// Drawing of all stationary platforms
@@ -1131,7 +1130,7 @@ void Level_Update()
 	// Draw checkpoints
 	for (int i = checkpoint_no; i < SIZE_CHECKPOINTS; ++i) {
 		
-		CP_Graphics_DrawRect(checkpoint_hitbox[i].pos_x, checkpoint_hitbox[i].pos_y, checkpoint_hitbox[i].width, checkpoint_hitbox[i].height); // Checkpoint hitbox boundary checking
+		//CP_Graphics_DrawRect(checkpoint_hitbox[i].pos_x, checkpoint_hitbox[i].pos_y, checkpoint_hitbox[i].width, checkpoint_hitbox[i].height); // Checkpoint hitbox boundary checking
 		CP_Image_Draw(CPoint, checkpoint[i].pos_x, checkpoint[i].pos_y, checkpoint[i].width, checkpoint[i].height, 255);
 
 		// Collision checking of checkpoints
@@ -1142,7 +1141,7 @@ void Level_Update()
 	}
 
 	// Draw endpoint
-	CP_Graphics_DrawRect(endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height); // Endpoint hitbox boundary checking
+	//CP_Graphics_DrawRect(endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height); // Endpoint hitbox boundary checking
 	CP_Image_Draw(EPoint, endpoint.pos_x, endpoint.pos_y, endpoint.width, endpoint.height, 255);
 
 	// Collision checking of endpoint
