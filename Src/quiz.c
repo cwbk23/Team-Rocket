@@ -443,6 +443,7 @@ void Quiz_Init()
 	 if (checkpoint_no == 3)
 	 {	
 		 question_11 = TRUE;
+		 counter2 = 0;
 	 }
 	totalElapsedTime = 180;
 }
