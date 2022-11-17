@@ -10,6 +10,7 @@ void Main_Menu_Init()
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
 	checkpoint_no = -1;
+	quiz_score = 0;
 }
 
 void Main_Menu_Update()

@@ -33,7 +33,7 @@ float jumpCharge = 1.0f;
 
 // Default no. of player lives
 int totalLives = 5;
-int playerLives = 5;
+playerLives = 5;	// EXTERN INT
 
 // Player lives heart image
 CP_Image heart_full_img;
@@ -47,7 +47,7 @@ float startingSpawnY = 850.0f;
 int current_checkpoint = -1;
 
 // Initialize quiz score
-quiz_score = 0;
+quiz_score = 0;		// EXTERN INT
 
 
 struct PLAYER 
@@ -629,6 +629,7 @@ void Level_Update()
 	/*char playerLivesStr[50] = { 0 };
 	sprintf_s(playerLivesStr, 50, "Lives: %d", playerLives);
 	CP_Font_DrawText(playerLivesStr, 100.0f, 30.0f);*/
+	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	
 	for (int i = 0; i < playerLives; i++) {
 		CP_Image_Draw(heart_full_img, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
