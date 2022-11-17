@@ -16,7 +16,7 @@ void Main_Menu_Init()
 void Main_Menu_Update()
 {
 	// Sky blue background colour
-	CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 191, 255, 255));
 
 	// Play button
 	CP_Settings_Fill(CP_Color_Create(0, 102, 255, 255));

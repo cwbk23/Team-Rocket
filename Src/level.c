@@ -23,6 +23,25 @@
 
 ///////////////////	YEE LEI	/////////////////////////////
 
+// Player character models
+CP_Image player_stand_right;
+CP_Image player_stand_left;
+CP_Image player_jump_right;
+CP_Image player_jump_left;
+CP_Image player_down;
+
+// Player lives heart icons
+CP_Image heart_full;
+CP_Image heart_empty;
+
+// Default no. of player lives
+int totalLives = 5;
+playerLives = 5;	// EXTERN INT
+
+// Starting spawn point
+//float startingSpawnX;
+//float startingSpawnY;
+
 // Fall speed multiplier for short and long jumps
 //const float fallMultiplier_short = 0.85f;
 //const float fallMultiplier_long = 1.0f;
@@ -30,18 +49,6 @@
 // Jump charge settings
 const float jumpChargeMax = 1.5f;
 float jumpCharge = 1.0f;
-
-// Default no. of player lives
-int totalLives = 5;
-playerLives = 5;	// EXTERN INT
-
-// Player lives heart image
-CP_Image heart_full_img;
-CP_Image heart_empty_img;
-
-// Starting spawn point
-float startingSpawnX = 50.0f;
-float startingSpawnY = 850.0f;
 
 // Initialize starting checkpoint (-1 means new game)
 int current_checkpoint = -1;
@@ -143,8 +150,8 @@ void Level_Init()
 	///////////////	YEE LEI	/////////////////
 	
 	// Initialize player stats
-	player.width = 30.0f;
-	player.height = 50.0f;
+	player.width = 60.0f;
+	player.height = 60.0f;
 	player.moveSpeed = 250.0f;
 	//player.fallSpeed = 700.0f;
 	player.jumpHeight = 200.0f;
@@ -155,8 +162,14 @@ void Level_Init()
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
 
-	heart_full_img = CP_Image_Load("Assets/hudHeart_full.png");
-	heart_empty_img = CP_Image_Load("Assets/hudHeart_empty.png");
+	heart_full = CP_Image_Load("Assets/hudHeart_full.png");
+	heart_empty = CP_Image_Load("Assets/hudHeart_empty.png");
+
+	player_stand_left = CP_Image_Load("Assets/player_stand_left.png");
+	player_stand_right = CP_Image_Load("Assets/player_stand_right.png");
+	player_jump_left = CP_Image_Load("Assets/player_jump_left.png");
+	player_jump_right = CP_Image_Load("Assets/player_jump_right.png");
+	player_down = CP_Image_Load("Assets/player_down.png");
 
 	
 	///////////////  KENNY  //////////////////
@@ -533,7 +546,7 @@ void Level_Init()
 void Level_Update()
 {
 	// Sky blue background colour
-	CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(0, 191, 255, 255));
 
 	// COMMONLY USED VARIABLES
 	// Elapsed time from the last frame
@@ -544,6 +557,9 @@ void Level_Update()
 	
 	///////////////////////	YEE LEI	/////////////////////////////////////////
 
+	// Initialize player model state
+	static char player_model_state = 'R';
+
 	// Initialize respawn effect timer
 	static float spawn_totalElapsedTime = 0;
 
@@ -552,8 +568,8 @@ void Level_Update()
 		checkpoint_no = 0;
 		current_checkpoint = 0;
 		playerLives = totalLives;
-		player.posX = startingSpawnX;
-		player.posY = startingSpawnY;
+		player.posX = stat_plat[0].pos_x + 30.0f;
+		player.posY = stat_plat[0].pos_y - player.height - 50.0f;
 	}
 	else if (current_checkpoint != checkpoint_no) {
 		current_checkpoint = checkpoint_no;
@@ -571,8 +587,8 @@ void Level_Update()
 		}
 		else {
 			if (current_checkpoint == 0) {
-				player.posX = startingSpawnX;
-				player.posY = startingSpawnY;
+				player.posX = stat_plat[0].pos_x + 30.0f;
+				player.posY = stat_plat[0].pos_y - player.height - 50.0f;
 			}
 			else {
 				player.posX = checkpoint[current_checkpoint - 1].pos_x;
@@ -591,6 +607,9 @@ void Level_Update()
 	}
 
 	// Respawn flashing visual effect
+	CP_Settings_ImageMode(CP_POSITION_CORNER);
+	int player_transparency = 255;
+
 	if (spawn_totalElapsedTime > 0) {
 		if (spawn_totalElapsedTime < 0.85 && spawn_totalElapsedTime > 0.8 || 
 			spawn_totalElapsedTime < 0.65 && spawn_totalElapsedTime > 0.6 || 
@@ -598,25 +617,39 @@ void Level_Update()
 			spawn_totalElapsedTime < 0.25 && spawn_totalElapsedTime > 0.2 || 
 			spawn_totalElapsedTime < 0.05 && spawn_totalElapsedTime > 0.0) 
 		{
-			CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 250, 255));
+			player_transparency = 0;
 		}
-		else {
-			CP_Settings_RectMode(CP_POSITION_CORNER);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-			CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
-		}
-
-		spawn_totalElapsedTime -= currentElapsedTime;
-		if (spawn_totalElapsedTime < 0) spawn_totalElapsedTime = 0;
+		
+		CP_Image_Draw(player_down, player.posX, player.posY - 5.0f, player.width + 5.0f, player.height + 5.0f, player_transparency);
 
 		player.blockLeft = TRUE;
 		player.blockRight = TRUE;
+
+		spawn_totalElapsedTime -= currentElapsedTime;
+		if (spawn_totalElapsedTime < 0) spawn_totalElapsedTime = 0;
 	}
 	else {
 		// Draw player model
-		CP_Settings_RectMode(CP_POSITION_CORNER);
+		/*CP_Settings_RectMode(CP_POSITION_CORNER);
 		CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-		CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);
+		CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);*/
+
+		if (player.isColliding) {
+			if (player_model_state == 'R') {
+				CP_Image_Draw(player_stand_right, player.posX, player.posY, player.width, player.height, player_transparency);
+			}
+			else if (player_model_state == 'L') {
+				CP_Image_Draw(player_stand_left, player.posX, player.posY, player.width, player.height, player_transparency);
+			}
+		}
+		else {
+			if (player_model_state == 'R') {
+				CP_Image_Draw(player_jump_right, player.posX, player.posY, player.width + 10.0f, player.height + 10.0f, player_transparency);
+			}
+			else if (player_model_state == 'L') {
+				CP_Image_Draw(player_jump_left, player.posX, player.posY, player.width + 10.0f, player.height + 10.0f, player_transparency);
+			}
+		}
 
 		player.blockLeft = FALSE;
 		player.blockRight = FALSE;
@@ -626,17 +659,14 @@ void Level_Update()
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(45.0f);
 	CP_Font_DrawText("Lives:", 60.0f, 30.0f);
-	/*char playerLivesStr[50] = { 0 };
-	sprintf_s(playerLivesStr, 50, "Lives: %d", playerLives);
-	CP_Font_DrawText(playerLivesStr, 100.0f, 30.0f);*/
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	
 	for (int i = 0; i < playerLives; i++) {
-		CP_Image_Draw(heart_full_img, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
+		CP_Image_Draw(heart_full, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
 	}
 
 	for (int i = playerLives; i < totalLives; i++) {
-		CP_Image_Draw(heart_empty_img, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
+		CP_Image_Draw(heart_empty, 140.0f + (i * 50.0f), 30.f, 50.0f, 50.0f, 255);
 	}
 
 	// Current score display
@@ -649,9 +679,11 @@ void Level_Update()
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
 		player.posX -= player.moveSpeed * currentElapsedTime;
+		player_model_state = 'L';
 	}
 	if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
+		player_model_state = 'R';
 	}
 
 	// Jump speed deceleration based on time
@@ -926,7 +958,7 @@ void Level_Update()
 		}
 
 		//player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
-		player.posY += jumpVec_scaled.y * fall_totalElapsedTime * 2;
+		player.posY += jumpVec_scaled.y * fall_totalElapsedTime * 1.0;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
 
@@ -1357,6 +1389,16 @@ void Level_Update()
 
 void Level_Exit()
 {
+	///////////////////// YEE LEI /////////////////////
+	CP_Image_Free(&heart_full);
+	CP_Image_Free(&heart_empty);
+	CP_Image_Free(&player_stand_right);
+	CP_Image_Free(&player_stand_left);
+	CP_Image_Free(&player_jump_right);
+	CP_Image_Free(&player_jump_left);
+	CP_Image_Free(&player_down);
+
+	///////////////////// KENNY /////////////////////
 	CP_Image_Free(&CPoint);
 	CP_Image_Free(&EPoint);
 
