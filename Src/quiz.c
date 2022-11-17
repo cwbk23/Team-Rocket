@@ -444,7 +444,7 @@ void Quiz_Init()
 	 {	
 		 question_11 = TRUE;
 	 }
-	totalElapsedTime = 10;
+	totalElapsedTime = 180;
 }
 
 
