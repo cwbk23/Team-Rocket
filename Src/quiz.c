@@ -190,6 +190,8 @@ char totalscore[10] = { 3 };
  int counter1 ;
  int counter2 ;
 
+ static float totalElapsedTime;
+
 void Quiz_Init()
 {
  //quiz_score ;  
@@ -204,7 +206,7 @@ void Quiz_Init()
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
 
-	int randomoperator = CP_Random_RangeInt(1, 4);
+	int randomoperator = CP_Random_RangeInt(2, 5);
 	sprintf_s(OperatorRandom, _countof(OperatorRandom), "%d", randomoperator);
 
 	int random_x1 = CP_Random_RangeInt(1, 10);
@@ -237,43 +239,43 @@ void Quiz_Init()
 	sprintf_s(TrueFalse_y5, _countof(TrueFalse_y5), "%d", random_y5);
 	sprintf_s(TrueFalseans5, _countof(TrueFalseans5), "%d", random_y5 * random_x5 - 5);
 
-	int randommultiple1_xvalue = CP_Random_RangeInt(1, 5);
+	int randommultiple1_xvalue = CP_Random_RangeInt(2, 4);
 	sprintf_s(multiplechoice1_xvalue, _countof(multiplechoice1_xvalue), "%d", randommultiple1_xvalue);
-	int randommultiple1_xconstant = CP_Random_RangeInt(1, 5);
+	int randommultiple1_xconstant = CP_Random_RangeInt(1, 3);
 	sprintf_s(multiplechoice1_xconstant, _countof(multiplechoice1_xconstant), "%d", randommultiple1_xconstant);
-	int randommultiple1_yvalue = CP_Random_RangeInt(1, 5);
+	int randommultiple1_yvalue = CP_Random_RangeInt(2, 4);
 	sprintf_s(multiplechoice1_yvalue, _countof(multiplechoice1_yvalue), "%d", randommultiple1_yvalue);
-	int randommultiple1_yconstant = CP_Random_RangeInt(1, 5);
+	int randommultiple1_yconstant = CP_Random_RangeInt(6, 8);
 	sprintf_s(multiplechoice1_yconstant, _countof(multiplechoice1_yconstant), "%d", randommultiple1_yconstant);
 	sprintf_s(multiplechoice1_ans, _countof(multiplechoice1_ans), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue));
 	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue) + randomoperator);
-	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue) - randomoperator);
+	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue) * randomoperator);
 	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple1_xvalue + randommultiple1_yvalue));
 
-	int randommultiple2_xvalue = CP_Random_RangeInt(1, 5);
+	int randommultiple2_xvalue = CP_Random_RangeInt(2, 4);
 	sprintf_s(multiplechoice2_xvalue, _countof(multiplechoice2_xvalue), "%d", randommultiple2_xvalue);
-	int randommultiple2_xconstant = CP_Random_RangeInt(1, 5);
+	int randommultiple2_xconstant = CP_Random_RangeInt(4, 6);
 	sprintf_s(multiplechoice2_xconstant, _countof(multiplechoice2_xconstant), "%d", randommultiple2_xconstant);
-	int randommultiple2_yvalue = CP_Random_RangeInt(1, 5);
+	int randommultiple2_yvalue = CP_Random_RangeInt(1, 3);
 	sprintf_s(multiplechoice2_yvalue, _countof(multiplechoice2_yvalue), "%d", randommultiple2_yvalue);
-	int randommultiple2_yconstant = CP_Random_RangeInt(1, 5);
+	int randommultiple2_yconstant = CP_Random_RangeInt(4, 5);
 	sprintf_s(multiplechoice2_yconstant, _countof(multiplechoice2_yconstant), "%d", randommultiple2_yconstant);
 	sprintf_s(multiplechoice2_ans, _countof(multiplechoice2_ans), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue));
-	sprintf_s(multiplechoice2_1, _countof(multiplechoice2_1), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue) + randomoperator);
-	sprintf_s(multiplechoice2_2, _countof(multiplechoice2_2), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue) - randomoperator);
+	sprintf_s(multiplechoice2_1, _countof(multiplechoice2_1), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) * randomoperator);
+	sprintf_s(multiplechoice2_2, _countof(multiplechoice2_2), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + randomoperator);
 	sprintf_s(multiplechoice2_3, _countof(multiplechoice2_3), "%d", (randommultiple2_xvalue + randommultiple2_yvalue));
 
-	int randommultiple3_xvalue = CP_Random_RangeInt(1, 5);
+	int randommultiple3_xvalue = CP_Random_RangeInt(2, 3);
 	sprintf_s(multiplechoice3_xvalue, _countof(multiplechoice3_xvalue), "%d", randommultiple3_xvalue);
-	int randommultiple3_xconstant = CP_Random_RangeInt(3, 5);
+	int randommultiple3_xconstant = CP_Random_RangeInt(4, 5);
 	sprintf_s(multiplechoice3_xconstant, _countof(multiplechoice3_xconstant), "%d", randommultiple3_xconstant);
-	int randommultiple3_yvalue = CP_Random_RangeInt(2, 5);
+	int randommultiple3_yvalue = CP_Random_RangeInt(3, 4);
 	sprintf_s(multiplechoice3_yvalue, _countof(multiplechoice3_yvalue), "%d", randommultiple3_yvalue);
-	int randommultiple3_yconstant = CP_Random_RangeInt(1, 5);
+	int randommultiple3_yconstant = CP_Random_RangeInt(6, 9);
 	sprintf_s(multiplechoice3_yconstant, _countof(multiplechoice3_yconstant), "%d", randommultiple3_yconstant);
 	sprintf_s(multiplechoice3_ans, _countof(multiplechoice3_ans), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue));
-	sprintf_s(multiplechoice3_1, _countof(multiplechoice3_1), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue) + randomoperator);
-	sprintf_s(multiplechoice3_2, _countof(multiplechoice3_2), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue) - randomoperator);
+	sprintf_s(multiplechoice3_1, _countof(multiplechoice3_1), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) + (randommultiple3_yconstant * randommultiple3_yvalue) + randomoperator);
+	sprintf_s(multiplechoice3_2, _countof(multiplechoice3_2), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) + (randommultiple3_yconstant ) - randomoperator);
 	sprintf_s(multiplechoice3_3, _countof(multiplechoice3_3), "%d", (randommultiple3_xvalue - randommultiple3_yvalue));
 
 
@@ -283,11 +285,11 @@ void Quiz_Init()
 	sprintf_s(multiplechoice4_xconstant, _countof(multiplechoice4_xconstant), "%d", randommultiple4_xconstant);
 	int randommultiple4_yvalue = CP_Random_RangeInt(2, 3);
 	sprintf_s(multiplechoice4_yvalue, _countof(multiplechoice4_yvalue), "%d", randommultiple4_yvalue);
-	int randommultiple4_yconstant = CP_Random_RangeInt(1, 5);
+	int randommultiple4_yconstant = CP_Random_RangeInt(3, 7);
 	sprintf_s(multiplechoice4_yconstant, _countof(multiplechoice4_yconstant), "%d", randommultiple4_yconstant);
 	sprintf_s(multiplechoice4_ans, _countof(multiplechoice4_ans), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) - (randommultiple4_yconstant * randommultiple4_yvalue));
-	sprintf_s(multiplechoice4_1, _countof(multiplechoice4_1), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) - (randommultiple4_yconstant * randommultiple4_yvalue) + randomoperator);
-	sprintf_s(multiplechoice4_2, _countof(multiplechoice4_2), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) - (randommultiple4_yconstant * randommultiple4_yvalue) - randomoperator);
+	sprintf_s(multiplechoice4_1, _countof(multiplechoice4_1), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) - (randommultiple4_xconstant * randommultiple4_yvalue) + randomoperator);
+	sprintf_s(multiplechoice4_2, _countof(multiplechoice4_2), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) + (randommultiple4_yconstant * randommultiple4_yconstant));
 	sprintf_s(multiplechoice4_3, _countof(multiplechoice4_3), "%d", (randommultiple4_xvalue - randommultiple4_yvalue));
 
 
@@ -319,9 +321,9 @@ void Quiz_Init()
 	int randommultiple7_yconstant = CP_Random_RangeInt(4, 5);
 	sprintf_s(multiplechoice7_yconstant, _countof(multiplechoice7_yconstant), "%d", randommultiple7_yconstant);
 	sprintf_s(multiplechoice7_ans, _countof(multiplechoice7_ans), "%d", (randommultiple7_xconstant * randommultiple7_xvalue) - (randommultiple7_yconstant));
-	sprintf_s(multiplechoice7_1, _countof(multiplechoice7_1), "%d", (randommultiple7_xconstant* randommultiple7_xvalue) + (randommultiple7_yconstant)+randomoperator);
-	sprintf_s(multiplechoice7_2, _countof(multiplechoice7_2), "%d", (randommultiple7_xconstant* randommultiple7_xvalue) -randomoperator);
-	sprintf_s(multiplechoice7_3, _countof(multiplechoice7_3), "%d", (randommultiple7_xvalue));
+	sprintf_s(multiplechoice7_1, _countof(multiplechoice7_1), "%d", (randommultiple7_xvalue* randommultiple7_xvalue) + (randommultiple7_yconstant)+randomoperator);
+	sprintf_s(multiplechoice7_2, _countof(multiplechoice7_2), "%d", (randommultiple7_xconstant* randommultiple7_xconstant) - randomoperator);
+	sprintf_s(multiplechoice7_3, _countof(multiplechoice7_3), "%d", (randommultiple7_xvalue * randomoperator));
 
 
 	int randommultiple8_xvalue = CP_Random_RangeInt(3, 7);
@@ -333,7 +335,7 @@ void Quiz_Init()
 	sprintf_s(multiplechoice8_ans, _countof(multiplechoice8_ans), "%d", (randommultiple8_xconstant* randommultiple8_xvalue) + (randommultiple8_yconstant));
 	sprintf_s(multiplechoice8_1, _countof(multiplechoice8_1), "%d", (randommultiple8_xconstant* randommultiple8_xvalue) + (randommultiple8_yconstant)+randomoperator);
 	sprintf_s(multiplechoice8_2, _countof(multiplechoice8_2), "%d", (randommultiple8_xconstant* randommultiple8_xvalue) + (randommultiple8_yconstant)-randomoperator);
-	sprintf_s(multiplechoice8_3, _countof(multiplechoice8_3), "%d", (randommultiple8_xvalue));
+	sprintf_s(multiplechoice8_3, _countof(multiplechoice8_3), "%d", (randommultiple8_xvalue - randomoperator));
 
 
 
@@ -346,7 +348,7 @@ void Quiz_Init()
 	sprintf_s(multiplechoice9_ans, _countof(multiplechoice9_ans), "%d", randommultiple9_xconstant * randommultiple9_xvalue * randommultiple9_yconstant) ;
 	sprintf_s(multiplechoice9_1, _countof(multiplechoice9_1), "%d", randommultiple9_xconstant * randommultiple9_xconstant);
 	sprintf_s(multiplechoice9_2, _countof(multiplechoice9_2), "%d", (randommultiple9_yconstant * randommultiple9_xvalue) - (randommultiple9_yconstant));
-	sprintf_s(multiplechoice9_3, _countof(multiplechoice9_3), "%d", (randommultiple9_xvalue* randommultiple9_xconstant* randommultiple9_xvalue));
+	sprintf_s(multiplechoice9_3, _countof(multiplechoice9_3), "%d", (randommultiple9_xvalue* randommultiple9_xconstant + randommultiple9_xvalue));
 
 	int randommultiple10_xvalue = CP_Random_RangeInt(1, 5);
 	sprintf_s(multiplechoice10_xvalue, _countof(multiplechoice10_xvalue), "%d", randommultiple10_xvalue);
@@ -442,7 +444,7 @@ void Quiz_Init()
 	 {	
 		 question_11 = TRUE;
 	 }
-	
+	totalElapsedTime = 10;
 }
 
 
@@ -456,112 +458,46 @@ void Quiz_Update()
 	CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
-		if (timercounter == true)
-		{
-			CP_Font_DrawText("Timer:     :", width / 1.2, height / 8);
-			float currentElapsedTime = CP_System_GetDt();
-			static float totalElapsedTime = 180;
-			totalElapsedTime -= currentElapsedTime;
-			char minute[16] = { 0 };
-			char second[16] = { 0 };
-			sprintf_s(minute, _countof(minute), "%d", (int)totalElapsedTime / 60);
-			sprintf_s(second, _countof(second), "%.d", ((int)totalElapsedTime % 60));
-			CP_Font_DrawText(minute, width / 1.14, height / 8);
-			CP_Font_DrawText(second, width / 1.08, height / 8);
-			
-			if (totalElapsedTime <= 0)
-			{
-				timercounter = false;
-				timesuppage = true;
+	if (timercounter == true)
+	{
+		CP_Font_DrawText("Timer:     :", width / 1.2, height / 8);
+		float currentElapsedTime = CP_System_GetDt();
+		totalElapsedTime -= currentElapsedTime;
+		char minute[16] = { 0 };
+		char second[16] = { 0 };
+		sprintf_s(minute, _countof(minute), "%d", (int)totalElapsedTime / 60);
+		sprintf_s(second, _countof(second), "%.d", ((int)totalElapsedTime % 60));
+		CP_Font_DrawText(minute, width / 1.14, height / 8);
+		CP_Font_DrawText(second, width / 1.08, height / 8);
 
-				clicked_q1 = false;
-				question_1ans = false;
-				question_1 = false;
-
-				question_2 = false;
-				clicked_q2 = false;
-				question_2ans = false;
-
-				question_3 = false;
-				clicked_q3 = false;
-				question_3ans = false;
-
-				question_4 = false;
-				clicked_q4 = false;
-				question_4ans = false;
-
-				question_5 = false;
-				clicked_q5 = false;
-				question_5ans = false;
-
-				question_6 = false;
-				clicked_q6 = false;
-				question_6ans = false;
-
-				question_7 = false;
-				clicked_q7 = false;
-				question_7ans = false;
-
-				question_8 = false;
-				clicked_q8 = false;
-				question_8ans = false;
-
-				question_9 = false;
-				clicked_q9 = false;
-				question_9ans = false;
-
-				question_10 = false;
-				clicked_q10 = false;
-				question_10ans = false;
-
-				question_11 = false;
-				clicked_q11 = false;
-				question_11ans = false;
-
-				question_12 = false;
-				clicked_q12 = false;
-				question_12ans = false;
-
-				question_13 = false;
-				clicked_q13 = false;
-				question_13ans = false;
-
-				question_14 = false;
-				clicked_q14 = false;
-				question_14ans = false;
-
-				question_15 = false;
-				clicked_q15 = false;
-				question_15ans = false;
-
-				fail_page = false;
-				fail_page1 = false;
-			}
-		}
-		if (timesuppage == true)
-		{
-			CP_Settings_TextSize(100);
-			CP_Font_DrawText("Times up !", width / 2, height / 2);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 0));
-			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-			CP_Settings_TextSize(70);
-			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
-			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
-			{
-				if (IsAreaClicked(width / 1.2f, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
-				{
-					CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
-
-				}
-			}
-		}
-
-
+	}
 
 	if (checkpoint_no == 1)
-		
 	{
+		if (totalElapsedTime <= 0)
+		{
+			clicked_q1 = false;
+			question_1ans = false;
+			question_1 = false;
+
+			question_2 = false;
+			clicked_q2 = false;
+			question_2ans = false;
+
+			question_3 = false;
+			clicked_q3 = false;
+			question_3ans = false;
+
+			question_4 = false;
+			clicked_q4 = false;
+			question_4ans = false;
+
+			question_5 = false;
+			clicked_q5 = false;
+			question_5ans = false;
+
+			fail_page = true;
+		}
 		if (question_1 == TRUE)
 		{	
 			
@@ -989,7 +925,11 @@ void Quiz_Update()
 
 		if (fail_page == true)
 		{
-
+			timercounter = false;
+			if (totalElapsedTime <= 0)
+			{
+				CP_Font_DrawText("TIMES UP !", width / 2, height / 5.5);
+			}
 			if (counter <= 2)
 			{
 				CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
@@ -1038,6 +978,32 @@ void Quiz_Update()
 
 	if (checkpoint_no == 2)
 	{
+		if (totalElapsedTime <= 0)
+		{
+				question_6 = false;
+				clicked_q6 = false;
+				question_6ans = false;
+
+				question_7 = false;
+				clicked_q7 = false;
+				question_7ans = false;
+
+				question_8 = false;
+				clicked_q8 = false;
+				question_8ans = false;
+
+				question_9 = false;
+				clicked_q9 = false;
+				question_9ans = false;
+
+				question_10 = false;
+				clicked_q10 = false;
+				question_10ans = false;
+
+				fail_page1 = true;
+		}
+
+
 		if (question_6 == TRUE)
 		{
 			int total_score = (counter1 * 20) ;
@@ -1102,7 +1068,7 @@ void Quiz_Update()
 			if (clicked_q6 == TRUE)
 			{
 				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1203,7 +1169,7 @@ void Quiz_Update()
 			if (clicked_q7 == TRUE)
 			{
 				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1302,7 +1268,7 @@ void Quiz_Update()
 			if (clicked_q8 == TRUE)
 			{
 				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1402,7 +1368,7 @@ void Quiz_Update()
 			if (clicked_q9 == TRUE)
 			{
 				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1499,7 +1465,7 @@ void Quiz_Update()
 			if (clicked_q10 == TRUE)
 			{
 				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1537,8 +1503,15 @@ void Quiz_Update()
 
 		if (fail_page1 == TRUE)
 		{
+			timercounter = false;
 			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+			if (totalElapsedTime <= 0)
+			{
+				CP_Font_DrawText("TIMES UP !", width / 2, height / 5.5);
+			}
+
 
 			if (counter1 < 3)
 			{
@@ -1586,7 +1559,32 @@ void Quiz_Update()
 	}
 		if (checkpoint_no == 3)
 		{
+			if (totalElapsedTime <= 0)
+			{
 
+				question_11 = false;
+				clicked_q11 = false;
+				question_11ans = false;
+
+				question_12 = false;
+				clicked_q12 = false;
+				question_12ans = false;
+
+				question_13 = false;
+				clicked_q13 = false;
+				question_13ans = false;
+
+				question_14 = false;
+				clicked_q14 = false;
+				question_14ans = false;
+
+				question_15 = false;
+				clicked_q15 = false;
+				question_15ans = false;
+
+				fail_page2 = true;
+
+			}
 			if (question_11 == TRUE)
 			{
 				int total_score = (counter2 * 20);
@@ -1650,7 +1648,7 @@ void Quiz_Update()
 				if (clicked_q11 == TRUE)
 				{
 					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1746,7 +1744,7 @@ void Quiz_Update()
 				if (clicked_q12 == TRUE)
 				{
 					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1845,7 +1843,7 @@ void Quiz_Update()
 				if (clicked_q13 == TRUE)
 				{
 					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1942,7 +1940,7 @@ void Quiz_Update()
 				if (clicked_q14 == TRUE)
 				{
 					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -2038,7 +2036,7 @@ void Quiz_Update()
 				if (clicked_q15 == TRUE)
 				{
 					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -2079,8 +2077,14 @@ void Quiz_Update()
 
 			if (fail_page2 == TRUE)
 			{
+				timercounter = false;
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+
+				if (totalElapsedTime <= 0)
+				{
+					CP_Font_DrawText("TIMES UP !", width / 2, height / 5.5);
+				}
 
 				if (counter2 < 3)
 				{
