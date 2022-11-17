@@ -19,6 +19,7 @@
     <ClCompile Include="..\Src\utils.c" />
     <ClCompile Include="..\Src\lose.c" />
     <ClCompile Include="..\Src\win.c" />
+    <ClCompile Include="credits.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Inc\level.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="..\Inc\splashscreen.h" />
     <ClInclude Include="..\Inc\utils.h" />
     <ClInclude Include="..\Inc\win.h" />
+    <ClInclude Include="credits.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

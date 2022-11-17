@@ -2,6 +2,7 @@
 #include "level.h"
 #include "utils.h"
 #include "quiz.h"
+#include "credits.h"
 
 
 void Main_Menu_Init()
@@ -58,7 +59,7 @@ void Main_Menu_Update()
 		// Credits screen
 		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
-			//CP_Engine_SetNextGameState(Credits_Init, Credits_Update, Credits_Exit);
+			CP_Engine_SetNextGameState(Credits_Init, Credits_Update, Credits_Exit);
 		}
 		// QUIZ TEST button
 		else if (IsAreaClicked(100.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
