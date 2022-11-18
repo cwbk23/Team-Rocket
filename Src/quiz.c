@@ -528,8 +528,8 @@ void Quiz_Update()
 			CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
 			CP_Font_DrawText(TrueFalse_x1, width / 2.1, height / 4);
 			CP_Font_DrawText(TrueFalse_y1, width / 1.6, height / 4);
-			CP_Font_DrawText(" Does x and y equal to       ?", width / 1.9, height / 3);
-			CP_Font_DrawText(TrueFalseans1, width / 1.49, height / 3);
+			CP_Font_DrawText(" Does x + y equal to       ?", width / 1.9, height / 3);
+			CP_Font_DrawText(TrueFalseans1, width / 1.55, height / 3);
 
 			CP_Settings_Fill(red);
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
