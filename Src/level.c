@@ -507,13 +507,13 @@ void Level_Init()
 
 	//INITIALIZE SHOOTING ENEMY VARIABLES
 
-	shooting_enemies[0].width = 60.f; shooting_enemies[1].width = 60.f;
-	shooting_enemies[0].height = 60.f; shooting_enemies[1].height = 60.f;
+	shooting_enemies[0].width = 50.f; shooting_enemies[1].width = 50.f;
+	shooting_enemies[0].height = 50.f; shooting_enemies[1].height = 50.f;
 
 	shooting_enemies[0].x_position = CP_System_GetWindowWidth() - shooting_enemies[0].width;
 	shooting_enemies[1].x_position = 0.0f;
 
-	shooting_enemies[0].y_position = 415.f; shooting_enemies[1].y_position = 195.f;
+	shooting_enemies[0].y_position = 435.f; shooting_enemies[1].y_position = 200.f;
 	shooting_enemies[0].enemy_direction = _toleft; shooting_enemies[1].enemy_direction = _toright;
 
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
