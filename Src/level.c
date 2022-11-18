@@ -155,9 +155,9 @@ void Level_Init()
 	// Initialize player stats
 	player.width = 60.0f;
 	player.height = 60.0f;
-	player.moveSpeed = 250.0f;
+	player.moveSpeed = 200.0f;
 	//player.fallSpeed = 700.0f;
-	player.jumpHeight = 200.0f;
+	player.jumpHeight = 150.0f;
 	player.jumpSpeed = 20.0f;
 	player.alive = TRUE;
 	player.isColliding = FALSE;
@@ -225,7 +225,7 @@ void Level_Init()
 	
 	stat_plat[7].pos_x = 1570.f;
 	stat_plat[7].pos_y = 630.f;
-	stat_plat[7].width = 150.f;
+	stat_plat[7].width = 200.f;
 	stat_plat[7].height = 30.f;
 	stat_plat[7].rotation = 0.f;
 	
@@ -342,7 +342,7 @@ void Level_Init()
 	move_plat[3].distance = 100.f;
 	move_plat[3].limit = 630.f; // Follows value from pos_x for left/right and pos_y for up/down
 
-	move_plat[4].pos_x = 200.f;
+	move_plat[4].pos_x = 180.f;
 	move_plat[4].pos_y = 260.f;
 	move_plat[4].width = 100.f;
 	move_plat[4].height = 30.f;
@@ -351,7 +351,7 @@ void Level_Init()
 	move_plat[4].movement = RIGHT;
 	move_plat[4].speed = PLAT_SPEED;
 	move_plat[4].distance = 100.f;
-	move_plat[4].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[4].limit = 180.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[5].pos_x = 850.f;
 	move_plat[5].pos_y = 260.f;
@@ -784,12 +784,12 @@ void Level_Update()
 			}
 
 			//player.posX += jump_vec_scaled.x * currentElapsedTime;
-			/*if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
+			if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
 				player.posX -= player.moveSpeed * currentElapsedTime;
 			}
 			if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 				player.posX += player.moveSpeed * currentElapsedTime;
-			}*/
+			}
 			
 			//player.posY -= jumpVec_scaled.y * currentElapsedTime;
 			player.posY -= jumpVec_scaled.y * jump_totalElapsedTime;
@@ -990,7 +990,7 @@ void Level_Update()
 		}
 
 		//player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
-		player.posY += jumpVec_scaled.y * fall_totalElapsedTime * 1.0;
+		player.posY += jumpVec_scaled.y * fall_totalElapsedTime;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
 
