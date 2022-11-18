@@ -542,7 +542,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("5 qns left", width / 9, height / 1.15);
+			CP_Font_DrawText("5 qns left", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -616,7 +616,7 @@ void Quiz_Update()
 			CP_Font_DrawText("q2)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      ", width / 2, height / 4);
 			CP_Font_DrawText(TrueFalse_x2, width / 1.9, height / 4);
-			CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(" Does      x + 3 equal to       ?", width / 2, height / 3);
 			CP_Font_DrawText(TrueFalse_y2, width / 2.4, height / 3);
 			CP_Font_DrawText(TrueFalseans2, width / 1.55, height / 3);
 
@@ -631,7 +631,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("4 qns left", width / 9, height / 1.15);
+			CP_Font_DrawText("4 qns left", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -703,7 +703,7 @@ void Quiz_Update()
 			CP_Font_DrawText("q3)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      ", width / 2, height / 4);
 			CP_Font_DrawText(TrueFalse_x3, width / 1.9, height / 4);
-			CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(" Does      x + 3 equal to       ?", width / 2, height / 3);
 			CP_Font_DrawText(TrueFalse_y3, width / 2.4, height / 3);
 			CP_Font_DrawText(TrueFalseans3, width / 1.55, height / 3);
 
@@ -718,8 +718,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("3 qns left ", width / 9, height / 1.15);
-			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("3 qns left ", width / 9, height / 1.17);
+			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -794,7 +794,7 @@ void Quiz_Update()
 			CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
 			CP_Font_DrawText(TrueFalse_x4, width / 2.1, height / 4);
 			CP_Font_DrawText(TrueFalse_y4, width / 1.6, height / 4);
-			CP_Font_DrawText(" Does x times y equals to       ?", width / 1.9, height / 3);
+			CP_Font_DrawText(" Does x times y equal to       ?", width / 1.9, height / 3);
 			CP_Font_DrawText(TrueFalseans4, width / 1.48, height / 3);
 
 			CP_Settings_Fill(red);
@@ -808,8 +808,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("2 qns left ", width / 9, height / 1.15);
-			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("2 qns left ", width / 9, height / 1.17);
+			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -881,7 +881,7 @@ void Quiz_Update()
 			CP_Font_DrawText("q5)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      ", width / 2, height / 4);
 			CP_Font_DrawText(TrueFalse_x5, width / 1.9, height / 4);
-			CP_Font_DrawText(" Does      x - 5 equals to       ?", width / 2, height / 3);
+			CP_Font_DrawText(" Does      x - 5 equal to       ?", width / 2, height / 3);
 			CP_Font_DrawText(TrueFalse_y5, width / 2.4, height / 3);
 			CP_Font_DrawText(TrueFalseans5, width / 1.55, height / 3);
 
@@ -896,8 +896,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("1 qns left ", width / 9, height / 1.15);
-			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("1 qns left ", width / 9, height / 1.17);
+			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -962,14 +962,15 @@ void Quiz_Update()
 			{
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(white);
-				CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 2);
-				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
-				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
-				CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
-				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Font_DrawText("You have failed the quiz", width / 1.9, height / 4.5);
+				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
 				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
 					if (IsAreaClicked(width / 1.2, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
@@ -984,14 +985,15 @@ void Quiz_Update()
 			{
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(white);
-				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 2);
-				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
-				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
+				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 4.5);
+				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
 			if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 			{
@@ -1051,13 +1053,13 @@ void Quiz_Update()
 
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
-			CP_Font_DrawText("q6)", width / 3, height / 4);
+			CP_Font_DrawText("q1)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice1_xvalue, width / 2.1, height / 4);
 			CP_Font_DrawText(multiplechoice1_yvalue, width / 1.63, height / 4);
-			CP_Font_DrawText("What does    x +   y equals to  ?", width / 2, height / 3);
+			CP_Font_DrawText("What does    x +   y equal to  ?", width / 2, height / 3);
 			CP_Font_DrawText(multiplechoice1_xconstant, width / 2.165, height / 3);
-			CP_Font_DrawText(multiplechoice1_yconstant, width / 1.95, height / 3);
+			CP_Font_DrawText(multiplechoice1_yconstant, width / 1.9, height / 3);
 
 
 			CP_Settings_Fill(CP_Color_Create(198,9,41,255)); // red
@@ -1078,7 +1080,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("5 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 
@@ -1156,13 +1159,13 @@ void Quiz_Update()
 
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
-			CP_Font_DrawText("q7)", width / 3, height / 4);
+			CP_Font_DrawText("q2)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice2_xvalue, width / 2.1, height / 4);
 			CP_Font_DrawText(multiplechoice2_yvalue, width / 1.63, height / 4);
-			CP_Font_DrawText("What does    x +   y equals to  ?", width / 2, height / 3);
+			CP_Font_DrawText("What does    x +   y equal to  ?", width / 2, height / 3);
 			CP_Font_DrawText(multiplechoice2_xconstant, width / 2.165, height / 3);
-			CP_Font_DrawText(multiplechoice2_yconstant, width / 1.95, height / 3);
+			CP_Font_DrawText(multiplechoice2_yconstant, width / 1.9, height / 3);
 
 			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
@@ -1182,7 +1185,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("4 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 
@@ -1259,13 +1263,13 @@ void Quiz_Update()
 
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
-			CP_Font_DrawText("q8)", width / 3, height / 4);
+			CP_Font_DrawText("q3)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice3_xvalue, width / 2.1, height / 4);
 			CP_Font_DrawText(multiplechoice3_yvalue, width / 1.63, height / 4);
-			CP_Font_DrawText("What does    x -   y equals to  ?", width / 2, height / 3);
+			CP_Font_DrawText("What does    x -   y equal to  ?", width / 2, height / 3);
 			CP_Font_DrawText(multiplechoice3_xconstant, width / 2.165, height / 3);
-			CP_Font_DrawText(multiplechoice3_yconstant, width / 1.95, height / 3);
+			CP_Font_DrawText(multiplechoice3_yconstant, width / 1.9, height / 3);
 
 
 			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
@@ -1286,7 +1290,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("3 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 
@@ -1364,13 +1369,13 @@ void Quiz_Update()
 
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
-			CP_Font_DrawText("q9)", width / 3, height / 4);
+			CP_Font_DrawText("q2)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice4_xvalue, width / 2.1, height / 4);
 			CP_Font_DrawText(multiplechoice4_yvalue, width / 1.63, height / 4);
-			CP_Font_DrawText("What does    x -   y equals to  ?", width / 2, height / 3);
+			CP_Font_DrawText("What does    x -   y equal to  ?", width / 2, height / 3);
 			CP_Font_DrawText(multiplechoice4_xconstant, width / 2.165, height / 3);
-			CP_Font_DrawText(multiplechoice4_yconstant, width / 1.95, height / 3);
+			CP_Font_DrawText(multiplechoice4_yconstant, width / 1.9, height / 3);
 
 
 			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
@@ -1390,7 +1395,8 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("2 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 
@@ -1470,8 +1476,8 @@ void Quiz_Update()
 			CP_Font_DrawText("q10)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice5_xvalue, width / 2.1, height / 4);
-			CP_Font_DrawText(multiplechoice5_yvalue, width / 1.63, height / 4);
-			CP_Font_DrawText("What does x times y equals to  ?", width / 2, height / 3);
+			CP_Font_DrawText(multiplechoice5_yvalue, width / 1.6, height / 4);
+			CP_Font_DrawText("What does x times y equal to  ?", width / 2, height / 3);
 
 			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
@@ -1490,9 +1496,9 @@ void Quiz_Update()
 
 
 			CP_Settings_Fill(white);
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("1 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 
@@ -1576,14 +1582,15 @@ void Quiz_Update()
 
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(white);
-				CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 2);
-				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
-				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
-				CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
-				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 4.5);
+				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
 				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
 					if (IsAreaClicked(width / 1.2, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
@@ -1604,9 +1611,9 @@ void Quiz_Update()
 				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
 				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
 				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
-				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Settings_Fill(green);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
-				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Settings_Fill(white);
 				CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
 				if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 				{
@@ -1663,12 +1670,12 @@ void Quiz_Update()
 
 				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
-				CP_Font_DrawText("q11)", width / 3, height / 4);
+				CP_Font_DrawText("q1)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice6_xvalue, width / 1.9, height / 4);
-				CP_Font_DrawText("What does    x +    equals to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice6_xconstant, width / 2.165, height / 3);
-				CP_Font_DrawText(multiplechoice6_yconstant, width / 1.9, height / 3);
+				CP_Font_DrawText("What does    x +    equal to  ?", width / 2, height / 3);
+				CP_Font_DrawText(multiplechoice6_xconstant, width / 2.15, height / 3);
+				CP_Font_DrawText(multiplechoice6_yconstant, width / 1.85, height / 3);
 
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
@@ -1689,7 +1696,8 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+				CP_Font_DrawText("5 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
 
@@ -1763,12 +1771,12 @@ void Quiz_Update()
 
 				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
-				CP_Font_DrawText("q12)", width / 3, height / 4);
+				CP_Font_DrawText("q2)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice7_xvalue, width / 1.9, height / 4);
-				CP_Font_DrawText("What does    x -    equals to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice7_xconstant, width / 2.165, height / 3);
-				CP_Font_DrawText(multiplechoice7_yconstant, width / 1.9, height / 3);
+				CP_Font_DrawText("What does    x -    equal to  ?", width / 2, height / 3);
+				CP_Font_DrawText(multiplechoice7_xconstant, width / 2.15, height / 3);
+				CP_Font_DrawText(multiplechoice7_yconstant, width / 1.85, height / 3);
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
@@ -1788,7 +1796,8 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+				CP_Font_DrawText("4 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
 
@@ -1864,12 +1873,12 @@ void Quiz_Update()
 
 				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
-				CP_Font_DrawText("q13)", width / 3, height / 4);
+				CP_Font_DrawText("q3)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice8_xvalue, width / 1.9, height / 4);
-				CP_Font_DrawText("What does    x +    equals to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice8_xconstant, width / 2.165, height / 3);
-				CP_Font_DrawText(multiplechoice8_yconstant, width / 1.9, height / 3);
+				CP_Font_DrawText("What does    x +    equal to  ?", width / 2, height / 3);
+				CP_Font_DrawText(multiplechoice8_xconstant, width / 2.15, height / 3);
+				CP_Font_DrawText(multiplechoice8_yconstant, width / 1.85, height / 3);
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
@@ -1888,7 +1897,8 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+				CP_Font_DrawText("3 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
 
@@ -1962,12 +1972,12 @@ void Quiz_Update()
 
 				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
-				CP_Font_DrawText("q14)", width / 3, height / 4);
+				CP_Font_DrawText("q4)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice9_xvalue, width / 1.9, height / 4);
-				CP_Font_DrawText("What does    x times    equals to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice9_xconstant, width / 2.3, height / 3);
-				CP_Font_DrawText(multiplechoice9_yconstant, width / 1.8, height / 3);
+				CP_Font_DrawText("What does    x times    equal to  ?", width / 2, height / 3);
+				CP_Font_DrawText(multiplechoice9_xconstant, width / 2.25, height / 3);
+				CP_Font_DrawText(multiplechoice9_yconstant, width / 1.75, height / 3);
 
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
@@ -1988,7 +1998,8 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+				CP_Font_DrawText("2 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
 
@@ -2068,7 +2079,7 @@ void Quiz_Update()
 				CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice10_xvalue, width / 2.1, height / 4);
 				CP_Font_DrawText(multiplechoice10_yvalue, width / 1.63, height / 4);
-				CP_Font_DrawText("What does x times y equals to  ?", width / 2, height / 3);
+				CP_Font_DrawText("What does x times y equal to  ?", width / 2, height / 3);
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
@@ -2087,7 +2098,8 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
+				CP_Font_DrawText("1 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
 
@@ -2172,14 +2184,15 @@ void Quiz_Update()
 
 					CP_Graphics_ClearBackground(blue);
 					CP_Settings_Fill(white);
-					CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 2);
-					CP_Font_DrawText("Total score:", width / 2, height / 3.5);
-					CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
-					CP_Font_DrawText("Total qns correct:", width / 2, height / 4);
-					CP_Font_DrawText(totalscore2, width / 1.55, height / 4);
-					CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
-					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+					CP_Font_DrawText("You have failed the quiz", width / 1.9, height / 4.5);
+					CP_Font_DrawText("Total score:", width / 2, height / 2.5);
+					CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
+					CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
+					CP_Font_DrawText(totalscore2, width / 1.55, height / 2);
+					CP_Settings_Fill(red);
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
+					CP_Settings_Fill(white);
+					CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
 					if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 					{
 						if (IsAreaClicked(width / 1.2, height / 1.1f, 500.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
@@ -2194,14 +2207,14 @@ void Quiz_Update()
 				{
 					CP_Graphics_ClearBackground(blue);
 					CP_Settings_Fill(white);
-					CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 2);
-					CP_Font_DrawText("Total score:", width / 2, height / 3.5);
-					CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
-					CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
-					CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
-					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+					CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 4.5);
+					CP_Font_DrawText("Total score:", width / 2, height / 2.5);
+					CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
+					CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
+					CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+					CP_Settings_Fill(green);
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
-					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+					CP_Settings_Fill(white);
 					CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
 					if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT))
 					{
