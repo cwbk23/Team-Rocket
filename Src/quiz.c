@@ -2211,7 +2211,7 @@ void Quiz_Update()
 					CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 					CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
 					CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-					CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+					CP_Font_DrawText(totalscore2, width / 1.55, height / 2);
 					CP_Settings_Fill(green);
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 					CP_Settings_Fill(white);
