@@ -525,8 +525,8 @@ void Level_Init()
 	{
 		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + (shooting_enemies[i].width / 2.5);
-			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + (shooting_enemies[i].height / 2.5);
+			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + (shooting_enemies[i].width / 2.4);
+			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + (shooting_enemies[i].height / 2.4);
 
 			bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
 			bullet[i][j].bullet_y = bullet[i][j].bullet_startY;
@@ -1366,15 +1366,15 @@ void Level_Update()
 	// DRAWING OF THE SHOOTING ENEMIES
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
-		CP_Settings_Fill(color_grey);
-		CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height);
+		//CP_Settings_Fill(color_grey);
+		//CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width , shooting_enemies[i].height);
 		if (shooting_enemies[i].enemy_direction == _toleft)
 		{
-			CP_Image_Draw(TurretLeft, shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height, 255);
+			CP_Image_Draw(TurretLeft, shooting_enemies[i].x_position - 10.f, shooting_enemies[i].y_position - 10.f, shooting_enemies[i].width + 20.f, shooting_enemies[i].height + 20.f, 255);
 		}
 		if (shooting_enemies[i].enemy_direction == _toright)
 		{
-			CP_Image_Draw(TurretRight, shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height, 255);
+			CP_Image_Draw(TurretRight, shooting_enemies[i].x_position - 10.f, shooting_enemies[i].y_position - 10.f, shooting_enemies[i].width + 20.f, shooting_enemies[i].height + 20.f, 255);
 		}
 	}
 
