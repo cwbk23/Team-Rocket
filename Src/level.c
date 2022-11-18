@@ -486,18 +486,18 @@ void Level_Init()
 	}
 
 	// INITIALIZE BOMB ENEMY VARIABLES
-	bomb_enemies[0].width = 45.f; bomb_enemies[1].width = 45.f; bomb_enemies[2].width = 0.f;
-	bomb_enemies[0].height = 45.f; bomb_enemies[1].height = 45.f; bomb_enemies[2].height = 0.f;
+	bomb_enemies[0].width = 45.f; bomb_enemies[1].width = 45.f; bomb_enemies[2].width = 45.f;
+	bomb_enemies[0].height = 45.f; bomb_enemies[1].height = 45.f; bomb_enemies[2].height = 45.f;
 
 	bomb_enemies[0].x_position = stat_plat[1].pos_x + (stat_plat[1].width / 2) - (bomb_enemies[0].width / 2);
 	bomb_enemies[1].x_position = stat_plat[9].pos_x + (stat_plat[9].width / 2) - (bomb_enemies[1].width / 2);
-	bomb_enemies[2].x_position = -1;//stat_plat[1].pos_x + (stat_plat[1].width / 2);
+	bomb_enemies[2].x_position = stat_plat[13].pos_x + (stat_plat[13].width / 2) - (bomb_enemies[2].width / 2);
 
 	bomb_enemies[0].y_position = stat_plat[1].pos_y - bomb_enemies[0].height;
 	bomb_enemies[1].y_position = stat_plat[9].pos_y - bomb_enemies[1].height;
-	bomb_enemies[2].y_position = -1;//stat_plat[1].pos_y - bomb_enemies[1].height;
+	bomb_enemies[2].y_position = stat_plat[13].pos_y - bomb_enemies[2].height;
 	
-	bomb_enemies[0].enemy_draw = TRUE; bomb_enemies[1].enemy_draw = TRUE; bomb_enemies[2].enemy_draw = FALSE;
+	bomb_enemies[0].enemy_draw = TRUE; bomb_enemies[1].enemy_draw = TRUE; bomb_enemies[2].enemy_draw = TRUE;
 
 	for (int i = 0; i < BOMB_ENEMY_SIZE; ++i)
 	{
