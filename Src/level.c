@@ -458,32 +458,33 @@ void Level_Init()
 	BulletRight = CP_Image_Load("./Assets/bullet_right.png");
 
 	// INITIALIZE MOVING ENEMY VARIABLES
-	mov_enemies[0].width = 45.f; mov_enemies[1].width = 45.f; mov_enemies[2].width = 0.f;
-	mov_enemies[0].height = 45.f; mov_enemies[1].height = 45.f; mov_enemies[2].height = 0.f;
+	mov_enemies[0].width = 45.f; mov_enemies[1].width = 45.f; mov_enemies[2].width = 45.f;
+	mov_enemies[0].height = 45.f; mov_enemies[1].height = 45.f; mov_enemies[2].height = 45.f;
 
 	mov_enemies[0].enemy_distance = stat_plat[3].width / 2;
 	mov_enemies[1].enemy_distance = stat_plat[8].width / 2;
-	mov_enemies[2].enemy_distance = stat_plat[5].width / 2;
+	mov_enemies[2].enemy_distance = stat_plat[15].width / 2;
 
-	mov_enemies[0].enemy_speed = 150.f; mov_enemies[1].enemy_speed = 100.f; mov_enemies[2].enemy_speed = 50.f;
+	mov_enemies[0].enemy_speed = 150.f; mov_enemies[1].enemy_speed = 100.f; mov_enemies[2].enemy_speed = 100.f;
 
 	mov_enemies[0].x_position = stat_plat[3].pos_x + (stat_plat[3].width / 2);
 	mov_enemies[1].x_position = stat_plat[8].pos_x + (stat_plat[8].width / 2);
-	mov_enemies[2].x_position = -1;
+	mov_enemies[2].x_position = stat_plat[15].pos_x + (stat_plat[15].width / 2);
 
 	mov_enemies[0].y_position = stat_plat[3].pos_y - mov_enemies[0].height;
 	mov_enemies[1].y_position = stat_plat[8].pos_y - mov_enemies[1].height;
-	mov_enemies[2].y_position = -1;
+	mov_enemies[2].y_position = stat_plat[15].pos_y - mov_enemies[2].height;
 
 	mov_enemies[0].enemy_direction = _toright; 
 	mov_enemies[1].enemy_direction = _toleft; 
-	//mov_enemies[2].enemy_direction = _toleft;
+	mov_enemies[2].enemy_direction = _toleft;
 	
 	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i)
 	{
 		mov_enemies[i].max_x = (mov_enemies[i].enemy_distance + mov_enemies[i].x_position) - mov_enemies[i].width;
 		mov_enemies[i].min_x = mov_enemies[i].x_position - mov_enemies[i].enemy_distance;
 	}
+	mov_enemies[2].min_x += blocker_plat[2].height;
 
 	// INITIALIZE BOMB ENEMY VARIABLES
 	bomb_enemies[0].width = 45.f; bomb_enemies[1].width = 45.f; bomb_enemies[2].width = 45.f;
