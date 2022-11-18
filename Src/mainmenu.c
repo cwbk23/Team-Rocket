@@ -42,12 +42,6 @@ void Main_Menu_Update()
 	CP_Settings_TextSize(150.0f);
 	CP_Font_DrawText("MATH RUN", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) - 250.0f);
 
-	// QUIZ TEST BUTTON
-	CP_Graphics_DrawRect(100.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f);
-	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
-	CP_Settings_TextSize(25.0f);
-	CP_Font_DrawText("Test quiz", 100.0f, CP_System_GetWindowHeight() / 2.0f);
-
 	// Check for mouse left click
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
@@ -60,11 +54,6 @@ void Main_Menu_Update()
 		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_SetNextGameState(Credits_Init, Credits_Update, Credits_Exit);
-		}
-		// QUIZ TEST button
-		else if (IsAreaClicked(100.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
-
-			CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
 		}
 		// Exit game
 		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {

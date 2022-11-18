@@ -26,9 +26,12 @@
 // Player character models
 CP_Image player_stand_right;
 CP_Image player_stand_left;
+//CP_Image player_walk1_right;
+//CP_Image player_walk2_right;
 CP_Image player_jump_right;
 CP_Image player_jump_left;
-CP_Image player_down;
+CP_Image player_down_left;
+CP_Image player_down_right;
 
 // Player lives heart icons
 CP_Image heart_full;
@@ -167,9 +170,12 @@ void Level_Init()
 
 	player_stand_left = CP_Image_Load("Assets/player_stand_left.png");
 	player_stand_right = CP_Image_Load("Assets/player_stand_right.png");
+	/*player_walk1_right = CP_Image_Load("Assets/player_walk1_right.png");
+	player_walk2_right = CP_Image_Load("Assets/player_walk2_right.png");*/
 	player_jump_left = CP_Image_Load("Assets/player_jump_left.png");
 	player_jump_right = CP_Image_Load("Assets/player_jump_right.png");
-	player_down = CP_Image_Load("Assets/player_down.png");
+	player_down_left = CP_Image_Load("Assets/player_down_left.png");
+	player_down_right = CP_Image_Load("Assets/player_down_right.png");
 
 	
 	///////////////  KENNY  //////////////////
@@ -621,7 +627,13 @@ void Level_Update()
 			player_transparency = 0;
 		}
 		
-		CP_Image_Draw(player_down, player.posX, player.posY - 5.0f, player.width + 5.0f, player.height + 5.0f, player_transparency);
+		// Draw player down model
+		if (player_model_state == 'R') {
+			CP_Image_Draw(player_down_right, player.posX, player.posY - 5.0f, player.width + 5.0f, player.height + 5.0f, player_transparency);
+		}
+		else if (player_model_state == 'L') {
+			CP_Image_Draw(player_down_left, player.posX, player.posY - 5.0f, player.width + 5.0f, player.height + 5.0f, player_transparency);
+		}
 
 		player.blockLeft = TRUE;
 		player.blockRight = TRUE;
@@ -635,6 +647,7 @@ void Level_Update()
 		CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
 		CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);*/
 
+		// Draw player standing model
 		if (player.isColliding) {
 			if (player_model_state == 'R') {
 				CP_Image_Draw(player_stand_right, player.posX, player.posY, player.width, player.height, player_transparency);
@@ -643,6 +656,7 @@ void Level_Update()
 				CP_Image_Draw(player_stand_left, player.posX, player.posY, player.width, player.height, player_transparency);
 			}
 		}
+		// Draw player jumping model
 		else {
 			if (player_model_state == 'R') {
 				CP_Image_Draw(player_jump_right, player.posX, player.posY, player.width + 10.0f, player.height + 10.0f, player_transparency);
@@ -677,14 +691,31 @@ void Level_Update()
 	sprintf_s(currentScoreStr, 50, "Current Score: %d", quiz_score);
 	CP_Font_DrawText(currentScoreStr, CP_System_GetWindowWidth() - 170.0f, 30.0f);
 
+	//static float playerAnim_totalElapsedTime = 0;
+
 	// Player left/right controls
 	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
 		player.posX -= player.moveSpeed * currentElapsedTime;
 		player_model_state = 'L';
 	}
+
 	if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
 		player_model_state = 'R';
+
+		/*if (player.isColliding) {
+			if (playerAnim_totalElapsedTime < 0.5) {
+				CP_Image_Draw(player_walk1_right, player.posX, player.posY, player.width, player.height, player_transparency);
+			}
+			else if (playerAnim_totalElapsedTime < 1.0) {
+				CP_Image_Draw(player_walk2_right, player.posX, player.posY, player.width, player.height, player_transparency);
+			}
+			else {
+				playerAnim_totalElapsedTime = 0;
+			}
+
+			playerAnim_totalElapsedTime += currentElapsedTime;
+		}*/
 	}
 
 	// Jump speed deceleration based on time
@@ -1396,7 +1427,8 @@ void Level_Exit()
 	CP_Image_Free(&player_stand_left);
 	CP_Image_Free(&player_jump_right);
 	CP_Image_Free(&player_jump_left);
-	CP_Image_Free(&player_down);
+	CP_Image_Free(&player_down_left);
+	CP_Image_Free(&player_down_right);
 
 	///////////////////// KENNY /////////////////////
 	CP_Image_Free(&CPoint);
