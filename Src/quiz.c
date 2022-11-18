@@ -542,7 +542,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("5 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("5 questions left", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -606,7 +606,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 
@@ -631,7 +631,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("4 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("4 questions left", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -695,7 +695,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
@@ -718,7 +718,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("3 qns left ", width / 9, height / 1.17);
+			CP_Font_DrawText("3 questions left ", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -784,7 +784,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
@@ -808,7 +808,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("2 qns left ", width / 9, height / 1.17);
+			CP_Font_DrawText("2 questions left ", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -872,7 +872,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
@@ -896,7 +896,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("1 qns left ", width / 9, height / 1.17);
+			CP_Font_DrawText("1 question left ", width / 9, height / 1.17);
 			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -956,7 +956,8 @@ void Quiz_Update()
 			timercounter = false;
 			if (totalElapsedTime <= 0)
 			{
-				CP_Font_DrawText("TIMES UP !", width / 2, height / 5.5);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText("TIMES UP !", width /1.9, height / 3.5 );
 			}
 			if (counter <= 2)
 			{
@@ -965,8 +966,8 @@ void Quiz_Update()
 				CP_Font_DrawText("You have failed the quiz", width / 1.9, height / 4.5);
 				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+				CP_Font_DrawText("Total questions correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.35, height / 2);
 				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(white);
@@ -988,8 +989,8 @@ void Quiz_Update()
 				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 4.5);
 				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+				CP_Font_DrawText("Total questions correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.35, height / 2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
@@ -1080,7 +1081,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("5 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("5 questions left", width / 9, height / 1.17);
 			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -1154,7 +1155,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
@@ -1185,7 +1186,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("4 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("4 questions left", width / 9, height / 1.17);
 			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -1258,7 +1259,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
@@ -1290,7 +1291,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("3 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("3 questions left", width / 9, height / 1.17);
 			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -1364,12 +1365,12 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
-			CP_Font_DrawText("q2)", width / 3, height / 4);
+			CP_Font_DrawText("q4)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice4_xvalue, width / 2.1, height / 4);
 			CP_Font_DrawText(multiplechoice4_yvalue, width / 1.63, height / 4);
@@ -1395,7 +1396,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("2 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("2 questions left", width / 9, height / 1.17);
 			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -1468,7 +1469,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			CP_Settings_Fill(black);
@@ -1497,7 +1498,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("1 qns left", width / 9, height / 1.17);
+			CP_Font_DrawText("1 question left", width / 9, height / 1.17);
 			CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -1573,7 +1574,8 @@ void Quiz_Update()
 
 			if (totalElapsedTime <= 0)
 			{
-				CP_Font_DrawText("TIMES UP !", width / 2, height / 5.5);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText("TIMES UP !", width / 1.9, height / 3.5);
 			}
 
 
@@ -1582,11 +1584,11 @@ void Quiz_Update()
 
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(white);
-				CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 4.5);
+				CP_Font_DrawText("You have failed the quiz", width / 1.9, height / 4.5);
 				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+				CP_Font_DrawText("Total questions correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.35, height / 2);
 				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(white);
@@ -1609,8 +1611,8 @@ void Quiz_Update()
 				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 4.5);
 				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
+				CP_Font_DrawText("Total questions correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.35, height / 2);
 				CP_Settings_Fill(green);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(white);
@@ -1696,7 +1698,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("5 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("5 questions left", width / 9, height / 1.17);
 				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
@@ -1766,7 +1768,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("Current score :", width / 9, height / 8);
+				CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 				CP_Settings_Fill(black);
@@ -1796,7 +1798,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("4 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("4 questions left", width / 9, height / 1.17);
 				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
@@ -1868,7 +1870,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("Current score :", width / 9, height / 8);
+				CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 				CP_Settings_Fill(black);
@@ -1897,7 +1899,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("3 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("3 questions left", width / 9, height / 1.17);
 				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
@@ -1967,7 +1969,7 @@ void Quiz_Update()
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("Current score :", width / 9, height / 8);
+				CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 				CP_Settings_Fill(black);
@@ -1998,7 +2000,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("2 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("2 questions left", width / 9, height / 1.17);
 				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
@@ -2070,7 +2072,7 @@ void Quiz_Update()
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("Current score :", width / 9, height / 8);
+				CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 				CP_Settings_Fill(black);
@@ -2098,7 +2100,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("1 qns left", width / 9, height / 1.17);
+				CP_Font_DrawText("1 question left", width / 9, height / 1.17);
 				CP_Font_DrawText("20 marks each", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
 
@@ -2176,7 +2178,8 @@ void Quiz_Update()
 
 				if (totalElapsedTime <= 0)
 				{
-					CP_Font_DrawText("TIMES UP !", width / 2, height / 5.5);
+					CP_Settings_Fill(white);
+					CP_Font_DrawText("TIMES UP !", width / 1.9, height / 3.5);
 				}
 
 				if (counter2 < 3)
@@ -2187,8 +2190,8 @@ void Quiz_Update()
 					CP_Font_DrawText("You have failed the quiz", width / 1.9, height / 4.5);
 					CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 					CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
-					CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-					CP_Font_DrawText(totalscore2, width / 1.55, height / 2);
+					CP_Font_DrawText("Total questions correct:", width / 2, height / 2);
+					CP_Font_DrawText(totalscore2, width / 1.35, height / 2);
 					CP_Settings_Fill(red);
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 					CP_Settings_Fill(white);
@@ -2210,8 +2213,8 @@ void Quiz_Update()
 					CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 4.5);
 					CP_Font_DrawText("Total score:", width / 2, height / 2.5);
 					CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
-					CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
-					CP_Font_DrawText(totalscore2, width / 1.55, height / 2);
+					CP_Font_DrawText("Total questions correct:", width / 2, height / 2);
+					CP_Font_DrawText(totalscore2, width / 1.35, height / 2);
 					CP_Settings_Fill(green);
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 					CP_Settings_Fill(white);
