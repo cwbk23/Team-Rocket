@@ -185,6 +185,9 @@ char multiplechoice10_ans[10] = { 10 };
 
 char OperatorRandom[10] = { 3 };
 char totalscore[10] = { 3 };
+char totalscore1[10] = { 3 };
+char totalscore2[10] = { 3 };
+char totalscore3[10] = { 3 };
 
  int counter ;
  int counter1 ;
@@ -194,12 +197,6 @@ char totalscore[10] = { 3 };
 
 void Quiz_Init()
 {
- //quiz_score ;  
- //counter = 0;
- //counter1 = 0;
- //counter2 = 0;
-
-	 
 	//Setting up the window size
 	CP_Settings_TextSize(70);
 	CP_Settings_RectMode(CP_POSITION_CENTER);
@@ -360,6 +357,9 @@ void Quiz_Init()
 	sprintf_s(multiplechoice10_3, _countof(multiplechoice10_3), "%d", (randommultiple10_xvalue* randommultiple10_xvalue) - randomoperator);
 
 
+	
+
+
 	timercounter = TRUE;
 	timesuppage = FALSE;
 
@@ -454,13 +454,22 @@ void Quiz_Update()
 {
 	float height = (float)CP_System_GetWindowHeight();
 	float width =  (float)CP_System_GetWindowWidth();
+	CP_Color green = (CP_Color_Create(50, 205, 50, 255));
+	CP_Color red = (CP_Color_Create(255, 0, 0, 255));
+	CP_Color blue = (CP_Color_Create(0, 191, 255, 255));
+	CP_Color dark_green = (CP_Color_Create(38, 137, 12, 255));
+	CP_Color white = CP_Color_Create(255, 255, 255, 255);
+	CP_Color black = CP_Color_Create(0, 0, 0, 255);
+		
+
 
 	//Setting the background colour
-	CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
+	CP_Graphics_ClearBackground(blue);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
 	if (timercounter == true)
 	{
+		CP_Settings_Fill(white);
 		CP_Font_DrawText("Timer:     :", width / 1.2, height / 8);
 		float currentElapsedTime = CP_System_GetDt();
 		totalElapsedTime -= currentElapsedTime;
@@ -503,35 +512,38 @@ void Quiz_Update()
 		{	
 			
 			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-			CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
+			CP_Graphics_ClearBackground(blue);
 			int total_score = counter * 10;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
 			//Drawing and setting the start rectangle position
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q1)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y =  ", width / 2, height / 4);
 			CP_Font_DrawText(TrueFalse_x1, width / 2.1, height / 4);
 			CP_Font_DrawText(TrueFalse_y1, width / 1.6, height / 4);
-			CP_Font_DrawText(" Does x and y equals to       ?", width / 1.9, height / 3);
+			CP_Font_DrawText(" Does x and y equal to       ?", width / 1.9, height / 3);
 			CP_Font_DrawText(TrueFalseans1, width / 1.49, height / 3);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(red);
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(" True ", width / 2.6, height / 2);
 			CP_Font_DrawText(" False ", width / 1.5, height / 2);
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("5 qns left", width / 9, height / 1.15);
+			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -551,8 +563,8 @@ void Quiz_Update()
 			}
 			if ((clicked_q1 == TRUE))
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -568,8 +580,8 @@ void Quiz_Update()
 				}
 			} if ((question_1ans == TRUE) && (clicked_q1 == FALSE))
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -591,10 +603,14 @@ void Quiz_Update()
 			int total_score = counter * 10;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			//Drawing and setting the start rectangle position
 			CP_Font_DrawText("q2)", width / 3, height / 4);
@@ -602,21 +618,21 @@ void Quiz_Update()
 			CP_Font_DrawText(TrueFalse_x2, width / 1.9, height / 4);
 			CP_Font_DrawText(" Does      x + 3 equals to       ?", width / 2, height / 3);
 			CP_Font_DrawText(TrueFalse_y2, width / 2.4, height / 3);
-			//CP_Font_DrawText(TrueFalse_x2, width / 2.15, height / 1.6);
 			CP_Font_DrawText(TrueFalseans2, width / 1.55, height / 3);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(red);
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(" True ", width / 2.6, height / 2);
 			CP_Font_DrawText(" False ", width / 1.5, height / 2);
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
+			CP_Font_DrawText("4 qns left", width / 9, height / 1.15);
+			CP_Font_DrawText("10 marks each", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -636,8 +652,8 @@ void Quiz_Update()
 			}
 			if ((clicked_q2 == TRUE))
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -653,8 +669,8 @@ void Quiz_Update()
 				}
 			} if ((question_2ans == TRUE) && (clicked_q2 == FALSE))
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -677,10 +693,12 @@ void Quiz_Update()
 			int total_score = counter * 10;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q3)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      ", width / 2, height / 4);
@@ -689,17 +707,18 @@ void Quiz_Update()
 			CP_Font_DrawText(TrueFalse_y3, width / 2.4, height / 3);
 			CP_Font_DrawText(TrueFalseans3, width / 1.55, height / 3);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(red);
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(" True ", width / 2.6, height / 2);
 			CP_Font_DrawText(" False ", width / 1.5, height / 2);
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
+			CP_Font_DrawText("3 qns left ", width / 9, height / 1.15);
 			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -721,8 +740,8 @@ void Quiz_Update()
 			if ((question_3ans == TRUE))
 			{
 
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -738,8 +757,8 @@ void Quiz_Update()
 				}
 			} if ((clicked_q3 == TRUE))
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -763,10 +782,12 @@ void Quiz_Update()
 			int total_score = counter * 10;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			//Drawing and setting the start rectangle position
 			CP_Font_DrawText("q4)", width / 3, height / 4);
@@ -776,17 +797,18 @@ void Quiz_Update()
 			CP_Font_DrawText(" Does x times y equals to       ?", width / 1.9, height / 3);
 			CP_Font_DrawText(TrueFalseans4, width / 1.48, height / 3);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(red);
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(" True ", width / 2.6, height / 2);
 			CP_Font_DrawText(" False ", width / 1.5, height / 2);
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
+			CP_Font_DrawText("2 qns left ", width / 9, height / 1.15);
 			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -807,8 +829,8 @@ void Quiz_Update()
 			}
 			if ((clicked_q4 == TRUE))
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -824,8 +846,8 @@ void Quiz_Update()
 				}
 			} if ((question_4ans == TRUE) && (clicked_q4 == FALSE))
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -848,10 +870,12 @@ void Quiz_Update()
 			int total_score = counter * 10;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			//Drawing and setting the start rectangle position
 			CP_Font_DrawText("q5)", width / 3, height / 4);
@@ -861,17 +885,18 @@ void Quiz_Update()
 			CP_Font_DrawText(TrueFalse_y5, width / 2.4, height / 3);
 			CP_Font_DrawText(TrueFalseans5, width / 1.55, height / 3);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(red);
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5); // false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(green);
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5); // true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 			CP_Font_DrawText(" True ", width / 2.6, height / 2);
 			CP_Font_DrawText(" False ", width / 1.5, height / 2);
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
+			CP_Font_DrawText("1 qns left ", width / 9, height / 1.15);
 			CP_Font_DrawText("10 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
 
@@ -893,8 +918,8 @@ void Quiz_Update()
 
 			if (clicked_q5 == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 2, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -907,8 +932,8 @@ void Quiz_Update()
 			}
 			if (question_5ans == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -926,6 +951,8 @@ void Quiz_Update()
 
 		if (fail_page == true)
 		{
+
+			sprintf_s(totalscore1, _countof(totalscore1), "%d", (counter));
 			timercounter = false;
 			if (totalElapsedTime <= 0)
 			{
@@ -933,10 +960,13 @@ void Quiz_Update()
 			}
 			if (counter <= 2)
 			{
-				CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
-				CP_Font_DrawText("U HAVE FAIL THE REQUIREMENT", width / 2, height / 4);
-				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+				CP_Graphics_ClearBackground(blue);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 2);
+				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
 				CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
@@ -952,10 +982,14 @@ void Quiz_Update()
 			}
 			else if (counter > 2)
 			{
-				CP_Font_DrawText("U HAVE PASS THE REQUIREMENT", width / 2, height / 4);
-				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
-			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
+				CP_Graphics_ClearBackground(blue);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 2);
+				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
+				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 			CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 			CP_Font_DrawText(" Continue game ", width / 1.2, height / 1.1);
@@ -1010,10 +1044,12 @@ void Quiz_Update()
 			int total_score = (counter1 * 20) ;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
-			CP_Font_DrawText("Current score :", width / 9, height / 8);
+			CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q6)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
@@ -1024,11 +1060,13 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice1_yconstant, width / 1.95, height / 3);
 
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(198,9,41,255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1038,7 +1076,7 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice1_ans, width / 2.6, height / 1.5);
 
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
@@ -1068,8 +1106,8 @@ void Quiz_Update()
 
 			if (clicked_q6 == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1089,8 +1127,8 @@ void Quiz_Update()
 
 			if (question_6ans == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1111,10 +1149,12 @@ void Quiz_Update()
 			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q7)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
@@ -1124,12 +1164,13 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice2_xconstant, width / 2.165, height / 3);
 			CP_Font_DrawText(multiplechoice2_yconstant, width / 1.95, height / 3);
 
-
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1139,7 +1180,7 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice2_ans, width / 2.6, height / 1.5);
 
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
@@ -1169,8 +1210,8 @@ void Quiz_Update()
 
 			if (clicked_q7 == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1186,8 +1227,9 @@ void Quiz_Update()
 			}
 			if (question_7ans == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1210,10 +1252,12 @@ void Quiz_Update()
 			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q8)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
@@ -1224,11 +1268,13 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice3_yconstant, width / 1.95, height / 3);
 
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1238,7 +1284,7 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice3_2, width / 2.6, height / 1.5);
 
 
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
@@ -1268,8 +1314,8 @@ void Quiz_Update()
 
 			if (clicked_q8 == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1285,8 +1331,9 @@ void Quiz_Update()
 			}
 			if (question_8ans == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1310,10 +1357,12 @@ void Quiz_Update()
 			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q9)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
@@ -1324,11 +1373,13 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice4_yconstant, width / 1.95, height / 3);
 
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1337,8 +1388,7 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice4_3, width / 1.5, height / 1.5);
 			CP_Font_DrawText(multiplechoice4_2, width / 2.6, height / 1.5);
 
-
-			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 			CP_Settings_TextSize(70);
@@ -1368,8 +1418,8 @@ void Quiz_Update()
 
 			if (clicked_q9 == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1385,8 +1435,8 @@ void Quiz_Update()
 			}
 			if (question_9ans == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1410,10 +1460,12 @@ void Quiz_Update()
 			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+			CP_Settings_Fill(white);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Current score :", width / 9, height / 8);
 			CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("q10)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
@@ -1421,11 +1473,13 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice5_yvalue, width / 1.63, height / 4);
 			CP_Font_DrawText("What does x times y equals to  ?", width / 2, height / 3);
 
-			CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 			CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-			CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+			CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+			CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 			CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 			CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1435,6 +1489,7 @@ void Quiz_Update()
 			CP_Font_DrawText(multiplechoice5_2, width / 2.6, height / 1.5);
 
 
+			CP_Settings_Fill(white);
 			CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
@@ -1465,8 +1520,8 @@ void Quiz_Update()
 
 			if (clicked_q10 == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-				CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(dark_green);
+				CP_Font_DrawText(" Answer is correct ! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1482,8 +1537,8 @@ void Quiz_Update()
 			}
 			if (question_10ans == TRUE)
 			{
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-				CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+				CP_Settings_Fill(red);
+				CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1504,9 +1559,11 @@ void Quiz_Update()
 
 		if (fail_page1 == TRUE)
 		{
+
 			timercounter = false;
 			int total_score = (counter1 * 20);
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+			sprintf_s(totalscore1, _countof(totalscore1), "%d", (counter1));
 
 			if (totalElapsedTime <= 0)
 			{
@@ -1517,10 +1574,13 @@ void Quiz_Update()
 			if (counter1 < 3)
 			{
 
-				CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
-				CP_Font_DrawText("U HAVE FAIL THE REQUIREMENT", width / 2, height / 4);
-				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+				CP_Graphics_ClearBackground(blue);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 2);
+				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
 				CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
@@ -1536,9 +1596,14 @@ void Quiz_Update()
 			}
 			else if (counter1 >= 3)
 			{
-				CP_Font_DrawText("U HAVE PASS THE REQUIREMENT", width / 2, height / 4);
-				CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-				CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+
+				CP_Graphics_ClearBackground(blue);
+				CP_Settings_Fill(white);
+				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 2);
+				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1591,10 +1656,12 @@ void Quiz_Update()
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
-				CP_Font_DrawText("Current score :", width / 9, height / 8);
+				CP_Font_DrawText("Quiz score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
 				CP_Font_DrawText("q11)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
@@ -1604,11 +1671,13 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice6_yconstant, width / 1.9, height / 3);
 
 
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1618,7 +1687,7 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice6_ans, width / 2.6, height / 1.5);
 
 
-				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
@@ -1648,8 +1717,8 @@ void Quiz_Update()
 
 				if (clicked_q11 == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(dark_green);
+					CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1665,8 +1734,8 @@ void Quiz_Update()
 				}
 				if (question_11ans == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-					CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(red);
+					CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1687,10 +1756,12 @@ void Quiz_Update()
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("Current score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
 				CP_Font_DrawText("q12)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
@@ -1699,12 +1770,13 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice7_xconstant, width / 2.165, height / 3);
 				CP_Font_DrawText(multiplechoice7_yconstant, width / 1.9, height / 3);
 
-
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1714,7 +1786,7 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice7_1, width / 2.6, height / 1.5);
 
 
-				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
@@ -1744,8 +1816,8 @@ void Quiz_Update()
 
 				if (clicked_q12 == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(dark_green);
+					CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1761,8 +1833,8 @@ void Quiz_Update()
 				}
 				if (question_12ans == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-					CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(red);
+					CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1785,12 +1857,12 @@ void Quiz_Update()
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
-				CP_Settings_TextSize(50);
-
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("Current score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
 				CP_Font_DrawText("q13)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
@@ -1799,11 +1871,13 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice8_xconstant, width / 2.165, height / 3);
 				CP_Font_DrawText(multiplechoice8_yconstant, width / 1.9, height / 3);
 
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1812,8 +1886,7 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice8_3, width / 1.5, height / 1.5);
 				CP_Font_DrawText(multiplechoice8_2, width / 2.6, height / 1.5);
 
-
-				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
@@ -1843,8 +1916,8 @@ void Quiz_Update()
 
 				if (clicked_q13 == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(dark_green);
+					CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1860,8 +1933,8 @@ void Quiz_Update()
 				}
 				if (question_13ans == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-					CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(red);
+					CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1882,11 +1955,12 @@ void Quiz_Update()
 			{
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("Current score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
 				CP_Font_DrawText("q14)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
@@ -1896,11 +1970,13 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice9_yconstant, width / 1.8, height / 3);
 
 
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -1910,7 +1986,7 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice9_2, width / 2.6, height / 1.5);
 
 
-				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
@@ -1940,8 +2016,8 @@ void Quiz_Update()
 
 				if (clicked_q14 == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(dark_green);
+					CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1957,8 +2033,9 @@ void Quiz_Update()
 				}
 				if (question_14ans == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-					CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+
+					CP_Settings_Fill(red);
+					CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.1, height / 1.1, 200, 100, 0, 5);
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -1980,11 +2057,12 @@ void Quiz_Update()
 			{
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("Current score :", width / 9, height / 8);
 				CP_Font_DrawText(totalscore, width / 5, height / 8);
 
+				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
 				CP_Font_DrawText("q15)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
@@ -1992,11 +2070,13 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice10_yvalue, width / 1.63, height / 4);
 				CP_Font_DrawText("What does x times y equals to  ?", width / 2, height / 3);
 
-				CP_Settings_Fill(CP_Color_Create(255, 0, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(5, 66, 185, 255)); // blue
 				CP_Graphics_DrawRectAdvanced(width / 1.5, height / 1.5, 200, 100, 0, 5);// false button
-				CP_Settings_Fill(CP_Color_Create(0, 255, 0, 50));
+				CP_Settings_Fill(CP_Color_Create(216, 158, 0, 255)); // yellow
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 2, 200, 100, 0, 5);
+				CP_Settings_Fill(CP_Color_Create(38, 137, 12, 255)); // green
 				CP_Graphics_DrawRectAdvanced(width / 2.6, height / 1.5, 200, 100, 0, 5);// true button
 
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
@@ -2005,8 +2085,7 @@ void Quiz_Update()
 				CP_Font_DrawText(multiplechoice10_ans, width / 1.5, height / 1.5);
 				CP_Font_DrawText(multiplechoice10_2, width / 2.6, height / 1.5);
 
-
-				CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
+				CP_Settings_Fill(white);
 				CP_Settings_TextSize(50);
 				CP_Font_DrawText("20 marks ", width / 9, height / 1.1);
 				CP_Settings_TextSize(70);
@@ -2036,8 +2115,8 @@ void Quiz_Update()
 
 				if (clicked_q15 == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(0, 255, 0, 255));
-					CP_Font_DrawText(" Correct ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(dark_green);
+					CP_Font_DrawText(" Answer is correct! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5); // false button
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -2053,8 +2132,8 @@ void Quiz_Update()
 				}
 				if (question_15ans == TRUE)
 				{
-					CP_Settings_Fill(CP_Color_Create(255, 0, 0, 255));
-					CP_Font_DrawText(" Wrong ", width / 1.9, height / 1.5);
+					CP_Settings_Fill(red);
+					CP_Font_DrawText(" Answer is wrong! ", width / 1.9, height / 1.2);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
@@ -2081,6 +2160,7 @@ void Quiz_Update()
 				timercounter = false;
 				int total_score = (counter2 * 20);
 				sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
+				sprintf_s(totalscore2, _countof(totalscore2), "%d", (counter2));
 
 				if (totalElapsedTime <= 0)
 				{
@@ -2090,10 +2170,13 @@ void Quiz_Update()
 				if (counter2 < 3)
 				{
 
-					CP_Graphics_ClearBackground(CP_Color_Create(200, 200, 200, 255));
-					CP_Font_DrawText("U HAVE FAIL THE REQUIREMENT", width / 2, height / 4);
-					CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-					CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+					CP_Graphics_ClearBackground(blue);
+					CP_Settings_Fill(white);
+					CP_Font_DrawText("You have fail the quiz", width / 1.9, height / 2);
+					CP_Font_DrawText("Total score:", width / 2, height / 3.5);
+					CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
+					CP_Font_DrawText("Total qns correct:", width / 2, height / 4);
+					CP_Font_DrawText(totalscore2, width / 1.55, height / 4);
 					CP_Font_DrawText(" Retry quiz ", width / 1.2, height / 1.1);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
@@ -2109,9 +2192,13 @@ void Quiz_Update()
 				}
 				else if (counter2 >= 3)
 				{
-					CP_Font_DrawText("U HAVE PASS THE REQUIREMENT", width / 2, height / 4);
-					CP_Font_DrawText("You have scored a total of:", width / 2, height / 3);
-					CP_Font_DrawText(totalscore, width / 1.4, height / 3);
+					CP_Graphics_ClearBackground(blue);
+					CP_Settings_Fill(white);
+					CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 2);
+					CP_Font_DrawText("Total score:", width / 2, height / 3.5);
+					CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
+					CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
+					CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
 					CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
 					CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 					CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
