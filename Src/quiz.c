@@ -1606,11 +1606,11 @@ void Quiz_Update()
 
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(white);
-				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 2);
-				CP_Font_DrawText("Total score:", width / 2, height / 3.5);
-				CP_Font_DrawText(totalscore, width / 1.6, height / 3.5);
-				CP_Font_DrawText("Total qns correct:", width / 2, height / 4.5);
-				CP_Font_DrawText(totalscore1, width / 1.55, height / 4.5);
+				CP_Font_DrawText("You have passed the quiz", width / 1.9, height / 4.5);
+				CP_Font_DrawText("Total score:", width / 2, height / 2.5);
+				CP_Font_DrawText(totalscore, width / 1.6, height / 2.5);
+				CP_Font_DrawText("Total qns correct:", width / 2, height / 2);
+				CP_Font_DrawText(totalscore1, width / 1.55, height / 2);
 				CP_Settings_Fill(green);
 				CP_Graphics_DrawRectAdvanced(width / 1.2, height / 1.1, 500, 100, 0, 5);
 				CP_Settings_Fill(white);
