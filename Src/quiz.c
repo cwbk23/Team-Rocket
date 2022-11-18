@@ -1674,7 +1674,7 @@ void Quiz_Update()
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice6_xvalue, width / 1.9, height / 4);
 				CP_Font_DrawText("What does    x +    equal to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice6_xconstant, width / 2.15, height / 3);
+				CP_Font_DrawText(multiplechoice6_xconstant, width / 2.135, height / 3);
 				CP_Font_DrawText(multiplechoice6_yconstant, width / 1.85, height / 3);
 
 
@@ -1775,7 +1775,7 @@ void Quiz_Update()
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice7_xvalue, width / 1.9, height / 4);
 				CP_Font_DrawText("What does    x -    equal to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice7_xconstant, width / 2.15, height / 3);
+				CP_Font_DrawText(multiplechoice7_xconstant, width / 2.135, height / 3);
 				CP_Font_DrawText(multiplechoice7_yconstant, width / 1.85, height / 3);
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
@@ -1877,7 +1877,7 @@ void Quiz_Update()
 				CP_Font_DrawText("If x =      ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice8_xvalue, width / 1.9, height / 4);
 				CP_Font_DrawText("What does    x +    equal to  ?", width / 2, height / 3);
-				CP_Font_DrawText(multiplechoice8_xconstant, width / 2.15, height / 3);
+				CP_Font_DrawText(multiplechoice8_xconstant, width / 2.135, height / 3);
 				CP_Font_DrawText(multiplechoice8_yconstant, width / 1.85, height / 3);
 
 				CP_Settings_Fill(CP_Color_Create(198, 9, 41, 255)); // red
