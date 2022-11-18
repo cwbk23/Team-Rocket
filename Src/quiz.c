@@ -1473,7 +1473,7 @@ void Quiz_Update()
 
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(70);
-			CP_Font_DrawText("q10)", width / 3, height / 4);
+			CP_Font_DrawText("q5)", width / 3, height / 4);
 			CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 			CP_Font_DrawText(multiplechoice5_xvalue, width / 2.1, height / 4);
 			CP_Font_DrawText(multiplechoice5_yvalue, width / 1.6, height / 4);
@@ -2075,7 +2075,7 @@ void Quiz_Update()
 
 				CP_Settings_Fill(black);
 				CP_Settings_TextSize(70);
-				CP_Font_DrawText("q15)", width / 3, height / 4);
+				CP_Font_DrawText("q5)", width / 3, height / 4);
 				CP_Font_DrawText("If x =      and y = ", width / 2, height / 4);
 				CP_Font_DrawText(multiplechoice10_xvalue, width / 2.1, height / 4);
 				CP_Font_DrawText(multiplechoice10_yvalue, width / 1.63, height / 4);
