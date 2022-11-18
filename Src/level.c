@@ -199,15 +199,15 @@ void Level_Init()
 	stat_plat[3].height = 30.f;
 	stat_plat[3].rotation = 0.f;
 
-	stat_plat[4].pos_x = 1770.f;
-	stat_plat[4].pos_y = 1000.f;
-	stat_plat[4].width = 150.f;
+	stat_plat[4].pos_x = 1650.f;
+	stat_plat[4].pos_y = 910.f;
+	stat_plat[4].width = 120.f;
 	stat_plat[4].height = 30.f;
 	stat_plat[4].rotation = 0.f;
 	
-	stat_plat[5].pos_x = 1820.f;
-	stat_plat[5].pos_y = 830.f;
-	stat_plat[5].width = 100.f;
+	stat_plat[5].pos_x = 1770.f;
+	stat_plat[5].pos_y = 815.f;
+	stat_plat[5].width = 150.f;
 	stat_plat[5].height = 30.f;
 	stat_plat[5].rotation = 0.f;
 	
@@ -242,7 +242,7 @@ void Level_Init()
 	stat_plat[10].rotation = 0.f;
 
 	stat_plat[11].pos_x = 0.f;
-	stat_plat[11].pos_y = 430.f;
+	stat_plat[11].pos_y = 445.f;
 	stat_plat[11].width = 150.f;
 	stat_plat[11].height = 30.f;
 	stat_plat[11].rotation = 0.f;
@@ -397,8 +397,8 @@ void Level_Init()
 	// Initialize the checkpoints and its corresponding hitbox variables
 	checkpoint[0].width = 50.f;
 	checkpoint[0].height = 50.f;
-	checkpoint[0].pos_x = stat_plat[4].pos_x + (stat_plat[4].width / 2); // Takes the x-coordinates relative to the platform with adjustments
-	checkpoint[0].pos_y = stat_plat[4].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_x = stat_plat[5].pos_x + (stat_plat[5].width / 2); // Takes the x-coordinates relative to the platform with adjustments
+	checkpoint[0].pos_y = stat_plat[5].pos_y - (checkpoint[0].height / 2 + 5.f); // Takes the y-coordinates relative to the platform with adjustments
 
 	checkpoint_hitbox[0].width = checkpoint[0].width;
 	checkpoint_hitbox[0].height = checkpoint[0].height;
@@ -507,13 +507,13 @@ void Level_Init()
 
 	//INITIALIZE SHOOTING ENEMY VARIABLES
 
-	shooting_enemies[0].width = 60.f; shooting_enemies[1].width = 60.f;
-	shooting_enemies[0].height = 60.f; shooting_enemies[1].height = 60.f;
+	shooting_enemies[0].width = 50.f; shooting_enemies[1].width = 50.f;
+	shooting_enemies[0].height = 50.f; shooting_enemies[1].height = 50.f;
 
 	shooting_enemies[0].x_position = CP_System_GetWindowWidth() - shooting_enemies[0].width;
 	shooting_enemies[1].x_position = 0.0f;
 
-	shooting_enemies[0].y_position = 415.f; shooting_enemies[1].y_position = 195.f;
+	shooting_enemies[0].y_position = 435.f; shooting_enemies[1].y_position = 200.f;
 	shooting_enemies[0].enemy_direction = _toleft; shooting_enemies[1].enemy_direction = _toright;
 
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
@@ -525,8 +525,8 @@ void Level_Init()
 	{
 		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + (shooting_enemies[i].width / 2.5);
-			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + (shooting_enemies[i].height / 2.5);
+			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + (shooting_enemies[i].width / 2.4);
+			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + (shooting_enemies[i].height / 2.4);
 
 			bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
 			bullet[i][j].bullet_y = bullet[i][j].bullet_startY;
@@ -1366,15 +1366,15 @@ void Level_Update()
 	// DRAWING OF THE SHOOTING ENEMIES
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
-		CP_Settings_Fill(color_grey);
-		CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height);
+		//CP_Settings_Fill(color_grey);
+		//CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width , shooting_enemies[i].height);
 		if (shooting_enemies[i].enemy_direction == _toleft)
 		{
-			CP_Image_Draw(TurretLeft, shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height, 255);
+			CP_Image_Draw(TurretLeft, shooting_enemies[i].x_position - 10.f, shooting_enemies[i].y_position - 10.f, shooting_enemies[i].width + 20.f, shooting_enemies[i].height + 20.f, 255);
 		}
 		if (shooting_enemies[i].enemy_direction == _toright)
 		{
-			CP_Image_Draw(TurretRight, shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width, shooting_enemies[i].height, 255);
+			CP_Image_Draw(TurretRight, shooting_enemies[i].x_position - 10.f, shooting_enemies[i].y_position - 10.f, shooting_enemies[i].width + 20.f, shooting_enemies[i].height + 20.f, 255);
 		}
 	}
 
