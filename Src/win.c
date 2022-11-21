@@ -61,7 +61,6 @@ void Win_Update() {
 	// Emerald green background colour
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 153, 51, 255));
 	CP_Color color_white = (CP_Color_Create(255, 255, 255, 255));
-	CP_Color color_blue = (CP_Color_Create(0, 102, 255, 255));
 	CP_Color color_darkgrey = (CP_Color_Create(128, 128, 128, 255));
 	CP_Color color_gold = (CP_Color_Create(255, 215, 0, 255));
 

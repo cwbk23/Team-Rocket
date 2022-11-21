@@ -52,8 +52,8 @@ int CollisionCheck(float player_x, float player_y, float player_width, float pla
 
 CP_Vector AngleToVector(float radian_angle)
 {
-	float x = cos(radian_angle);
-	float y = sin(radian_angle);
+	float x = (float)cos(radian_angle);
+	float y = (float)sin(radian_angle);
     CP_Vector ret = CP_Vector_Set(x, y);
     return ret;
 }

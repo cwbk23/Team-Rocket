@@ -4,10 +4,11 @@
 
 CP_Image logo;
 
+
 void splash_screen_init(void)
 {
 	//CP_System_Fullscreen();
-	//CP_System_SetWindowSize(CP_System_GetDisplayWidth(), CP_System_GetDisplayHeight());
+	//CP_System_SetWindowSize(1920, 1080);
 	CP_System_FullscreenAdvanced(1920, 1080);
 	CP_System_SetFrameRate(60.0f);
 
@@ -22,10 +23,10 @@ void splash_screen_update(void)
 	float currentElapsedTime = CP_System_GetDt();
 	static float totalElapsedTime = 0;
 	totalElapsedTime += currentElapsedTime;
-	int transparency = totalElapsedTime * (255 / 2.0f);
+	int transparency = (int)(totalElapsedTime * (255 / 2.0f));
 
 	CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 255));
-	CP_Image_Draw(logo, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, CP_Image_GetWidth(logo), CP_Image_GetHeight(logo), transparency);
+	CP_Image_Draw(logo, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, (float)CP_Image_GetWidth(logo), (float)CP_Image_GetHeight(logo), transparency);
 
 	// Call main menu state after 2.5 sec
 	if (totalElapsedTime >= 2.5) {

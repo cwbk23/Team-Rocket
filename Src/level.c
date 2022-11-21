@@ -532,8 +532,8 @@ void Level_Init()
 	{
 		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + (shooting_enemies[i].width / 2.4);
-			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + (shooting_enemies[i].height / 2.4);
+			bullet[i][j].bullet_startX = shooting_enemies[i].x_position + (shooting_enemies[i].width / 2.4f);
+			bullet[i][j].bullet_startY = shooting_enemies[i].y_position + (shooting_enemies[i].height / 2.4f);
 
 			bullet[i][j].bullet_x = bullet[i][j].bullet_startX;
 			bullet[i][j].bullet_y = bullet[i][j].bullet_startY;
@@ -719,10 +719,10 @@ void Level_Update()
 	}
 
 	// Jump speed deceleration based on time
-	static float jump_totalElapsedTime = 1.0;
+	static float jump_totalElapsedTime = 1.0f;
 
 	// Fall speed acceleration based on time
-	static float fall_totalElapsedTime = 0.1;
+	static float fall_totalElapsedTime = 0.1f;
 
 	// Initialize default fall multiplier
 	//static float fallMultiplier = 0.85f;
@@ -733,8 +733,8 @@ void Level_Update()
 			player.jumpEnd_posY = player.posY - player.jumpHeight;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
-			jump_totalElapsedTime = 1.0;
-			fall_totalElapsedTime = 0.1;
+			jump_totalElapsedTime = 1.0f;
+			fall_totalElapsedTime = 0.1f;
 		}
 	}
 
@@ -753,8 +753,8 @@ void Level_Update()
 			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
-			jump_totalElapsedTime = 1.0;
-			fall_totalElapsedTime = 0.1;
+			jump_totalElapsedTime = 1.0f;
+			fall_totalElapsedTime = 0.1f;
 			//fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
 		}
 
@@ -780,7 +780,7 @@ void Level_Update()
 				jump_totalElapsedTime -= currentElapsedTime;
 			}
 			else {
-				jump_totalElapsedTime = 0.1;
+				jump_totalElapsedTime = 0.1f;
 			}
 
 			//player.posX += jump_vec_scaled.x * currentElapsedTime;
@@ -986,7 +986,7 @@ void Level_Update()
 			fall_totalElapsedTime += currentElapsedTime;
 		}
 		else {
-			fall_totalElapsedTime = 1.0;
+			fall_totalElapsedTime = 1.0f;
 		}
 
 		//player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
@@ -1001,7 +1001,7 @@ void Level_Update()
 	// Reset fall speed back to default after falling
 	if (player.isColliding) {
 		//fallMultiplier = fallMultiplier_short;
-		fall_totalElapsedTime = 0.1;
+		fall_totalElapsedTime = 0.1f;
 	}
 
 	// Trigger player death if colliding with spikes

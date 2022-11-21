@@ -2,6 +2,7 @@
 #include "mainmenu.h"
 #include "level.h"
 #include "utils.h"
+#include <stdio.h>
 
 
 void Lose_Init()
