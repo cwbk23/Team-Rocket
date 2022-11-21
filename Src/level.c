@@ -23,6 +23,8 @@
 
 ///////////////////	YEE LEI	/////////////////////////////
 
+CP_Image background;
+
 // Player character models
 CP_Image player_stand_right;
 CP_Image player_stand_left;
@@ -50,7 +52,7 @@ playerLives = 5;	// EXTERN INT
 //const float fallMultiplier_long = 1.0f;
 
 // Jump charge settings
-const float jumpChargeMax = 1.5f;
+const float jumpChargeMax = 2.0f;
 float jumpCharge = 1.0f;
 
 // Initialize starting checkpoint (-1 means new game)
@@ -151,6 +153,8 @@ CP_Image CPoint, EPoint;
 void Level_Init()
 {
 	///////////////	YEE LEI	/////////////////
+
+	//background = CP_Image_Load("Assets/backgroundSky.png");
 	
 	// Initialize player stats
 	player.width = 60.0f;
@@ -158,7 +162,7 @@ void Level_Init()
 	player.moveSpeed = 200.0f;
 	//player.fallSpeed = 700.0f;
 	player.jumpHeight = 150.0f;
-	player.jumpSpeed = 20.0f;
+	player.jumpSpeed = 15.0f;
 	player.alive = TRUE;
 	player.isColliding = FALSE;
 	player.isJumping = FALSE;
@@ -225,7 +229,7 @@ void Level_Init()
 	
 	stat_plat[7].pos_x = 1570.f;
 	stat_plat[7].pos_y = 630.f;
-	stat_plat[7].width = 200.f;
+	stat_plat[7].width = 150.f;
 	stat_plat[7].height = 30.f;
 	stat_plat[7].rotation = 0.f;
 	
@@ -435,7 +439,7 @@ void Level_Init()
 
 	endpoint.width = 60.f;
 	endpoint.height = 80.f;
-	endpoint.pos_x = stat_plat[15].pos_x + (stat_plat[15].width / 2) + (endpoint.width / 2); // Takes the x-coordinates relative to the platform
+	endpoint.pos_x = stat_plat[15].pos_x + stat_plat[15].width - endpoint.width; // Takes the x-coordinates relative to the platform
 	endpoint.pos_y = stat_plat[15].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
 
 	endpoint_hitbox.width = endpoint.width;
@@ -553,7 +557,9 @@ void Level_Init()
 void Level_Update()
 {
 	// Sky blue background colour
-	CP_Graphics_ClearBackground(CP_Color_Create(0, 191, 255, 255));
+	CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 235, 255));
+	/*CP_Settings_ImageMode(CP_POSITION_CENTER);
+	CP_Image_Draw(background, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, CP_System_GetWindowWidth(), CP_System_GetWindowHeight(), 255);*/
 
 	// COMMONLY USED VARIABLES
 	// Elapsed time from the last frame
@@ -694,12 +700,12 @@ void Level_Update()
 	//static float playerAnim_totalElapsedTime = 0;
 
 	// Player left/right controls
-	if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
+	if ((CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_LEFT)) && !player.blockLeft) {
 		player.posX -= player.moveSpeed * currentElapsedTime;
 		player_model_state = 'L';
 	}
 
-	if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
+	if ((CP_Input_KeyDown(KEY_D) || CP_Input_KeyDown(KEY_RIGHT)) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
 		player_model_state = 'R';
 
@@ -738,6 +744,17 @@ void Level_Update()
 		}
 	}
 
+	// Jump charge indicator
+	char jumpChargeStr[50] = { 0 };
+	//float jumpChargePercent = (jumpCharge / jumpChargeMax) * 100;
+	sprintf_s(jumpChargeStr, 50, "%.1fx", jumpCharge);
+	//CP_Font_DrawText(jumpChargeStr, CP_System_GetWindowWidth() / 2.0f, 40.0f);
+	CP_Settings_Fill(CP_Color_Create(0, 0, 128, 255));
+	/*CP_Settings_TextSize(25.0f);
+	CP_Font_DrawText("Charging Jump:", player.posX + player.width / 2.0f, player.posY - 50.0f);*/
+	CP_Settings_TextSize(30.0f);
+	CP_Font_DrawText(jumpChargeStr, player.posX + player.width / 2.0f, player.posY - 20.0f);
+
 	// Chargeable vertical jump control
 	//if (CP_Input_KeyDown(KEY_SPACE)) {
 	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT)) {
@@ -760,14 +777,6 @@ void Level_Update()
 
 		jumpCharge = 1.0f;
 	}
-
-	// Jump charge indicator
-	CP_Settings_Fill(CP_Color_Create(0, 0, 128, 255));
-	CP_Settings_TextSize(50.0f);
-	char jumpChargeStr[50] = { 0 };
-	//float jumpChargePercent = (jumpCharge / jumpChargeMax) * 100;
-	sprintf_s(jumpChargeStr, 50, "Jump Charge: %.1fx", jumpCharge);
-	CP_Font_DrawText(jumpChargeStr, CP_System_GetWindowWidth() / 2.0f, 40.0f);
 	
 	// Up vector scaled with jump speed
 	CP_Vector jumpVec = CP_Vector_Set(0.0f, 1.0f);
@@ -784,10 +793,10 @@ void Level_Update()
 			}
 
 			//player.posX += jump_vec_scaled.x * currentElapsedTime;
-			if (CP_Input_KeyDown(KEY_A) && !player.blockLeft) {
+			if ((CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_LEFT)) && !player.blockLeft) {
 				player.posX -= player.moveSpeed * currentElapsedTime;
 			}
-			if (CP_Input_KeyDown(KEY_D) && !player.blockRight) {
+			if ((CP_Input_KeyDown(KEY_D) || CP_Input_KeyDown(KEY_RIGHT)) && !player.blockRight) {
 				player.posX += player.moveSpeed * currentElapsedTime;
 			}
 			
@@ -943,7 +952,7 @@ void Level_Update()
 						player_Xoffset = player.posX - xLeft;
 					}
 
-					if (CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_D)) {
+					if (CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_D) || CP_Input_KeyDown(KEY_LEFT) || CP_Input_KeyDown(KEY_RIGHT)) {
 						player_Xoffset = player.posX - xLeft;
 					}
 
