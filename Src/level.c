@@ -13,10 +13,10 @@
 #define BOMB_ENEMY_SIZE 3 // NUMBER OF BOMB ENEMIES IN THE LEVEL
 #define SHOOTING_ENEMY_SIZE 2 // NUMBER OF SHOOTING ENEMIES IN THE LEVEL
 #define BULLET_SIZE 10 // NUMBER OF BULLETS FOR EACH ENEMY
-#define SIZE_STAT 19 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
+#define SIZE_STAT 18 // NUMBER OF STATIONARY PLATFORMS IN THE LEVEL
 #define SIZE_MOVE 7 // NUMBER OF MOVING PLATFORMS IN THE LEVEL
 #define SIZE_BLOCKER 3 // NUMBER OF BLOCKER PLATFORMS IN THE LEVEL
-#define SIZE_SPIKES 134 // NUMBER OF SPIKES IN THE LEVEL
+#define SIZE_SPIKES 132 // NUMBER OF SPIKES IN THE LEVEL
 #define SIZE_CHECKPOINTS 3 // NUMBER OF CHECKPOINTS IN THE LEVEL
 #define PLAT_SPEED 50.f // GENERAL MOVING SPEED OF THE PLATFORM (FOR TESTING)
 
@@ -149,6 +149,7 @@ struct CHECKPOINTS endpoint, endpoint_hitbox;
 checkpoint_no = 0;
 
 CP_Image CPoint, EPoint;
+CP_Sound levelMusic;
 
 
 void Level_Init()
@@ -282,6 +283,18 @@ void Level_Init()
 	stat_plat[15].height = 30.f;
 	stat_plat[15].rotation = 0.f;
 
+	stat_plat[16].pos_x = 1680.f; // 2nd floor platform connector
+	stat_plat[16].pos_y = 660.f;
+	stat_plat[16].width = 40.f;
+	stat_plat[16].height = 50.f;
+	stat_plat[16].rotation = 0.f;
+
+	stat_plat[17].pos_x = 200.f; // 3rd floor platform connector
+	stat_plat[17].pos_y = 290.f;
+	stat_plat[17].width = 40.f;
+	stat_plat[17].height = 50.f;
+	stat_plat[17].rotation = 0.f;
+
 	// Initialize variables for blocker platforms
 
 	blocker_plat[0].pos_x = 1720.f; // 2nd level blocker
@@ -347,7 +360,7 @@ void Level_Init()
 	move_plat[3].distance = 100.f;
 	move_plat[3].limit = 630.f; // Follows value from pos_x for left/right and pos_y for up/down
 
-	move_plat[4].pos_x = 180.f;
+	move_plat[4].pos_x = 200.f;
 	move_plat[4].pos_y = 260.f;
 	move_plat[4].width = 100.f;
 	move_plat[4].height = 30.f;
@@ -356,7 +369,7 @@ void Level_Init()
 	move_plat[4].movement = RIGHT;
 	move_plat[4].speed = PLAT_SPEED;
 	move_plat[4].distance = 100.f;
-	move_plat[4].limit = 180.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[4].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
 
 	move_plat[5].pos_x = 850.f;
 	move_plat[5].pos_y = 260.f;
@@ -397,13 +410,13 @@ void Level_Init()
 	spikes[48].y3 = 710.f;
 	spikes[48].deg = 0.f;
 
-	spikes[91].x1 = 220.f;
-	spikes[91].y1 = 310.f;
-	spikes[91].x2 = 200.f;
-	spikes[91].y2 = 340.f;
-	spikes[91].x3 = 240.f;
-	spikes[91].y3 = 340.f;
-	spikes[91].deg = 0.f;
+	spikes[90].x1 = 260.f;
+	spikes[90].y1 = 310.f;
+	spikes[90].x2 = 240.f;
+	spikes[90].y2 = 340.f;
+	spikes[90].x3 = 280.f;
+	spikes[90].y3 = 340.f;
+	spikes[90].deg = 0.f;
 
 	// Initialize the checkpoints and its corresponding hitbox variables
 	checkpoint[0].width = 50.f;
@@ -451,6 +464,9 @@ void Level_Init()
 	// Load images for checkpoint and endpoint
 	CPoint = CP_Image_Load("Assets/Checkpoint.png");
 	EPoint = CP_Image_Load("Assets/Endpoint.png");
+
+	// Load music for level 
+	levelMusic = CP_Sound_LoadMusic("Assets/DAYLIGHT STROLL - EasyListeningMid MSCEZL4_09.wav");
 
 	//////////////////// CLEMENT ///////////////////////
 
@@ -575,6 +591,10 @@ void Level_Update()
 	static float totalElapsedTime = 0;
 	totalElapsedTime += currentElapsedTime;
 
+	// Level Music
+	//if (currentElapsedTime < 1) {
+	//	CP_Sound_PlayMusic(levelMusic);
+	//}
 	
 	///////////////////////	YEE LEI	/////////////////////////////////////////
 
@@ -1040,6 +1060,7 @@ void Level_Update()
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Color color_brown = (CP_Color_Create(181, 101, 29, 255));
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
+	CP_Color color_metalgrey = (CP_Color_Create(142, 142, 142, 255));
 	CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
 
 	// Drawing of all stationary platforms
@@ -1050,7 +1071,7 @@ void Level_Update()
 
 	// Drawing of all blocker platforms
 	
-	CP_Settings_Fill(color_darkgrey);
+	CP_Settings_Fill(color_brown);
 	if (checkpoint_no < 1) {
 		CP_Graphics_DrawRectAdvanced(blocker_plat[0].pos_x, blocker_plat[0].pos_y, blocker_plat[0].width, blocker_plat[0].height, blocker_plat[0].rotation, 0.f);
 	}
@@ -1133,7 +1154,7 @@ void Level_Update()
 	}
 
 	// Draw 48 spikes at the first floor of the map
-	CP_Settings_Fill(color_grey);
+	CP_Settings_Fill(color_metalgrey);
 	int currentSpike = 0; // The number of the current selected spike
 	int spikesWanted = 48; 
 	int size = currentSpike + spikesWanted; 
@@ -1149,7 +1170,7 @@ void Level_Update()
 	}
 
 	// Draw 43 spikes at the 2nd floor of the map
-	spikesWanted = 43;
+	spikesWanted = 42;
 	size = currentSpike + spikesWanted;
 
 	for (int i = 0; currentSpike < size; ++currentSpike, ++i) {
@@ -1162,16 +1183,16 @@ void Level_Update()
 		CP_Graphics_DrawTriangleAdvanced(spikes[currentSpike].x1, spikes[currentSpike].y1, spikes[currentSpike].x2, spikes[currentSpike].y2, spikes[currentSpike].x3, spikes[currentSpike].y3, spikes[currentSpike].deg);
 	}
 
-	spikesWanted = 43;
+	spikesWanted = 42;
 	size = currentSpike + spikesWanted;
 
 	for (int i = 0; currentSpike < size; ++currentSpike, ++i) {
-		spikes[currentSpike].x1 = spikes[91].x1 + (i * 40.f);
-		spikes[currentSpike].y1 = spikes[91].y1;
-		spikes[currentSpike].x2 = spikes[91].x2 + (i * 40.f);
-		spikes[currentSpike].y2 = spikes[91].y2;
-		spikes[currentSpike].x3 = spikes[91].x3 + (i * 40.f);
-		spikes[currentSpike].y3 = spikes[91].y3;
+		spikes[currentSpike].x1 = spikes[90].x1 + (i * 40.f);
+		spikes[currentSpike].y1 = spikes[90].y1;
+		spikes[currentSpike].x2 = spikes[90].x2 + (i * 40.f);
+		spikes[currentSpike].y2 = spikes[90].y2;
+		spikes[currentSpike].x3 = spikes[90].x3 + (i * 40.f);
+		spikes[currentSpike].y3 = spikes[90].y3;
 		CP_Graphics_DrawTriangleAdvanced(spikes[currentSpike].x1, spikes[currentSpike].y1, spikes[currentSpike].x2, spikes[currentSpike].y2, spikes[currentSpike].x3, spikes[currentSpike].y3, spikes[currentSpike].deg);
 	}
 
@@ -1459,6 +1480,7 @@ void Level_Exit()
 	///////////////////// KENNY /////////////////////
 	CP_Image_Free(&CPoint);
 	CP_Image_Free(&EPoint);
+	CP_Sound_Free(&levelMusic);
 
 	///////////////////// CLEMENT /////////////////////
 	CP_Image_Free(&BombEnemy);
