@@ -472,8 +472,10 @@ void Level_Init()
 	CPoint = CP_Image_Load("Assets/Checkpoint.png");
 	EPoint = CP_Image_Load("Assets/Endpoint.png");
 
-	// Load music for level 
+	// Load play level music
 	levelMusic = CP_Sound_LoadMusic("Assets/DAYLIGHT STROLL - EasyListeningMid MSCEZL4_09.wav");
+	CP_Sound_PlayMusic(levelMusic);
+	
 
 	//////////////////// CLEMENT ///////////////////////
 
@@ -598,10 +600,6 @@ void Level_Update()
 	static float totalElapsedTime = 0;
 	totalElapsedTime += currentElapsedTime;
 
-	// Level Music
-	//if (currentElapsedTime < 1) {
-	//	CP_Sound_PlayMusic(levelMusic);
-	//}
 	
 	///////////////////////	YEE LEI	/////////////////////////////////////////
 
@@ -1075,6 +1073,8 @@ void Level_Update()
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
 	CP_Color color_lightgrey = (CP_Color_Create(220, 220, 220, 255));
 	CP_Color color_darkgrey = (CP_Color_Create(128, 128, 128, 255));
+	CP_Color color_metalgrey = (CP_Color_Create(142, 142, 142, 255));
+	//CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
 
 	// Drawing of all stationary platforms
 	CP_Settings_Fill(color_brown);

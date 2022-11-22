@@ -12,9 +12,7 @@ struct BOXES {
 }; 
 	
 bool NEW_HIGHSCORE;
-
-//errno_t err_HS;
-//FILE *highscore_file;
+bool musicplay;
 
 // Text to be printed on Win screen
 char new_highscore_text[50];
@@ -24,36 +22,25 @@ char quizscore_text[50];
 char bonusscore_text[30];
 char lives_left_text[30];
 
-//char highscore_string[20]; // String to hold the highscore from text file
-//char *HS_string = 0;
-
 int game_score, bonus_score;
-//int highscore_num;
+
+// Initialize highscore to be 0 
 highscore = 0;
+
+CP_Sound victoryMusic;
 
 void Win_Init() {
 
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
+	// Initialize highscore boolean to be false
 	NEW_HIGHSCORE = FALSE;
+
+	// Load and play victory music
+	victoryMusic = CP_Sound_Load("Assets/APPLAUSE-CHEERING-CHILDREN_GEN-HDF-01434.wav");
+	CP_Sound_Play(victoryMusic);
 	
-	//HS_string = &highscore_string;
-	//err_HS = fopen_s(&highscore_file, "Assets/Highscore.txt", "w+"); // Open file
-	//
-	//if (err_HS == 0) {
-	//	//HS_string = fgets(highscore_string, 20, highscore_file);
-	//	//highscore_num = atoi(HS_string);
-	//	//
-	//	//if (highscore_num == NULL) {
-	//	//	highscore_num = 69;
-	//	//}
-	//
-	//	highscore_num = 69;
-	//}
-	//else {
-	//	highscore_num = 500;
-	//}
 }
 
 void Win_Update() {
@@ -75,25 +62,12 @@ void Win_Update() {
 	// Calculate and compare current game score with previous highscore
 	bonus_score = (playerLives - 1) * 10;
 	game_score = quiz_score + bonus_score;
-	//highscore_num = 0;
-	// Retrieve previous highscore from highscore text file
-
 
 	// Compare scores
 
 	if (game_score > highscore) {
 		
 		NEW_HIGHSCORE = TRUE;
-
-		//if (err_HS == 0) {
-		//	rewind(highscore_file); // Set pointer to beginning of file
-		//	//fseek(highscore_file, 0L, SEEK_SET);
-		//	sprintf_s(highscore_string, 20, "%d", game_score);
-		//	fprintf_s(highscore_file, "%s", highscore_string);
-		//
-		//	//fprintf_s(highscore_file, "%d", game_score); // Write data to file
-		//}
-
 		highscore = game_score;
 
 	}
@@ -170,4 +144,5 @@ void Win_Exit() {
 	//fclose(highscore_file); // Close Highscore.txt
 	quiz_score = 0;
 	checkpoint_no = -1;
+	CP_Sound_Free(&victoryMusic);
 }
