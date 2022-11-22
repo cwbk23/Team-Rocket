@@ -52,7 +52,7 @@ playerLives = 5;	// EXTERN INT
 //const float fallMultiplier_long = 1.0f;
 
 // Jump charge settings
-const float jumpChargeMax = 2.0f;
+const float jumpChargeMax = 1.5f;
 float jumpCharge = 1.0f;
 
 // Initialize starting checkpoint (-1 means new game)
@@ -163,7 +163,7 @@ void Level_Init()
 	player.height = 60.0f;
 	player.moveSpeed = 200.0f;
 	//player.fallSpeed = 700.0f;
-	player.jumpHeight = 150.0f;
+	player.jumpHeight = 160.0f;
 	player.jumpSpeed = 15.0f;
 	player.alive = TRUE;
 	player.isColliding = FALSE;
@@ -616,7 +616,7 @@ void Level_Update()
 		current_checkpoint = checkpoint_no;
 		
 		player.posX = checkpoint[current_checkpoint - 1].pos_x;
-		player.posY = checkpoint[current_checkpoint - 1].pos_y;
+		player.posY = checkpoint[current_checkpoint - 1].pos_y - player.height;
 	}
 	else if (player.alive == FALSE) {	// Respawn player if dead
 		if (playerLives > 0) {
@@ -633,7 +633,7 @@ void Level_Update()
 			}
 			else {
 				player.posX = checkpoint[current_checkpoint - 1].pos_x;
-				player.posY = checkpoint[current_checkpoint - 1].pos_y;
+				player.posY = checkpoint[current_checkpoint - 1].pos_y - player.height;
 			}
 
 			player.alive = TRUE;
@@ -1060,8 +1060,8 @@ void Level_Update()
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
 	CP_Color color_brown = (CP_Color_Create(181, 101, 29, 255));
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
-	CP_Color color_metalgrey = (CP_Color_Create(142, 142, 142, 255));
-	CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
+	CP_Color color_lightgrey = (CP_Color_Create(220, 220, 220, 255));
+	CP_Color color_darkgrey = (CP_Color_Create(128, 128, 128, 255));
 
 	// Drawing of all stationary platforms
 	CP_Settings_Fill(color_brown);
@@ -1071,7 +1071,7 @@ void Level_Update()
 
 	// Drawing of all blocker platforms
 	
-	CP_Settings_Fill(color_brown);
+	CP_Settings_Fill(color_darkgrey);
 	if (checkpoint_no < 1) {
 		CP_Graphics_DrawRectAdvanced(blocker_plat[0].pos_x, blocker_plat[0].pos_y, blocker_plat[0].width, blocker_plat[0].height, blocker_plat[0].rotation, 0.f);
 	}
@@ -1154,7 +1154,7 @@ void Level_Update()
 	}
 
 	// Draw 48 spikes at the first floor of the map
-	CP_Settings_Fill(color_metalgrey);
+	CP_Settings_Fill(color_lightgrey);
 	int currentSpike = 0; // The number of the current selected spike
 	int spikesWanted = 48; 
 	int size = currentSpike + spikesWanted; 
