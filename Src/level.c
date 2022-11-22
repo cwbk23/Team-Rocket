@@ -25,6 +25,10 @@
 
 CP_Image background;
 
+// Player sounds
+CP_Sound sound_jump;
+CP_Sound sound_death;
+
 // Player character models
 CP_Image player_stand_right;
 CP_Image player_stand_left;
@@ -71,7 +75,7 @@ struct PLAYER
 	float jumpEnd_posX, jumpEnd_posY;
 	bool alive;
 	bool isJumping, isColliding;
-	bool blockLeft, blockRight;
+	bool blockLeft, blockRight, blockJump;
 };
 
 struct PLAYER player;
@@ -170,6 +174,7 @@ void Level_Init()
 	player.isJumping = FALSE;
 	player.blockLeft = FALSE;
 	player.blockRight = FALSE;
+	player.blockJump = FALSE;
 
 	heart_full = CP_Image_Load("Assets/hudHeart_full.png");
 	heart_empty = CP_Image_Load("Assets/hudHeart_empty.png");
@@ -183,6 +188,8 @@ void Level_Init()
 	player_down_left = CP_Image_Load("Assets/player_down_left.png");
 	player_down_right = CP_Image_Load("Assets/player_down_right.png");
 
+	sound_jump = CP_Sound_LoadMusic("Assets/jump.ogg");
+	sound_death = CP_Sound_LoadMusic("Assets/death.ogg");
 	
 	///////////////  KENNY  //////////////////
 	
@@ -621,6 +628,8 @@ void Level_Update()
 	else if (player.alive == FALSE) {	// Respawn player if dead
 		if (playerLives > 0) {
 			playerLives--;
+
+			CP_Sound_PlayAdvanced(sound_death, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_1);
 		}
 
 		if (playerLives == 0) {		// Go to Lose screen if 0 lives left
@@ -639,8 +648,6 @@ void Level_Update()
 			player.alive = TRUE;
 			player.isColliding = FALSE;
 			player.isJumping = FALSE;
-			player.blockLeft = FALSE;
-			player.blockRight = FALSE;
 
 			// Respawn effect timer
 			spawn_totalElapsedTime = 1.0f;
@@ -671,6 +678,7 @@ void Level_Update()
 
 		player.blockLeft = TRUE;
 		player.blockRight = TRUE;
+		player.blockJump = TRUE;
 
 		spawn_totalElapsedTime -= currentElapsedTime;
 		if (spawn_totalElapsedTime < 0) spawn_totalElapsedTime = 0;
@@ -702,6 +710,7 @@ void Level_Update()
 
 		player.blockLeft = FALSE;
 		player.blockRight = FALSE;
+		player.blockJump = FALSE;
 	}
 
 	// Player lives display
@@ -762,13 +771,15 @@ void Level_Update()
 	//static float fallMultiplier = 0.85f;
 	
 	// Player short jump control
-	if (CP_Input_KeyTriggered(KEY_SPACE)) {
+	if (CP_Input_KeyTriggered(KEY_SPACE) && !player.blockJump) {
 		if (!player.isJumping && player.isColliding) {
 			player.jumpEnd_posY = player.posY - player.jumpHeight;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0f;
 			fall_totalElapsedTime = 0.1f;
+
+			CP_Sound_PlayAdvanced(sound_jump, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_1);
 		}
 	}
 
@@ -785,7 +796,7 @@ void Level_Update()
 
 	// Chargeable vertical jump control
 	//if (CP_Input_KeyDown(KEY_SPACE)) {
-	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT)) {
+	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && !player.blockJump) {
 		if (!player.isJumping && player.isColliding && jumpCharge < jumpChargeMax) {
 			jumpCharge += 1.0f * currentElapsedTime;
 
@@ -794,13 +805,15 @@ void Level_Update()
 	}
 	//else if (CP_Input_KeyReleased(KEY_SPACE)) {
 	else if (CP_Input_MouseReleased(MOUSE_BUTTON_LEFT)) {
-		if (!player.isJumping && player.isColliding) {
+		if (!player.isJumping && player.isColliding && !player.blockJump) {
 			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0f;
 			fall_totalElapsedTime = 0.1f;
 			//fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
+
+			CP_Sound_PlayAdvanced(sound_jump, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_1);
 		}
 
 		jumpCharge = 1.0f;
@@ -1476,6 +1489,9 @@ void Level_Exit()
 	CP_Image_Free(&player_jump_left);
 	CP_Image_Free(&player_down_left);
 	CP_Image_Free(&player_down_right);
+
+	CP_Sound_Free(&sound_jump);
+	CP_Sound_Free(&sound_death);
 
 	///////////////////// KENNY /////////////////////
 	CP_Image_Free(&CPoint);
