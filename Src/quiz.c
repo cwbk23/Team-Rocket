@@ -972,6 +972,7 @@ void Quiz_Update()
 				CP_Font_DrawText("Total score:", width / 2, height / 2.5f);
 				CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 				CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
+				CP_Font_DrawText("You need at least 3 Qns correct to pass", width / 1.9, height / 1.6);
 				CP_Font_DrawText(totalscore1, width / 1.57f, height / 2);
 				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
@@ -1595,6 +1596,7 @@ void Quiz_Update()
 				CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 				CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
 				CP_Font_DrawText(totalscore1, width / 1.57f, height / 2);
+				CP_Font_DrawText("You need at least 3 Qns correct to pass", width / 1.9, height / 1.6);
 				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
 				CP_Settings_Fill(white);
@@ -2205,6 +2207,7 @@ void Quiz_Update()
 					CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 					CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
 					CP_Font_DrawText(totalscore2, width / 1.57f, height / 2);
+					CP_Font_DrawText("You need at least 3 Qns correct to pass", width / 1.9, height / 1.6);
 					CP_Settings_Fill(red);
 					CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
 					CP_Settings_Fill(white);
