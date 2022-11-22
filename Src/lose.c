@@ -5,10 +5,17 @@
 #include <stdio.h>
 
 
+CP_Sound sound_lose;
+
+
 void Lose_Init()
 {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
+	
+	// Play Lose music
+	sound_lose = CP_Sound_LoadMusic("Assets/lose.ogg");
+	CP_Sound_Play(sound_lose);
 }
 
 void Lose_Update()
@@ -67,6 +74,8 @@ void Lose_Update()
 
 void Lose_Exit()
 {
+	CP_Sound_Free(&sound_lose);
+
 	checkpoint_no = -1;
 	quiz_score = 0;
 }
