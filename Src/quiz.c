@@ -195,8 +195,13 @@ char totalscore3[10] = { 3 };
 
  static float totalElapsedTime;
 
+ CP_Sound correctsound = NULL;
+ CP_Sound wrongsound = NULL;
+
 void Quiz_Init()
 {
+	correctsound = CP_Sound_Load("./Assets/correct_sound.ogg");
+	wrongsound = CP_Sound_Load("./Assets/wrong_sound.ogg");
 	//Setting up the window size
 	CP_Settings_TextSize(70);
 	CP_Settings_RectMode(CP_POSITION_CENTER);
@@ -446,9 +451,9 @@ void Quiz_Init()
 		 counter2 = 0;
 	 }
 	totalElapsedTime = 180;
-	// buttonsound = CP_Sound_Load("./Assets/button_sound.ogg");
+	
 }
-	//CP_Sound buttonsound = NULL;
+	
 
 
 
@@ -553,19 +558,23 @@ void Quiz_Update()
 			{
 				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
-					//CP_Sound_Play(buttonsound);
+
+					CP_Sound_Play(correctsound);
 					clicked_q1 = TRUE;
 					counter = counter + 1;
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_1ans = TRUE;
+					CP_Sound_Play(wrongsound);
+
 				}
 
 
 			}
 			if ((clicked_q1 == TRUE))
 			{
+				
 				CP_Settings_Fill(dark_green);
 				CP_Font_DrawText(" Answer is correct! ", width / 1.9f, height / 1.5f);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -583,6 +592,7 @@ void Quiz_Update()
 				}
 			} if ((question_1ans == TRUE) && (clicked_q1 == FALSE))
 			{
+				//CP_Sound_Play(wrongsound);
 				CP_Settings_Fill(red);
 				CP_Font_DrawText(" Answer is wrong! ", width / 1.9f, height / 1.5f);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -645,10 +655,12 @@ void Quiz_Update()
 				{
 					clicked_q2 = TRUE;
 					counter = counter + 1;
+					CP_Sound_Play(correctsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_2ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 
 
@@ -732,11 +744,13 @@ void Quiz_Update()
 				if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					clicked_q3 = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_3ans = TRUE;
 					counter = counter + 1;
+					CP_Sound_Play(correctsound);
 				}
 
 
@@ -824,10 +838,12 @@ void Quiz_Update()
 				{
 					clicked_q4 = TRUE;
 					counter = counter + 1;
+					CP_Sound_Play(correctsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_4ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 
 
@@ -912,11 +928,13 @@ void Quiz_Update()
 				{
 					clicked_q5 = TRUE;
 					counter = counter + 1;
+					CP_Sound_Play(correctsound);
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_5ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 			}
 
@@ -2266,5 +2284,6 @@ void Quiz_Update()
 }
 void Quiz_Exit()
 {
-	
+	CP_Sound_Free(&correctsound);
+	CP_Sound_Free(&wrongsound);
 }
