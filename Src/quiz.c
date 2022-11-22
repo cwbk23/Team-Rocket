@@ -250,9 +250,9 @@ void Quiz_Init()
 	int randommultiple1_yconstant = CP_Random_RangeInt(6, 8);
 	sprintf_s(multiplechoice1_yconstant, _countof(multiplechoice1_yconstant), "%d", randommultiple1_yconstant);
 	sprintf_s(multiplechoice1_ans, _countof(multiplechoice1_ans), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue));
-	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue) + randomoperator);
-	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple1_xconstant * randommultiple1_xvalue - randommultiple1_xconstant));
-	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple1_xvalue * randommultiple1_yvalue));
+	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant) + randomoperator);
+	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple1_xconstant * randommultiple1_xconstant + randomoperator));
+	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple1_xconstant * randommultiple1_xconstant - randomoperator));
 
 	int randommultiple2_xvalue = CP_Random_RangeInt(2, 4);
 	sprintf_s(multiplechoice2_xvalue, _countof(multiplechoice2_xvalue), "%d", randommultiple2_xvalue);
@@ -276,9 +276,10 @@ void Quiz_Init()
 	int randommultiple3_yconstant = CP_Random_RangeInt(6, 9);
 	sprintf_s(multiplechoice3_yconstant, _countof(multiplechoice3_yconstant), "%d", randommultiple3_yconstant);
 	sprintf_s(multiplechoice3_ans, _countof(multiplechoice3_ans), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue));
-	sprintf_s(multiplechoice3_1, _countof(multiplechoice3_1), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) + (randommultiple3_yconstant * randommultiple3_yvalue) + randomoperator);
-	sprintf_s(multiplechoice3_2, _countof(multiplechoice3_2), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) + (randommultiple3_yconstant));
-	sprintf_s(multiplechoice3_3, _countof(multiplechoice3_3), "%d", (randommultiple3_xvalue + randommultiple3_yvalue));
+	sprintf_s(multiplechoice3_1, _countof(multiplechoice3_1), "%d", (randommultiple3_xconstant * randommultiple3_xvalue) - (randommultiple3_yconstant * randommultiple3_yvalue) + randomoperator);
+	sprintf_s(multiplechoice3_2, _countof(multiplechoice3_2), "%d", (randommultiple3_xconstant * randommultiple3_xconstant * -1));
+	sprintf_s(multiplechoice3_3, _countof(multiplechoice3_3), "%d", (randommultiple3_xvalue - randommultiple3_yvalue));
+
 
 
 	int randommultiple4_xvalue = CP_Random_RangeInt(2, 3);
@@ -313,7 +314,7 @@ void Quiz_Init()
 	sprintf_s(multiplechoice6_yconstant, _countof(multiplechoice6_yconstant), "%d", randommultiple6_yconstant);
 	sprintf_s(multiplechoice6_ans, _countof(multiplechoice6_ans), "%d", (randommultiple6_xconstant* randommultiple6_xvalue) + (randommultiple6_yconstant ));
 	sprintf_s(multiplechoice6_1, _countof(multiplechoice6_1), "%d", (randommultiple6_xconstant* randommultiple6_xvalue) + (randommultiple6_yconstant ) + randomoperator);
-	sprintf_s(multiplechoice6_2, _countof(multiplechoice6_2), "%d", (randommultiple6_xconstant* randommultiple6_xvalue) - (randommultiple6_xconstant ));
+	sprintf_s(multiplechoice6_2, _countof(multiplechoice6_2), "%d", (randommultiple6_xconstant* randommultiple6_xconstant) - (randommultiple6_xvalue ));
 	sprintf_s(multiplechoice6_3, _countof(multiplechoice6_3), "%d", (randommultiple6_xvalue ));
 
 	int randommultiple7_xvalue = CP_Random_RangeInt(3, 7);
@@ -990,7 +991,7 @@ void Quiz_Update()
 				CP_Font_DrawText("Total score:", width / 2, height / 2.5f);
 				CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 				CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
-				CP_Font_DrawText("You need at least 3 Qns correct to pass", width / 1.9, height / 1.6);
+				CP_Font_DrawText("You need 3 Qns correct to pass", width / 1.9f, height / 1.6f);
 				CP_Font_DrawText(totalscore1, width / 1.57f, height / 2);
 				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
@@ -1117,19 +1118,23 @@ void Quiz_Update()
 				{
 					clicked_q6 = TRUE;
 					counter1 = counter1 + 1;
+					CP_Sound_Play(correctsound);
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_6ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_6ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_6ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 			}
 
@@ -1222,19 +1227,23 @@ void Quiz_Update()
 				{
 					clicked_q7 = TRUE;
 					counter1 = counter1 + 1;
+					CP_Sound_Play(correctsound);
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_7ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_7ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_7ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 			}
 
@@ -1326,20 +1335,24 @@ void Quiz_Update()
 				if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_8ans = TRUE;
+					CP_Sound_Play(wrongsound);
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					clicked_q8 = TRUE;
 					counter1 = counter1 + 1;
+					CP_Sound_Play(correctsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_8ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_8ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 			}
 
@@ -1431,20 +1444,24 @@ void Quiz_Update()
 				if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_9ans = TRUE;
+					CP_Sound_Play(wrongsound);
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_9ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_9ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					clicked_q9 = TRUE;
 					counter1 = counter1 + 1;
+					CP_Sound_Play(correctsound);
 				}
 			}
 
@@ -1533,20 +1550,24 @@ void Quiz_Update()
 				if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_10ans = TRUE;
+					CP_Sound_Play(wrongsound);
 
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_10ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					question_10ans = TRUE;
+					CP_Sound_Play(wrongsound);
 				}
 				else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 				{
 					clicked_q10 = TRUE;
 					counter1 = counter1 + 1;
+					CP_Sound_Play(correctsound);
 				}
 			}
 
@@ -1614,7 +1635,7 @@ void Quiz_Update()
 				CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 				CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
 				CP_Font_DrawText(totalscore1, width / 1.57f, height / 2);
-				CP_Font_DrawText("You need at least 3 Qns correct to pass", width / 1.9, height / 1.6);
+				CP_Font_DrawText("You need 3 Qns correct to pass", width / 1.9f, height / 1.6f);
 				CP_Settings_Fill(red);
 				CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
 				CP_Settings_Fill(white);
@@ -1737,19 +1758,23 @@ void Quiz_Update()
 					{
 						clicked_q11 = TRUE;
 						counter2 = counter2 + 1;
+						CP_Sound_Play(correctsound);
 
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_11ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_11ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_11ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 				}
 
@@ -1836,20 +1861,24 @@ void Quiz_Update()
 					if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_12ans = TRUE;
+						CP_Sound_Play(wrongsound);
 
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_12ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_12ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						clicked_q12 = TRUE;
 						counter2 = counter2 + 1;
+						CP_Sound_Play(correctsound);
 					}
 				}
 
@@ -1938,20 +1967,24 @@ void Quiz_Update()
 					if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_13ans = TRUE;
+						CP_Sound_Play(wrongsound);
 
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_13ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_13ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						clicked_q13 = TRUE;
 						counter2 = counter2 + 1;
+						CP_Sound_Play(correctsound);
 					}
 				}
 
@@ -2041,20 +2074,24 @@ void Quiz_Update()
 					if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_14ans = TRUE;
+						CP_Sound_Play(wrongsound);
 
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						clicked_q14 = TRUE;
 						counter2 = counter2 + 1;
+						CP_Sound_Play(correctsound);
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_14ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_14ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 				}
 
@@ -2143,20 +2180,24 @@ void Quiz_Update()
 					if (IsAreaClicked(width / 2.6f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_15ans = TRUE;
+						CP_Sound_Play(wrongsound);
 
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_15ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 					else if (IsAreaClicked(width / 1.5f, height / 1.5f, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						clicked_q15 = TRUE;
 						counter2 = counter2 + 1;
+						CP_Sound_Play(correctsound);
 					}
 					else if (IsAreaClicked(width / 2.6f, height / 2, 200.f, 100.f, CP_Input_GetMouseX(), CP_Input_GetMouseY()))
 					{
 						question_15ans = TRUE;
+						CP_Sound_Play(wrongsound);
 					}
 				}
 
@@ -2225,7 +2266,7 @@ void Quiz_Update()
 					CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 					CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
 					CP_Font_DrawText(totalscore2, width / 1.57f, height / 2);
-					CP_Font_DrawText("You need at least 3 Qns correct to pass", width / 1.9, height / 1.6);
+					CP_Font_DrawText("You need at 3 Qns correct to pass", width / 1.9f, height / 1.6f);
 					CP_Settings_Fill(red);
 					CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
 					CP_Settings_Fill(white);
