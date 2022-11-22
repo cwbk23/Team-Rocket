@@ -4,7 +4,8 @@
 CP_Image TeamName;
 CP_Image DigipenExec;
 CP_Image CreditsThanks;
-int transparency1, transparency2, transparency3;
+CP_Image CreditsCopyright;
+int transparency1, transparency2, transparency3, transparency4;
 float totalElapsedTime, totalElapsedTime_sec;
 
 void Credits_Init(void)
@@ -13,10 +14,11 @@ void Credits_Init(void)
 	TeamName = CP_Image_Load("./Assets/team_name.png");
 	DigipenExec = CP_Image_Load("./Assets/digipenexec.png");
 	CreditsThanks = CP_Image_Load("./Assets/credits_thanks.png");
+	CreditsCopyright = CP_Image_Load("./Assets/credits_copyright.png");
 
 	totalElapsedTime = 0.0f;
 	totalElapsedTime_sec = 0.0f;
-	transparency1 = 0, transparency2 = 0, transparency3 = 0;
+	transparency1 = 0, transparency2 = 0, transparency3 = 0, transparency4 = 0;
 }
 
 void Credits_Update(void)
@@ -67,7 +69,23 @@ void Credits_Update(void)
 		}
 	}
 
-	if (totalElapsedTime >= 18.0f)
+	if (totalElapsedTime >= 18.0f && totalElapsedTime < 24.0f)
+	{
+		if (transparency3 >= 255)
+		{
+			totalElapsedTime_sec = 0.0f;
+			transparency3 = 0;
+		}
+
+		CP_Graphics_ClearBackground(CP_Color_Create(0, 0, 0, 0));
+		CP_Image_Draw(CreditsCopyright, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, (float)CP_Image_GetWidth(CreditsCopyright), (float)CP_Image_GetHeight(CreditsCopyright), transparency4);
+		if (transparency4 < 255)
+		{
+			transparency4 = (int)((totalElapsedTime_sec / 4) * 255);
+		}
+	}
+
+	if (totalElapsedTime >= 24.0f)
 	{
 		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 	}
