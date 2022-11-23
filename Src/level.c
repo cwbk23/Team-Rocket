@@ -1269,8 +1269,6 @@ void Level_Update()
 			if (bomb_enemies[i].explosion_draw == TRUE) // DRAW EXPLOSION IF BOMB ENEMY HAS EXPLODED AND BEEN CLEARED
 			{
 				CP_Image_Draw(ExplosionSmall, bomb_enemies[i].x_position, bomb_enemies[i].y_position, bomb_enemies[i].width, bomb_enemies[i].height, 255);
-				CP_Sound_PlayAdvanced(ExplosionSound, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_0);
-
 				bomb_enemies[i].explosion_totalElapsedTime += currentElapsedTime;
 
 				if (bomb_enemies[i].explosion_totalElapsedTime >= 0.1f)
@@ -1334,6 +1332,7 @@ void Level_Update()
 				bomb_enemies[index].width, bomb_enemies[index].height))
 			{
 				player.alive = FALSE;
+				CP_Sound_PlayAdvanced(ExplosionSound, 1.0f, 1.0f, FALSE, CP_SOUND_GROUP_0);
 				bomb_enemies[index].explosion_draw = TRUE;
 				bomb_enemies[index].enemy_draw = FALSE; // CLEAR THE BOMB ENEMY DRAWING IF ITS HAS COLLIDED WITH PLAYER
 			}
