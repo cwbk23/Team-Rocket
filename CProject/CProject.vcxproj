@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\credits.c" />
+    <ClCompile Include="..\Src\howtoplay.c" />
     <ClCompile Include="..\Src\level.c" />
     <ClCompile Include="..\Src\main.c" />
     <ClCompile Include="..\Src\mainmenu.c" />
@@ -23,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Inc\credits.h" />
+    <ClInclude Include="..\Inc\howtoplay.h" />
     <ClInclude Include="..\Inc\level.h" />
     <ClInclude Include="..\Inc\lose.h" />
     <ClInclude Include="..\Inc\mainmenu.h" />

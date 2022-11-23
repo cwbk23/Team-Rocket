@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "quiz.h"
 #include "credits.h"
+#include "howtoplay.h"
 
 
 void Main_Menu_Init()
@@ -23,20 +24,26 @@ void Main_Menu_Update()
 	CP_Settings_Fill(CP_Color_Create(0, 102, 255, 255));
 	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, 150.0f, 50.0f);
 
+	// How To Play button
+	CP_Settings_Fill(CP_Color_Create(255, 69, 0, 255));
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f);
+
 	// Credits button
 	CP_Settings_Fill(CP_Color_Create(0, 153, 51, 255));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f);
 
 	// Exit button
 	CP_Settings_Fill(CP_Color_Create(128, 128, 128, 255));
-	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f);
+	CP_Graphics_DrawRect(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 300.0f, 150.0f, 50.0f);
+
 
 	// Buttons text
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(25.0f);
 	CP_Font_DrawText("PLAY", CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f);
-	CP_Font_DrawText("CREDITS", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f);
-	CP_Font_DrawText("EXIT", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f);
+	CP_Font_DrawText("HOW TO PLAY", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f);
+	CP_Font_DrawText("CREDITS", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f);
+	CP_Font_DrawText("EXIT", CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 300.0f);
 
 	// Game title
 	CP_Settings_TextSize(150.0f);
@@ -50,13 +57,18 @@ void Main_Menu_Update()
 
 			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 		}
-		// Credits screen
+		// How to play screen
 		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 100.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+
+			CP_Engine_SetNextGameState(HowToPlay_Init, HowToPlay_Update, HowToPlay_Exit);
+		}
+		// Credits screen
+		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_SetNextGameState(Credits_Init, Credits_Update, Credits_Exit);
 		}
 		// Exit game
-		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 200.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		else if (IsAreaClicked(CP_System_GetWindowWidth() / 2.0f, (CP_System_GetWindowHeight() / 2.0f) + 300.0f, 150.0f, 50.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_Terminate();
 		}
