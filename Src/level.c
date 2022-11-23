@@ -43,6 +43,9 @@ CP_Image player_down_right;
 CP_Image heart_full;
 CP_Image heart_empty;
 
+// Mouse left button icon
+CP_Image mouse_left;
+
 // Default no. of player lives
 int totalLives = 5;
 playerLives = 5;	// EXTERN INT
@@ -176,9 +179,6 @@ void Level_Init()
 	player.blockRight = FALSE;
 	player.blockJump = FALSE;
 
-	heart_full = CP_Image_Load("Assets/hudHeart_full.png");
-	heart_empty = CP_Image_Load("Assets/hudHeart_empty.png");
-
 	player_stand_left = CP_Image_Load("Assets/player_stand_left.png");
 	player_stand_right = CP_Image_Load("Assets/player_stand_right.png");
 	/*player_walk1_right = CP_Image_Load("Assets/player_walk1_right.png");
@@ -187,6 +187,10 @@ void Level_Init()
 	player_jump_right = CP_Image_Load("Assets/player_jump_right.png");
 	player_down_left = CP_Image_Load("Assets/player_down_left.png");
 	player_down_right = CP_Image_Load("Assets/player_down_right.png");
+
+	heart_full = CP_Image_Load("Assets/hudHeart_full.png");
+	heart_empty = CP_Image_Load("Assets/hudHeart_empty.png");
+	mouse_left = CP_Image_Load("Assets/mouseLeft.png");
 
 	sound_jump = CP_Sound_LoadMusic("Assets/jump.ogg");
 	sound_death = CP_Sound_LoadMusic("Assets/death.ogg");
@@ -743,20 +747,6 @@ void Level_Update()
 	if ((CP_Input_KeyDown(KEY_D) || CP_Input_KeyDown(KEY_RIGHT)) && !player.blockRight) {
 		player.posX += player.moveSpeed * currentElapsedTime;
 		player_model_state = 'R';
-
-		/*if (player.isColliding) {
-			if (playerAnim_totalElapsedTime < 0.5) {
-				CP_Image_Draw(player_walk1_right, player.posX, player.posY, player.width, player.height, player_transparency);
-			}
-			else if (playerAnim_totalElapsedTime < 1.0) {
-				CP_Image_Draw(player_walk2_right, player.posX, player.posY, player.width, player.height, player_transparency);
-			}
-			else {
-				playerAnim_totalElapsedTime = 0;
-			}
-
-			playerAnim_totalElapsedTime += currentElapsedTime;
-		}*/
 	}
 
 	// Jump speed deceleration based on time
@@ -1061,6 +1051,36 @@ void Level_Update()
 			player.alive = FALSE;
 			break;
 		}
+	}
+
+	// Hints for when to use charged jump
+	CP_Settings_RectMode(CP_POSITION_CORNER);
+	CP_Settings_Fill(CP_Color_Create(105, 105, 105, 255));
+	//CP_Graphics_DrawRect(stat_plat[5].pos_x, stat_plat[5].pos_y - player.height, stat_plat[5].width, player.height);
+	if (CollisionCheck(player.posX, player.posY, player.width, player.height, stat_plat[5].pos_x, stat_plat[5].pos_y - player.height, stat_plat[5].width, player.height) 
+		&& current_checkpoint == 1) {
+		CP_Settings_TextSize(30.0f);
+		CP_Font_DrawText("Hold        to", stat_plat[5].pos_x + 40.0f, stat_plat[5].pos_y - player.height - 220.0f);
+		CP_Font_DrawText("charge jump!", stat_plat[5].pos_x + 40.0f, stat_plat[5].pos_y - player.height - 185.0f);
+
+		CP_Settings_ImageMode(CP_POSITION_CORNER);
+		CP_Image_Draw(mouse_left, stat_plat[5].pos_x + 30.0f, stat_plat[5].pos_y - player.height - 245.0f, 50.0f, 50.0f, 255);
+	} 
+	else if (CollisionCheck(player.posX, player.posY, player.width, player.height, stat_plat[11].pos_x, stat_plat[11].pos_y - player.height, stat_plat[11].width, player.height) 
+		&& current_checkpoint == 2) {
+		/*CP_Settings_TextSize(30.0f);
+		CP_Font_DrawText("Hold        to", stat_plat[11].pos_x + 200.0f, stat_plat[11].pos_y - player.height - 250.0f);
+		CP_Font_DrawText("charge jump!", stat_plat[11].pos_x + 200.0f, stat_plat[11].pos_y - player.height - 215.0f);
+
+		CP_Settings_ImageMode(CP_POSITION_CORNER);
+		CP_Image_Draw(mouse_left, stat_plat[11].pos_x + 190.0f, stat_plat[11].pos_y - player.height - 275.0f, 50.0f, 50.0f, 255);*/
+
+		CP_Settings_TextSize(30.0f);
+		CP_Font_DrawText("Hold        to", stat_plat[11].pos_x + 90.0f, stat_plat[11].pos_y - player.height - 100.0f);
+		CP_Font_DrawText("charge jump!", stat_plat[11].pos_x + 90.0f, stat_plat[11].pos_y - player.height - 65.0f);
+
+		CP_Settings_ImageMode(CP_POSITION_CORNER);
+		CP_Image_Draw(mouse_left, stat_plat[11].pos_x + 80.0f, stat_plat[11].pos_y - player.height - 125.0f, 50.0f, 50.0f, 255);
 	}
 
 	
@@ -1480,14 +1500,16 @@ void Level_Update()
 void Level_Exit()
 {
 	///////////////////// YEE LEI /////////////////////
-	CP_Image_Free(&heart_full);
-	CP_Image_Free(&heart_empty);
 	CP_Image_Free(&player_stand_right);
 	CP_Image_Free(&player_stand_left);
 	CP_Image_Free(&player_jump_right);
 	CP_Image_Free(&player_jump_left);
 	CP_Image_Free(&player_down_left);
 	CP_Image_Free(&player_down_right);
+
+	CP_Image_Free(&heart_full);
+	CP_Image_Free(&heart_empty);
+	CP_Image_Free(&mouse_left);
 
 	CP_Sound_Free(&sound_jump);
 	CP_Sound_Free(&sound_death);
