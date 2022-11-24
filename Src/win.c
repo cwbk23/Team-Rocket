@@ -38,7 +38,7 @@ void Win_Init() {
 	NEW_HIGHSCORE = FALSE;
 
 	// Load and play victory music
-	victoryMusic = CP_Sound_Load("Assets/APPLAUSE-CHEERING-CHILDREN_GEN-HDF-01434.wav");
+	victoryMusic = CP_Sound_Load("Assets/victory_sound.wav");
 	CP_Sound_Play(victoryMusic);
 	
 }
@@ -51,20 +51,18 @@ void Win_Update() {
 	CP_Color color_darkgrey = (CP_Color_Create(128, 128, 128, 255));
 	CP_Color color_gold = (CP_Color_Create(255, 215, 0, 255));
 
-	// Return to main menu button
+	// Exit to Main Menu button
 	CP_Settings_Fill(color_darkgrey);
-	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f) - 200.f, CP_System_GetWindowHeight() / 1.20f, 200.f, 100.f, 0.f, 10.f);
+	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f) - 200.f, CP_System_GetWindowHeight() / 1.20f, 300.f, 80.f, 0.f, 10.f);
 
-	// Play again button
-	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f) + 200.f, CP_System_GetWindowHeight() / 1.20f, 200.f, 100.f, 0.f, 10.f);
-
+	// Restart Game button
+	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f) + 200.f, CP_System_GetWindowHeight() / 1.20f, 300.f, 80.f, 0.f, 10.f);
 
 	// Calculate and compare current game score with previous highscore
 	bonus_score = (playerLives - 1) * 10;
 	game_score = quiz_score + bonus_score;
 
 	// Compare scores
-
 	if (game_score > highscore) {
 		
 		NEW_HIGHSCORE = TRUE;
@@ -118,20 +116,20 @@ void Win_Update() {
 	CP_Font_DrawText(bonusscore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.625f);
 	CP_Font_DrawText(lives_left_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 1.475f);
 
-	// Text for Return to Main Menu & Play Again buttons
+	// Text for Exit to Main Menu & Restart Game buttons
 	CP_Settings_TextSize(35.0f);
 	
-	CP_Font_DrawText("PLAY AGAIN", (CP_System_GetWindowWidth() / 2.0f) - 200.f, CP_System_GetWindowHeight() / 1.20f);
-	CP_Font_DrawText("MAIN MENU", (CP_System_GetWindowWidth() / 2.0f) + 200.f, CP_System_GetWindowHeight() / 1.20f);
+	CP_Font_DrawText("RESTART GAME", (CP_System_GetWindowWidth() / 2.0f) - 200.f, CP_System_GetWindowHeight() / 1.20f);
+	CP_Font_DrawText("EXIT TO MAIN MENU", (CP_System_GetWindowWidth() / 2.0f) + 200.f, CP_System_GetWindowHeight() / 1.20f);
 
 	// Check for mouse left click
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
-		// Play again action
+		// Restart Game action
 		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f - 200.f), CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 		}
-		// Return to main menu action
+		// Exit to Main Menu action
 		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f + 200.f), CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
@@ -141,8 +139,8 @@ void Win_Update() {
 
 void Win_Exit() {
 
-	//fclose(highscore_file); // Close Highscore.txt
 	quiz_score = 0;
 	checkpoint_no = -1;
 	CP_Sound_Free(&victoryMusic);
+
 }

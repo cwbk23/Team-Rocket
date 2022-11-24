@@ -196,6 +196,14 @@ void Level_Init()
 	sound_death = CP_Sound_LoadMusic("Assets/death.ogg");
 	
 	///////////////  KENNY  //////////////////
+
+	// Load images for checkpoint and endpoint
+	CPoint = CP_Image_Load("Assets/Checkpoint.png");
+	EPoint = CP_Image_Load("Assets/Endpoint.png");
+
+	// Load music/sound
+	levelMusic = CP_Sound_LoadMusic("Assets/level_music2.wav");
+	CP_Sound_PlayMusic(levelMusic);
 	
 	// Initialize stationary platforms variables
 	stat_plat[0].pos_x = 0.f;
@@ -464,23 +472,14 @@ void Level_Init()
 
 	endpoint.width = 60.f;
 	endpoint.height = 80.f;
-	endpoint.pos_x = stat_plat[15].pos_x + stat_plat[15].width - endpoint.width; // Takes the x-coordinates relative to the platform
-	endpoint.pos_y = stat_plat[15].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
+	endpoint.pos_x = stat_plat[2].pos_x + stat_plat[2].width - endpoint.width; // Takes the x-coordinates relative to the platform
+	endpoint.pos_y = stat_plat[2].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
 
 	endpoint_hitbox.width = endpoint.width;
 	endpoint_hitbox.height = endpoint.height;
 	endpoint_hitbox.pos_x = endpoint.pos_x - (endpoint.width / 2);
 	endpoint_hitbox.pos_y = endpoint.pos_y - (endpoint.height / 2);
-
-	// Load images for checkpoint and endpoint
-	CPoint = CP_Image_Load("Assets/Checkpoint.png");
-	EPoint = CP_Image_Load("Assets/Endpoint.png");
-
-	// Load play level music
-	levelMusic = CP_Sound_LoadMusic("Assets/DAYLIGHT STROLL - EasyListeningMid MSCEZL4_09.wav");
-	CP_Sound_PlayMusic(levelMusic);
 	
-
 	//////////////////// CLEMENT ///////////////////////
 
 	// IMAGES USED
@@ -1093,8 +1092,6 @@ void Level_Update()
 	CP_Color color_grey = (CP_Color_Create(211, 211, 211, 255));
 	CP_Color color_lightgrey = (CP_Color_Create(220, 220, 220, 255));
 	CP_Color color_darkgrey = (CP_Color_Create(128, 128, 128, 255));
-	CP_Color color_metalgrey = (CP_Color_Create(142, 142, 142, 255));
-	//CP_Color color_darkgrey = (CP_Color_Create(119, 123, 126, 255));
 
 	// Drawing of all stationary platforms
 	CP_Settings_Fill(color_brown);
