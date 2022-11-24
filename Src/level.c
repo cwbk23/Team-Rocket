@@ -158,6 +158,8 @@ checkpoint_no = 0;
 CP_Image CPoint, EPoint;
 CP_Sound levelMusic;
 
+// Initialize playing level music to 0
+playlevelmusic = 0;
 
 void Level_Init()
 {
@@ -202,8 +204,12 @@ void Level_Init()
 	EPoint = CP_Image_Load("Assets/Endpoint.png");
 
 	// Load music/sound
-	levelMusic = CP_Sound_LoadMusic("Assets/level_music2.wav");
-	CP_Sound_PlayMusic(levelMusic);
+	levelMusic = CP_Sound_LoadMusic("Assets/level_music.wav");
+
+	if (playlevelmusic == 0) {
+		playlevelmusic = 1;
+		CP_Sound_PlayMusic(levelMusic);
+	}
 	
 	// Initialize stationary platforms variables
 	stat_plat[0].pos_x = 0.f;
@@ -472,8 +478,8 @@ void Level_Init()
 
 	endpoint.width = 60.f;
 	endpoint.height = 80.f;
-	endpoint.pos_x = stat_plat[2].pos_x + stat_plat[2].width - endpoint.width; // Takes the x-coordinates relative to the platform
-	endpoint.pos_y = stat_plat[2].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
+	endpoint.pos_x = stat_plat[15].pos_x + stat_plat[15].width - endpoint.width; // Takes the x-coordinates relative to the platform
+	endpoint.pos_y = stat_plat[15].pos_y - (endpoint.height / 2); // Takes the y-coordinates relative to the platform
 
 	endpoint_hitbox.width = endpoint.width;
 	endpoint_hitbox.height = endpoint.height;
@@ -1514,7 +1520,7 @@ void Level_Exit()
 	///////////////////// KENNY /////////////////////
 	CP_Image_Free(&CPoint);
 	CP_Image_Free(&EPoint);
-	CP_Sound_Free(&levelMusic);
+	//CP_Sound_Free(&levelMusic);
 
 	///////////////////// CLEMENT /////////////////////
 	CP_Image_Free(&BombEnemy);

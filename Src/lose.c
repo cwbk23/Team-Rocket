@@ -13,6 +13,10 @@ void Lose_Init()
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 	
+	// Stop level music
+	playlevelmusic = 0;
+	CP_Sound_Free(&levelMusic);
+
 	// Play Lose music
 	sound_lose = CP_Sound_LoadMusic("Assets/lose.ogg");
 	CP_Sound_Play(sound_lose);

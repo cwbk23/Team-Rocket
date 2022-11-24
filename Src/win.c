@@ -34,6 +34,10 @@ void Win_Init() {
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
+	// Stop level music
+	playlevelmusic = 0;
+	CP_Sound_Free(&levelMusic);
+
 	// Initialize highscore boolean to be false
 	NEW_HIGHSCORE = FALSE;
 
@@ -126,11 +130,11 @@ void Win_Update() {
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
 		// Restart Game action
-		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f - 200.f), CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f - 200.f), CP_System_GetWindowHeight() / 1.20f, 300.f, 80.f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 		}
 		// Exit to Main Menu action
-		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f + 200.f), CP_System_GetWindowHeight() / 1.20f, 200.f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f + 200.f), CP_System_GetWindowHeight() / 1.20f, 300.f, 80.f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
 	}

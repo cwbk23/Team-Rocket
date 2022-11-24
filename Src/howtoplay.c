@@ -53,6 +53,10 @@ void HowToPlay_Update() {
 	
 	}
 
+	// Exit to main menu if ESC key pressed
+	if (CP_Input_KeyTriggered(KEY_ESCAPE)) {
+		CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
+	}
 }
 
 void HowToPlay_Exit() {

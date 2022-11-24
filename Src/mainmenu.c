@@ -5,14 +5,24 @@
 #include "credits.h"
 #include "howtoplay.h"
 
+CP_Sound menuMusic;
 
 void Main_Menu_Init()
 {	
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
-
+	
 	checkpoint_no = -1;
 	quiz_score = 0;
+
+	// Stop level music
+	playlevelmusic = 0;
+	CP_Sound_Free(&levelMusic);
+
+	// Play menu music
+	menuMusic = CP_Sound_LoadMusic("Assets/menu_music.wav");
+	CP_Sound_PlayMusic(menuMusic);
+
 }
 
 void Main_Menu_Update()
@@ -77,5 +87,5 @@ void Main_Menu_Update()
 
 void Main_Menu_Exit()
 {
-	
+	CP_Sound_Free(&menuMusic);
 }
