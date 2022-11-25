@@ -2327,4 +2327,5 @@ void Quiz_Exit()
 {
 	CP_Sound_Free(&correctsound);
 	CP_Sound_Free(&wrongsound);
+	CP_Sound_Free(&checkpointSound);
 }

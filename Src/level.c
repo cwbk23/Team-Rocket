@@ -156,7 +156,7 @@ struct CHECKPOINTS endpoint, endpoint_hitbox;
 checkpoint_no = 0;
 
 CP_Image CPoint, EPoint;
-CP_Sound levelMusic;
+CP_Sound levelMusic, checkpointSound;
 
 // Initialize playing level music to 0
 playlevelmusic = 0;
@@ -205,13 +205,14 @@ void Level_Init()
 
 	// Load music/sound
 	levelMusic = CP_Sound_LoadMusic("Assets/level_music.wav");
+	checkpointSound = CP_Sound_LoadMusic("Assets/checkpoint_sound.ogg");
 
 	if (playlevelmusic == 0) {
 		playlevelmusic = 1;
 		CP_Sound_PlayMusic(levelMusic);
 	}
 	
-	// Initialize stationary platforms variables
+	// Initialize stationary platforms variablesw
 	stat_plat[0].pos_x = 0.f;
 	stat_plat[0].pos_y = 1000.f;
 	stat_plat[0].width = 150.f;
@@ -1242,6 +1243,7 @@ void Level_Update()
 		// Collision checking of checkpoints
 		if (CollisionCheck(player.posX, player.posY, player.width, player.height, checkpoint_hitbox[i].pos_x, checkpoint_hitbox[i].pos_y, checkpoint_hitbox[i].width, checkpoint_hitbox[i].height)) {
 			checkpoint_no = i + 1; // Saves the current checkpoint
+			CP_Sound_Play(checkpointSound);
 			CP_Engine_SetNextGameState(Quiz_Init, Quiz_Update, Quiz_Exit);
 		}
 	}

@@ -7,6 +7,8 @@ extern int playerLives;
 
 extern CP_Sound levelMusic;
 
+extern CP_Sound checkpointSound;
+
 extern int playlevelmusic;
 
 void Level_Init(void);
