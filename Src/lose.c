@@ -48,28 +48,28 @@ void Lose_Update()
 
 	// Play button
 	CP_Settings_Fill(CP_Color_Create(128, 128, 128, 255));
-	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f, 200.0f, 100.0f, 0.0f, 10.0f);
+	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f, 300.0f, 80.0f, 0.0f, 10.0f);
 
 	// Main menu button
 	CP_Settings_Fill(CP_Color_Create(128, 128, 128, 255));
-	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f, 200.0f, 100.0f, 0.0f, 10.0f);
+	CP_Graphics_DrawRectAdvanced((CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f, 300.0f, 80.0f, 0.0f, 10.0f);
 
 	// Play / Menu button text
 	CP_Settings_Fill(CP_Color_Create(255, 255, 255, 255));
 	CP_Settings_TextSize(35.0f);
-	CP_Font_DrawText("PlAY AGAIN", (CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f);
-	CP_Font_DrawText("MAIN MENU", (CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f);
+	CP_Font_DrawText("RESTART GAME", (CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f);
+	CP_Font_DrawText("EXIT TO MAIN MENU", (CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f);
 
 	// Check for mouse left click
 	if (CP_Input_MouseTriggered(MOUSE_BUTTON_LEFT)) {
 
 		// Play button action
-		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f, 200.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f - 200.0f), CP_System_GetWindowHeight() / 1.2f, 300.0f, 80.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_SetNextGameState(Level_Init, Level_Update, Level_Exit);
 		}
 		// Menu button action
-		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f, 200.0f, 100.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
+		else if (IsAreaClicked((CP_System_GetWindowWidth() / 2.0f + 200.0f), CP_System_GetWindowHeight() / 1.2f, 300.0f, 80.0f, CP_Input_GetMouseX(), CP_Input_GetMouseY())) {
 
 			CP_Engine_SetNextGameState(Main_Menu_Init, Main_Menu_Update, Main_Menu_Exit);
 		}
