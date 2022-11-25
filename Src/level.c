@@ -153,8 +153,10 @@ struct CHECKPOINTS {
 }; struct CHECKPOINTS checkpoint[SIZE_CHECKPOINTS], checkpoint_hitbox[SIZE_CHECKPOINTS];
 struct CHECKPOINTS endpoint, endpoint_hitbox;
 
+// Initialize checkpoint number to 0
 checkpoint_no = 0;
 
+// Declaration of images and sounds
 CP_Image CPoint, EPoint;
 CP_Sound levelMusic, checkpointSound;
 
@@ -362,7 +364,7 @@ void Level_Init()
 	move_plat[1].movement = UP;
 	move_plat[1].speed = PLAT_SPEED;
 	move_plat[1].distance = 100.f;
-	move_plat[1].limit = 1000.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[1].limit = 1000.f;
 
 	move_plat[2].pos_x = 1420.f;
 	move_plat[2].pos_y = 530.f;
@@ -373,7 +375,7 @@ void Level_Init()
 	move_plat[2].movement = LEFT;
 	move_plat[2].speed = PLAT_SPEED;
 	move_plat[2].distance = 100.f;
-	move_plat[2].limit = 1420.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[2].limit = 1420.f;
 	
 	move_plat[3].pos_x = 1170.f;
 	move_plat[3].pos_y = 630.f;
@@ -384,7 +386,7 @@ void Level_Init()
 	move_plat[3].movement = UP;
 	move_plat[3].speed = PLAT_SPEED;
 	move_plat[3].distance = 100.f;
-	move_plat[3].limit = 630.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[3].limit = 630.f;
 
 	move_plat[4].pos_x = 200.f;
 	move_plat[4].pos_y = 260.f;
@@ -395,7 +397,7 @@ void Level_Init()
 	move_plat[4].movement = RIGHT;
 	move_plat[4].speed = PLAT_SPEED;
 	move_plat[4].distance = 100.f;
-	move_plat[4].limit = 200.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[4].limit = 200.f;
 
 	move_plat[5].pos_x = 850.f;
 	move_plat[5].pos_y = 260.f;
@@ -406,7 +408,7 @@ void Level_Init()
 	move_plat[5].movement = UP;
 	move_plat[5].speed = PLAT_SPEED;
 	move_plat[5].distance = 150.f;
-	move_plat[5].limit = 260.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[5].limit = 260.f; 
 
 	move_plat[6].pos_x = 1300.f;
 	move_plat[6].pos_y = 110.f;
@@ -417,7 +419,7 @@ void Level_Init()
 	move_plat[6].movement = DOWN;
 	move_plat[6].speed = PLAT_SPEED;
 	move_plat[6].distance = 150.f;
-	move_plat[6].limit = 110.f; // Follows value from pos_x for left/right and pos_y for up/down
+	move_plat[6].limit = 110.f; 
 
 	// Initialize the spikes variables
 	spikes[0].x1 = 20.f;
@@ -1121,7 +1123,6 @@ void Level_Update()
 		CP_Graphics_DrawRectAdvanced(blocker_plat[2].pos_x, blocker_plat[2].pos_y, blocker_plat[2].width, blocker_plat[2].height, blocker_plat[2].rotation, 0.f);
 	}
 
-	
 	// Drawing of all moving platforms
 	CP_Settings_Fill(color_brown);
 	for (int i = 0; i < SIZE_MOVE; ++i) {
@@ -1220,6 +1221,7 @@ void Level_Update()
 		CP_Graphics_DrawTriangleAdvanced(spikes[currentSpike].x1, spikes[currentSpike].y1, spikes[currentSpike].x2, spikes[currentSpike].y2, spikes[currentSpike].x3, spikes[currentSpike].y3, spikes[currentSpike].deg);
 	}
 
+	// Draw 42 spikes at the 3rd floor of the map
 	spikesWanted = 42;
 	size = currentSpike + spikesWanted;
 
@@ -1249,7 +1251,6 @@ void Level_Update()
 	}
 
 	// Draw endpoint
-	//CP_Graphics_DrawRect(endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height); // Endpoint hitbox boundary checking
 	CP_Image_Draw(EPoint, endpoint.pos_x, endpoint.pos_y, endpoint.width, endpoint.height, 255);
 
 	// Collision checking of endpoint
