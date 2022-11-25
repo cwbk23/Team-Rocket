@@ -1270,7 +1270,7 @@ void Level_Update()
 
 	for (int i = 0; i < MOVING_ENEMY_SIZE; ++i) // DRAWING OF THE 3 MOVING ENEMIES INITIALIZED
 	{
-		//CP_Settings_Fill(color_grey);
+		CP_Settings_Fill(color_grey);
 		//CP_Graphics_DrawRect(mov_enemies[i].x_position, mov_enemies[i].y_position, mov_enemies[i].width, mov_enemies[i].height);
 		if (mov_enemies[i].enemy_direction == MOVE_LEFT)
 		{
@@ -1286,7 +1286,7 @@ void Level_Update()
 	{
 		if (bomb_enemies[i].enemy_draw == TRUE) // DRAW BOMB ENEMY IF ITS STILL ALIVE
 		{
-			//CP_Settings_Fill(color_grey);
+			CP_Settings_Fill(color_grey);
 			//CP_Graphics_DrawRect(bomb_enemies[i].x_position, bomb_enemies[i].y_position, bomb_enemies[i].width, bomb_enemies[i].height);
 			CP_Image_Draw(BombEnemy, bomb_enemies[i].x_position, bomb_enemies[i].y_position, bomb_enemies[i].width, bomb_enemies[i].height, 255);
 		}
@@ -1370,7 +1370,7 @@ void Level_Update()
 	{
 		for (int j = 0; j < BULLET_SIZE; ++j)
 		{
-			//CP_Settings_Fill(color_grey);
+			CP_Settings_Fill(color_grey);
 			//CP_Graphics_DrawRect(bullet[i][j].bullet_x, bullet[i][j].bullet_y, bullet[i][j].bullet_width, bullet[i][j].bullet_height);
 
 			if (bullet[i][j].bullet_direction == 'R')
@@ -1483,7 +1483,7 @@ void Level_Update()
 	// DRAWING OF THE SHOOTING ENEMIES
 	for (int i = 0; i < SHOOTING_ENEMY_SIZE; ++i)
 	{
-		//CP_Settings_Fill(color_grey);
+		CP_Settings_Fill(color_grey);
 		//CP_Graphics_DrawRect(shooting_enemies[i].x_position, shooting_enemies[i].y_position, shooting_enemies[i].width , shooting_enemies[i].height);
 		if (shooting_enemies[i].enemy_direction == MOVE_LEFT)
 		{
