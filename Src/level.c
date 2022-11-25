@@ -1286,7 +1286,7 @@ void Level_Update()
 	{
 		if (bomb_enemies[i].enemy_draw == TRUE) // DRAW BOMB ENEMY IF ITS STILL ALIVE
 		{
-			CP_Settings_Fill(color_grey);
+			//CP_Settings_Fill(color_grey);
 			//CP_Graphics_DrawRect(bomb_enemies[i].x_position, bomb_enemies[i].y_position, bomb_enemies[i].width, bomb_enemies[i].height);
 			CP_Image_Draw(BombEnemy, bomb_enemies[i].x_position, bomb_enemies[i].y_position, bomb_enemies[i].width, bomb_enemies[i].height, 255);
 		}

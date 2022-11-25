@@ -13,8 +13,8 @@ float totalElapsedTime, totalElapsedTime_sec;
 void Credits_Init(void)
 {
 	CP_Settings_ImageMode(CP_POSITION_CENTER);
-	TeamName = CP_Image_Load("./Assets/team_name.png");
-	DigipenExec = CP_Image_Load("./Assets/digipenexec.png");
+	TeamName = CP_Image_Load("./Assets/credits_teamname.png");
+	DigipenExec = CP_Image_Load("./Assets/credits_digipenexec.png");
 	CreditsThanks = CP_Image_Load("./Assets/credits_thanks.png");
 	CreditsCopyright = CP_Image_Load("./Assets/credits_copyright.png");
 	CreditsLast = CP_Image_Load("./Assets/credits_last.png");
