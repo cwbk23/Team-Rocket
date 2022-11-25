@@ -980,7 +980,7 @@ void Quiz_Update()
 			timercounter = false;
 			if (totalElapsedTime <= 0)
 			{
-				CP_Settings_Fill(black);
+				CP_Settings_Fill(red);
 				CP_Font_DrawText("TIMES UP !", width /1.9f, height / 3.5f );
 			}
 			if (counter <= 2)
@@ -1620,7 +1620,7 @@ void Quiz_Update()
 
 			if (totalElapsedTime <= 0)
 			{
-				CP_Settings_Fill(white);
+				CP_Settings_Fill(red);
 				CP_Font_DrawText("TIMES UP !", width / 1.9f, height / 3.5f);
 			}
 
@@ -2252,7 +2252,7 @@ void Quiz_Update()
 
 				if (totalElapsedTime <= 0)
 				{
-					CP_Settings_Fill(white);
+					CP_Settings_Fill(red);
 					CP_Font_DrawText("TIMES UP !", width / 1.9f, height / 3.5f);
 				}
 
