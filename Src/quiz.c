@@ -1,12 +1,13 @@
 #include "cprocessing.h"
 #include "quiz.h"
-#include "math.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <mainmenu.h>
+#include "mainmenu.h"
 #include "utils.h"
 #include <stdbool.h>
-#include<level.h>
+#include "level.h"
+
 
 bool timesuppage;
 bool timercounter;
@@ -189,14 +190,15 @@ char totalscore1[10] = { 3 };
 char totalscore2[10] = { 3 };
 char totalscore3[10] = { 3 };
 
- int counter ;
- int counter1 ;
- int counter2 ;
+int counter;
+int counter1;
+int counter2;
 
- static float totalElapsedTime;
+static float totalElapsedTime;
 
- CP_Sound correctsound = NULL;
- CP_Sound wrongsound = NULL;
+CP_Sound correctsound = NULL;
+CP_Sound wrongsound = NULL;
+
 
 void Quiz_Init()
 {
@@ -390,76 +392,74 @@ void Quiz_Init()
 	clicked_q5 = false;
 	question_5ans = false;
 
-	 question_6 = false;
-	 clicked_q6 = false;
-	 question_6ans = false;
+	question_6 = false;
+	clicked_q6 = false;
+	question_6ans = false;
 
-	 question_7 = false;
-	 clicked_q7 = false;
-	 question_7ans = false;
+	question_7 = false;
+	clicked_q7 = false;
+	question_7ans = false;
 
-	 question_8 = false;
-	 clicked_q8 = false;
-	 question_8ans = false;
+	question_8 = false;
+	clicked_q8 = false;
+	question_8ans = false;
 
-	 question_9 = false;
-	 clicked_q9 = false;
-	 question_9ans = false;
+	question_9 = false;
+	clicked_q9 = false;
+	question_9ans = false;
 
-	 question_10 = false;
-	 clicked_q10 = false;
-	 question_10ans = false;
+	question_10 = false;
+	clicked_q10 = false;
+	question_10ans = false;
 
-	 question_11 = false;
-	 clicked_q11 = false;
-	 question_11ans = false;
+	question_11 = false;
+	clicked_q11 = false;
+	question_11ans = false;
 
-	 question_12 = false;
-	 clicked_q12 = false;
-	 question_12ans = false;
+	question_12 = false;
+	clicked_q12 = false;
+	question_12ans = false;
 
-	 question_13 = false;
-	 clicked_q13 = false;
-	 question_13ans = false;
+	question_13 = false;
+	clicked_q13 = false;
+	question_13ans = false;
 
-	 question_14 = false;
-	 clicked_q14 = false;
-	 question_14ans = false;
+	question_14 = false;
+	clicked_q14 = false;
+	question_14ans = false;
 
-	 question_15 = false;
-	 clicked_q15 = false;
-	 question_15ans = false;
+	question_15 = false;
+	clicked_q15 = false;
+	question_15ans = false;
 
-   	fail_page = false;
+	fail_page = false;
 	fail_page1 = false;
 	fail_page2 = false;
 
 
 	//if checkpoint 1 start with ques 1
-	 if (checkpoint_no == 1)
-	 {
-		 question_1 = TRUE;
-		 counter = 0;
-	 }
+	if (checkpoint_no == 1)
+	{
+		question_1 = TRUE;
+		counter = 0;
+	}
 
-	 //if checkpoint 2 start with ques 6
-	 if (checkpoint_no == 2)
-	 {
-		 question_6 = TRUE;
-		 counter1 = 0;
-	 }
+	//if checkpoint 2 start with ques 6
+	if (checkpoint_no == 2)
+	{
+		question_6 = TRUE;
+		counter1 = 0;
+	}
 
-	 //if checkpoint 3 start with ques 11
-	 if (checkpoint_no == 3)
-	 {	
-		 question_11 = TRUE;
-		 counter2 = 0;
-	 }
+	//if checkpoint 3 start with ques 11
+	if (checkpoint_no == 3)
+	{	
+		question_11 = TRUE;
+		counter2 = 0;
+	}
 	totalElapsedTime = 180;
 	
 }
-	
-
 
 
 void Quiz_Update()
@@ -563,7 +563,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("5 Qns left", width / 2.0f, height / 1.17f);
-			CP_Font_DrawText("10 marks each", width / 2.0f, height / 1.1f);
+			CP_Font_DrawText("10 points each", width / 2.0f, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -662,7 +662,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("4 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -752,7 +752,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("3 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -844,7 +844,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("2 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -934,7 +934,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("1 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -1124,7 +1124,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("5 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1234,7 +1234,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("4 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1345,7 +1345,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("3 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1454,7 +1454,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("2 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1560,7 +1560,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("1 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1768,7 +1768,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("5 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -1874,7 +1874,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("4 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -1978,7 +1978,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("3 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -2086,7 +2086,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("2 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -2192,7 +2192,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("1 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 marks each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -2282,7 +2282,7 @@ void Quiz_Update()
 					CP_Font_DrawText(totalscore, width / 1.6f, height / 2.5f);
 					CP_Font_DrawText("Total Qns correct:", width / 2, height / 2);
 					CP_Font_DrawText(totalscore2, width / 1.57f, height / 2);
-					CP_Font_DrawText("You need at 3 Qns correct to pass", width / 1.9f, height / 1.6f);
+					CP_Font_DrawText("You need 3 Qns correct to pass", width / 1.9f, height / 1.6f);
 					CP_Settings_Fill(red);
 					CP_Graphics_DrawRectAdvanced(width / 1.2f, height / 1.1f, 500, 100, 0, 5);
 					CP_Settings_Fill(white);
@@ -2339,6 +2339,8 @@ void Quiz_Update()
 	
 		          
 }
+
+
 void Quiz_Exit()
 {
 	CP_Sound_Free(&correctsound);
