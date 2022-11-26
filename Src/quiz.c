@@ -563,7 +563,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("5 Qns left", width / 2.0f, height / 1.17f);
-			CP_Font_DrawText("10 points each", width / 2.0f, height / 1.1f);
+			CP_Font_DrawText("10 Points each", width / 2.0f, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -662,7 +662,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("4 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -752,7 +752,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("3 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -844,7 +844,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("2 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -934,7 +934,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("1 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("10 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("10 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 			//If mouse click is within a certain area
@@ -1124,7 +1124,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("5 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1234,7 +1234,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("4 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1345,7 +1345,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("3 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1454,7 +1454,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("2 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1560,7 +1560,7 @@ void Quiz_Update()
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("1 Qns left", width / 2, height / 1.17f);
-			CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+			CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 			CP_Settings_TextSize(70);
 
 
@@ -1768,7 +1768,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("5 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -1874,7 +1874,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("4 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -1978,7 +1978,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("3 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -2086,7 +2086,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("2 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
@@ -2192,7 +2192,7 @@ void Quiz_Update()
 				CP_Settings_TextSize(50);
 				CP_Settings_Fill(black);
 				CP_Font_DrawText("1 Qns left", width / 2, height / 1.17f);
-				CP_Font_DrawText("20 points each", width / 2, height / 1.1f);
+				CP_Font_DrawText("20 Points each", width / 2, height / 1.1f);
 				CP_Settings_TextSize(70);
 
 
