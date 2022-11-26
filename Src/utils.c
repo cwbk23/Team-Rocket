@@ -1,5 +1,3 @@
-#include "cprocessing.h"
-#include <math.h>
 #include "utils.h"
 
 
@@ -21,18 +19,6 @@ int IsAreaClicked(float area_center_x, float area_center_y, float area_width, fl
 	return 0;
 }
 
-int IsCircleClicked(float circle_center_x, float circle_center_y, float diameter, float click_x, float click_y)
-{
-	float radius = diameter / 2.0f;
-	float distance = CP_Math_Distance(circle_center_x, circle_center_y, click_x, click_y);
-
-	if (distance < radius) {
-		return 1;
-	}
-
-	return 0;
-}
-
 int CollisionCheck(float player_x, float player_y, float player_width, float player_height, float object_x, float object_y,
 	float object_width, float object_height)
 {
@@ -48,12 +34,4 @@ int CollisionCheck(float player_x, float player_y, float player_width, float pla
 	}
 
 	return 0;
-}
-
-CP_Vector AngleToVector(float radian_angle)
-{
-	float x = (float)cos(radian_angle);
-	float y = (float)sin(radian_angle);
-    CP_Vector ret = CP_Vector_Set(x, y);
-    return ret;
 }

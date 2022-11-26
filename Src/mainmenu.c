@@ -6,8 +6,10 @@
 #include "howtoplay.h"
 
 
+// Menu music
 CP_Sound menuMusic;
 
+// Menu images
 CP_Image img_plus_black;
 CP_Image img_minus_black;
 CP_Image img_times_black;
@@ -50,7 +52,6 @@ void Main_Menu_Update()
 {
 	// Sky blue background colour
 	CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 235, 255));
-	//CP_Image_Draw(img_background, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, CP_System_GetWindowWidth(), CP_System_GetWindowHeight(), 255);
 
 	// Icon images
 	CP_Image_DrawAdvanced(img_plus_black, (CP_System_GetWindowWidth() / 2.0f) - 700.0f, (CP_System_GetWindowHeight() / 2.0f) - 350.0f, 200.0f, 200.0f, 255, -10.0f);

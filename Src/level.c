@@ -23,8 +23,6 @@
 
 ///////////////////	YEE LEI	/////////////////////////////
 
-CP_Image background;
-
 // Player sounds
 CP_Sound sound_jump;
 CP_Sound sound_death;
@@ -32,8 +30,6 @@ CP_Sound sound_death;
 // Player character models
 CP_Image player_stand_right;
 CP_Image player_stand_left;
-//CP_Image player_walk1_right;
-//CP_Image player_walk2_right;
 CP_Image player_jump_right;
 CP_Image player_jump_left;
 CP_Image player_down_left;
@@ -43,20 +39,12 @@ CP_Image player_down_right;
 CP_Image heart_full;
 CP_Image heart_empty;
 
-// Mouse left button icon
+// Mouse left click icon
 CP_Image mouse_left;
 
 // Default no. of player lives
 int totalLives = 5;
 playerLives = 5;	// EXTERN INT
-
-// Starting spawn point
-//float startingSpawnX;
-//float startingSpawnY;
-
-// Fall speed multiplier for short and long jumps
-//const float fallMultiplier_short = 0.85f;
-//const float fallMultiplier_long = 1.0f;
 
 // Jump charge settings
 const float jumpChargeMax = 1.5f;
@@ -129,6 +117,7 @@ struct Bullet bullet[SHOOTING_ENEMY_SIZE][BULLET_SIZE];
 
 
 //////////////////// KENNY ///////////////////////////
+
 enum {
 	RIGHT_LEFT, LEFT_RIGHT, DOWN_UP, UP_DOWN, // Types of directions 
 	LEFT, RIGHT, DOWN, UP // Movement directions
@@ -163,17 +152,15 @@ CP_Sound levelMusic, checkpointSound;
 // Initialize playing level music to 0
 playlevelmusic = 0;
 
+
 void Level_Init()
 {
 	///////////////	YEE LEI	/////////////////
-
-	//background = CP_Image_Load("Assets/backgroundSky.png");
 	
 	// Initialize player stats
 	player.width = 60.0f;
 	player.height = 60.0f;
 	player.moveSpeed = 200.0f;
-	//player.fallSpeed = 700.0f;
 	player.jumpHeight = 160.0f;
 	player.jumpSpeed = 15.0f;
 	player.alive = TRUE;
@@ -185,8 +172,6 @@ void Level_Init()
 
 	player_stand_left = CP_Image_Load("Assets/player_stand_left.png");
 	player_stand_right = CP_Image_Load("Assets/player_stand_right.png");
-	/*player_walk1_right = CP_Image_Load("Assets/player_walk1_right.png");
-	player_walk2_right = CP_Image_Load("Assets/player_walk2_right.png");*/
 	player_jump_left = CP_Image_Load("Assets/player_jump_left.png");
 	player_jump_right = CP_Image_Load("Assets/player_jump_right.png");
 	player_down_left = CP_Image_Load("Assets/player_down_left.png");
@@ -199,6 +184,7 @@ void Level_Init()
 	sound_jump = CP_Sound_LoadMusic("Assets/jump.ogg");
 	sound_death = CP_Sound_LoadMusic("Assets/death.ogg");
 	
+
 	///////////////  KENNY  //////////////////
 
 	// Load images for checkpoint and endpoint
@@ -489,6 +475,7 @@ void Level_Init()
 	endpoint_hitbox.pos_x = endpoint.pos_x - (endpoint.width / 2);
 	endpoint_hitbox.pos_y = endpoint.pos_y - (endpoint.height / 2);
 	
+
 	//////////////////// CLEMENT ///////////////////////
 
 	// IMAGES USED
@@ -603,8 +590,6 @@ void Level_Update()
 {
 	// Sky blue background colour
 	CP_Graphics_ClearBackground(CP_Color_Create(135, 206, 235, 255));
-	/*CP_Settings_ImageMode(CP_POSITION_CENTER);
-	CP_Image_Draw(background, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.0f, CP_System_GetWindowWidth(), CP_System_GetWindowHeight(), 255);*/
 
 	// COMMONLY USED VARIABLES
 	// Elapsed time from the last frame
@@ -694,11 +679,6 @@ void Level_Update()
 		if (spawn_totalElapsedTime < 0) spawn_totalElapsedTime = 0;
 	}
 	else {
-		// Draw player model
-		/*CP_Settings_RectMode(CP_POSITION_CORNER);
-		CP_Settings_Fill(CP_Color_Create(0, 0, 255, 255));
-		CP_Graphics_DrawRect(player.posX, player.posY, player.width, player.height);*/
-
 		// Draw player standing model
 		if (player.isColliding) {
 			if (player_model_state == 'R') {
@@ -744,8 +724,6 @@ void Level_Update()
 	sprintf_s(currentScoreStr, 50, "Current Score: %d", quiz_score);
 	CP_Font_DrawText(currentScoreStr, CP_System_GetWindowWidth() - 170.0f, 30.0f);
 
-	//static float playerAnim_totalElapsedTime = 0;
-
 	// Player left/right controls
 	if ((CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_LEFT)) && !player.blockLeft) {
 		player.posX -= player.moveSpeed * currentElapsedTime;
@@ -762,14 +740,11 @@ void Level_Update()
 
 	// Fall speed acceleration based on time
 	static float fall_totalElapsedTime = 0.1f;
-
-	// Initialize default fall multiplier
-	//static float fallMultiplier = 0.85f;
 	
 	// Player short jump control
 	if (CP_Input_KeyTriggered(KEY_SPACE) && !player.blockJump) {
 		if (!player.isJumping && player.isColliding) {
-			player.jumpEnd_posY = player.posY - player.jumpHeight;
+			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
 			player.isJumping = TRUE;
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0f;
@@ -777,21 +752,18 @@ void Level_Update()
 
 			CP_Sound_PlayAdvanced(sound_jump, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_1);
 		}
+
+		jumpCharge = 1.0f;
 	}
 
 	// Jump charge indicator
 	char jumpChargeStr[50] = { 0 };
-	//float jumpChargePercent = (jumpCharge / jumpChargeMax) * 100;
 	sprintf_s(jumpChargeStr, 50, "%.1fx", jumpCharge);
-	//CP_Font_DrawText(jumpChargeStr, CP_System_GetWindowWidth() / 2.0f, 40.0f);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 128, 255));
-	/*CP_Settings_TextSize(25.0f);
-	CP_Font_DrawText("Charging Jump:", player.posX + player.width / 2.0f, player.posY - 50.0f);*/
 	CP_Settings_TextSize(30.0f);
 	CP_Font_DrawText(jumpChargeStr, player.posX + player.width / 2.0f, player.posY - 20.0f);
 
 	// Chargeable vertical jump control
-	//if (CP_Input_KeyDown(KEY_SPACE)) {
 	if (CP_Input_MouseDown(MOUSE_BUTTON_LEFT) && !player.blockJump) {
 		if (!player.isJumping && player.isColliding && jumpCharge < jumpChargeMax) {
 			jumpCharge += 1.0f * currentElapsedTime;
@@ -799,7 +771,6 @@ void Level_Update()
 			if (jumpCharge > jumpChargeMax) jumpCharge = jumpChargeMax;
 		}
 	}
-	//else if (CP_Input_KeyReleased(KEY_SPACE)) {
 	else if (CP_Input_MouseReleased(MOUSE_BUTTON_LEFT)) {
 		if (!player.isJumping && player.isColliding && !player.blockJump) {
 			player.jumpEnd_posY = player.posY - player.jumpHeight * jumpCharge;
@@ -807,7 +778,6 @@ void Level_Update()
 			player.isColliding = FALSE;
 			jump_totalElapsedTime = 1.0f;
 			fall_totalElapsedTime = 0.1f;
-			//fallMultiplier = fallMultiplier_long; // Faster falling for high jumps
 
 			CP_Sound_PlayAdvanced(sound_jump, 0.3f, 1.0f, FALSE, CP_SOUND_GROUP_1);
 		}
@@ -828,8 +798,7 @@ void Level_Update()
 			else {
 				jump_totalElapsedTime = 0.1f;
 			}
-
-			//player.posX += jump_vec_scaled.x * currentElapsedTime;
+			
 			if ((CP_Input_KeyDown(KEY_A) || CP_Input_KeyDown(KEY_LEFT)) && !player.blockLeft) {
 				player.posX -= player.moveSpeed * currentElapsedTime;
 			}
@@ -837,7 +806,6 @@ void Level_Update()
 				player.posX += player.moveSpeed * currentElapsedTime;
 			}
 			
-			//player.posY -= jumpVec_scaled.y * currentElapsedTime;
 			player.posY -= jumpVec_scaled.y * jump_totalElapsedTime;
 			if (player.posY < player.jumpEnd_posY) player.posY = player.jumpEnd_posY;
 		}
@@ -859,7 +827,7 @@ void Level_Update()
 	// Top and bottom boundaries
 	if (playerPosY_bottom >= CP_System_GetWindowHeight()) {
 		player.isColliding = TRUE;
-		/*if (playerPosY_bottom > boundary_posY) */player.posY = CP_System_GetWindowHeight() - player.height;
+		player.posY = CP_System_GetWindowHeight() - player.height;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
 	}
@@ -885,7 +853,7 @@ void Level_Update()
 	}
 
 	// Store coordinate values of all platforms into an array for collision checking
-	struct PLATFORMS all_platforms[SIZE_STAT + SIZE_MOVE + SIZE_BLOCKER];
+	struct PLATFORMS all_platforms[SIZE_STAT + SIZE_MOVE + SIZE_BLOCKER] = { 0 };
 	int platCount = 0;
 
 	// Add all stationary platforms to array
@@ -955,13 +923,13 @@ void Level_Update()
 		if (playerPosY_bottom > (yTop + jumpVec_scaled.y * 1.0)
 			&& playerPosY_top < (yBottom - jumpVec_scaled.y * 1.0)) {
 
-			if (playerPosX_right > xLeft && playerPosX_left < xLeft /*&& CP_Input_KeyDown(KEY_D)*/) {
+			if (playerPosX_right > xLeft && playerPosX_left < xLeft) {
 				player.posX = xLeft - player.width;
 				playerPosX_left = player.posX;
 				playerPosX_right = player.posX + player.width;
 				player.blockRight = TRUE;
 			}
-			else if (playerPosX_left < xRight && playerPosX_right > xRight /*&& CP_Input_KeyDown(KEY_A)*/) {
+			else if (playerPosX_left < xRight && playerPosX_right > xRight) {
 				player.posX = xRight;
 				playerPosX_left = player.posX;
 				playerPosX_right = player.posX + player.width;
@@ -998,7 +966,7 @@ void Level_Update()
 					playerPosX_right = player.posX + player.width;
 				}
 
-				/*if (playerPosY_bottom > yTop) */player.posY = yTop - player.height;
+				player.posY = yTop - player.height;
 				playerPosY_top = player.posY;
 				playerPosY_bottom = player.posY + player.height;
 			}
@@ -1034,8 +1002,7 @@ void Level_Update()
 		else {
 			fall_totalElapsedTime = 1.0f;
 		}
-
-		//player.posY += jumpVec_scaled.y * fallMultiplier * currentElapsedTime;
+		
 		player.posY += jumpVec_scaled.y * fall_totalElapsedTime;
 		playerPosY_top = player.posY;
 		playerPosY_bottom = player.posY + player.height;
@@ -1046,11 +1013,10 @@ void Level_Update()
 
 	// Reset fall speed back to default after falling
 	if (player.isColliding) {
-		//fallMultiplier = fallMultiplier_short;
 		fall_totalElapsedTime = 0.1f;
 	}
 
-	// Trigger player death if colliding with spikes
+	// Check for player collision with spikes and trigger death
 	for (int i = 0; i < SIZE_SPIKES; i++) {
 		float LeftX = spikes[i].x2;
 		float topY = spikes[i].y1;
@@ -1064,7 +1030,7 @@ void Level_Update()
 	// Hints for when to use charged jump
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_Fill(CP_Color_Create(105, 105, 105, 255));
-	//CP_Graphics_DrawRect(stat_plat[5].pos_x, stat_plat[5].pos_y - player.height, stat_plat[5].width, player.height);
+	
 	if (CollisionCheck(player.posX, player.posY, player.width, player.height, stat_plat[5].pos_x, stat_plat[5].pos_y - player.height, stat_plat[5].width, player.height) 
 		&& current_checkpoint == 1) {
 		CP_Settings_TextSize(30.0f);
@@ -1076,12 +1042,6 @@ void Level_Update()
 	} 
 	else if (CollisionCheck(player.posX, player.posY, player.width, player.height, stat_plat[11].pos_x, stat_plat[11].pos_y - player.height, stat_plat[11].width, player.height) 
 		&& current_checkpoint == 2) {
-		/*CP_Settings_TextSize(30.0f);
-		CP_Font_DrawText("Hold        to", stat_plat[11].pos_x + 200.0f, stat_plat[11].pos_y - player.height - 250.0f);
-		CP_Font_DrawText("charge jump!", stat_plat[11].pos_x + 200.0f, stat_plat[11].pos_y - player.height - 215.0f);
-
-		CP_Settings_ImageMode(CP_POSITION_CORNER);
-		CP_Image_Draw(mouse_left, stat_plat[11].pos_x + 190.0f, stat_plat[11].pos_y - player.height - 275.0f, 50.0f, 50.0f, 255);*/
 
 		CP_Settings_TextSize(30.0f);
 		CP_Font_DrawText("Hold        to", stat_plat[11].pos_x + 90.0f, stat_plat[11].pos_y - player.height - 100.0f);
@@ -1257,6 +1217,7 @@ void Level_Update()
 	if (CollisionCheck(player.posX, player.posY, player.width, player.height, endpoint_hitbox.pos_x, endpoint_hitbox.pos_y, endpoint_hitbox.width, endpoint_hitbox.height)) {
 		CP_Engine_SetNextGameState(Win_Init, Win_Update, Win_Exit);
 	}
+
 
 	//////////////////////////// CLEMENT /////////////////////////////////
 	
@@ -1494,6 +1455,7 @@ void Level_Update()
 			CP_Image_Draw(TurretRight, shooting_enemies[i].x_position - 10.f, shooting_enemies[i].y_position - 10.f, shooting_enemies[i].width + 20.f, shooting_enemies[i].height + 20.f, 255);
 		}
 	}
+	
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 

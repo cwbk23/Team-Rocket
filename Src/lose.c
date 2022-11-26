@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 
+// Lose sound
 CP_Sound sound_lose;
 
 
