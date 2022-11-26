@@ -200,16 +200,17 @@ char totalscore3[10] = { 3 };
 
 void Quiz_Init()
 {
-	correctsound = CP_Sound_Load("./Assets/correct_sound.ogg");
-	wrongsound = CP_Sound_Load("./Assets/wrong_sound.ogg");
+	correctsound = CP_Sound_Load("./Assets/correct_sound.ogg");  //load correct sound
+	wrongsound = CP_Sound_Load("./Assets/wrong_sound.ogg");		//load wrong sound
+
 	//Setting up the window size
 	CP_Settings_TextSize(70);
 	CP_Settings_RectMode(CP_POSITION_CENTER);
 	CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 
 
-	int randomoperator = CP_Random_RangeInt(2, 5);
-	sprintf_s(OperatorRandom, _countof(OperatorRandom), "%d", randomoperator);
+	int randomoperator = CP_Random_RangeInt(2, 5);									//get random integer
+	sprintf_s(OperatorRandom, _countof(OperatorRandom), "%d", randomoperator);		//print it as a string buffer
 
 	int random_x1 = CP_Random_RangeInt(1, 10);
 	sprintf_s(TrueFalse_x1, _countof(TrueFalse_x1), "%d", random_x1);
@@ -364,7 +365,7 @@ void Quiz_Init()
 
 
 	
-
+	//initialize the different questions and elements boolean states
 
 	timercounter = TRUE;
 	timesuppage = FALSE;
@@ -429,23 +430,26 @@ void Quiz_Init()
 	 clicked_q15 = false;
 	 question_15ans = false;
 
-
-	fail_page = false;
+   	fail_page = false;
 	fail_page1 = false;
 	fail_page2 = false;
 
+
+	//if checkpoint 1 start with ques 1
 	 if (checkpoint_no == 1)
 	 {
 		 question_1 = TRUE;
 		 counter = 0;
 	 }
 
+	 //if checkpoint 2 start with ques 6
 	 if (checkpoint_no == 2)
 	 {
 		 question_6 = TRUE;
 		 counter1 = 0;
 	 }
 
+	 //if checkpoint 3 start with ques 11
 	 if (checkpoint_no == 3)
 	 {	
 		 question_11 = TRUE;
@@ -460,8 +464,12 @@ void Quiz_Init()
 
 void Quiz_Update()
 {
+
+	//set window height and width
 	float height = (float)CP_System_GetWindowHeight();
 	float width =  (float)CP_System_GetWindowWidth();
+
+	//set colours default
 	CP_Color green = (CP_Color_Create(50, 205, 50, 255));
 	CP_Color red = (CP_Color_Create(255, 0, 0, 255));
 	CP_Color blue = (CP_Color_Create(135, 206, 235, 255));
@@ -475,6 +483,7 @@ void Quiz_Update()
 	CP_Graphics_ClearBackground(blue);
 	CP_Settings_Fill(CP_Color_Create(0, 0, 0, 255));
 
+	//timer countdown alogorithm
 	if (timercounter == true)
 	{
 		CP_Font_DrawText("Timer:     :", width / 1.2f, height / 8.0f);
@@ -491,6 +500,7 @@ void Quiz_Update()
 
 	if (checkpoint_no == 1)
 	{
+		//if timer countdown to 0
 		if (totalElapsedTime <= 0)
 		{
 			clicked_q1 = false;
@@ -517,19 +527,21 @@ void Quiz_Update()
 		}
 		if (question_1 == TRUE)
 		{	
-			
+			// set text alignment and background colour
 			CP_Settings_TextAlignment(CP_TEXT_ALIGN_H_CENTER, CP_TEXT_ALIGN_V_MIDDLE);
 			CP_Graphics_ClearBackground(blue);
+
+			//Total score calculation
 			int total_score = counter * 10;
 			sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
 
-		
+			//Calculate the current score of the quiz
 			CP_Settings_Fill(black);
 			CP_Settings_TextSize(50);
 			CP_Font_DrawText("Quiz score :", width / 1.2f, height / 5.0f);
 			CP_Font_DrawText(totalscore, width / 1.1f, height / 5.0f);
 
-			//Drawing and setting the start rectangle position
+			//Format of the question 1
 			CP_Settings_TextSize(70);
 			CP_Font_DrawText("Q1)", width / 3.0f, height / 4.0f);
 			CP_Font_DrawText("If a =      and b =  ", width / 1.9f, height / 4.0f);
@@ -547,7 +559,7 @@ void Quiz_Update()
 			CP_Font_DrawText(" True ", width / 2.6f, height / 2.0f);
 			CP_Font_DrawText(" False ", width / 1.5f, height / 2.0f);
 
-		
+			//drawing of the questions left and marks for each question 
 			CP_Settings_TextSize(50);
 			CP_Settings_Fill(black);
 			CP_Font_DrawText("5 Qns left", width / 2.0f, height / 1.17f);
@@ -573,9 +585,10 @@ void Quiz_Update()
 
 
 			}
+
+			// if clicked correct answer
 			if ((clicked_q1 == TRUE))
 			{
-				
 				CP_Settings_Fill(dark_green);
 				CP_Font_DrawText(" Answer is correct! ", width / 1.9f, height / 1.5f);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -591,9 +604,11 @@ void Quiz_Update()
 						question_2 = TRUE;
 					}
 				}
-			} if ((question_1ans == TRUE) && (clicked_q1 == FALSE))
+			} 
+
+			//if clicked wrong answer
+			if ((question_1ans == TRUE) && (clicked_q1 == FALSE))
 			{
-				//CP_Sound_Play(wrongsound);
 				CP_Settings_Fill(red);
 				CP_Font_DrawText(" Answer is wrong! ", width / 1.9f, height / 1.5f);
 				CP_Settings_Fill(CP_Color_Create(255, 255, 255, 0));
@@ -612,6 +627,7 @@ void Quiz_Update()
 			}
 		}
 
+		//Displaying question 2
 		if (question_2 == TRUE)
 		{
 			int total_score = counter * 10;
@@ -703,7 +719,7 @@ void Quiz_Update()
 			}
 		}
 
-
+		//Displaying question 3
 		if (question_3 == TRUE)
 		{
 			int total_score = counter * 10;
@@ -794,8 +810,7 @@ void Quiz_Update()
 			}
 		}
 
-
-
+		//displaying question 4
 		if (question_4 == TRUE)
 		{
 			int total_score = counter * 10;
@@ -886,7 +901,7 @@ void Quiz_Update()
 			}
 		}
 
-
+		//displaying question 5
 		if (question_5 == TRUE)
 		{
 			int total_score = counter * 10;
@@ -970,20 +985,21 @@ void Quiz_Update()
 			}
 
 		}
+
 		int total_score = counter * 10;
 		sprintf_s(totalscore, _countof(totalscore), "%d", total_score);
-
+		// display requirement page
 		if (fail_page == true)
 		{
 
 			sprintf_s(totalscore1, _countof(totalscore1), "%d", (counter));
 			timercounter = false;
-			if (totalElapsedTime <= 0)
+			if (totalElapsedTime <= 0)  //if timer count to 0
 			{
 				CP_Settings_Fill(red);
 				CP_Font_DrawText("TIMES UP !", width /1.9f, height / 3.5f );
 			}
-			if (counter <= 2)
+			if (counter <= 2) //fail quiz requirement
 			{
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(black);
@@ -1007,7 +1023,7 @@ void Quiz_Update()
 					}
 				}
 			}
-			else if (counter > 2)
+			else if (counter > 2) // pass quiz requirement
 			{
 				CP_Graphics_ClearBackground(blue);
 				CP_Settings_Fill(black);
@@ -1038,7 +1054,7 @@ void Quiz_Update()
 		
 	}
 
-
+	//displaying checkpoint 2
 	if (checkpoint_no == 2)
 	{
 		if (totalElapsedTime <= 0)
@@ -1066,7 +1082,7 @@ void Quiz_Update()
 				fail_page1 = true;
 		}
 
-
+		//displaying question 6
 		if (question_6 == TRUE)
 		{
 			int total_score = (counter1 * 20) ;
@@ -1178,6 +1194,7 @@ void Quiz_Update()
 			}
 		}
 
+		//displaying question 7
 		if (question_7 == TRUE)
 		{
 			int total_score = (counter1 * 20);
@@ -1285,6 +1302,8 @@ void Quiz_Update()
 
 		}
 
+
+		//displaying ques 8
 		if (question_8 == TRUE)
 		{
 
@@ -1394,7 +1413,7 @@ void Quiz_Update()
 
 		}
 
-
+		//displaying question 9
 		if (question_9 == TRUE)
 		{
 
@@ -1502,7 +1521,7 @@ void Quiz_Update()
 
 		}
 
-
+		//displaying question 10
 		if (question_10 == TRUE)
 		{
 
@@ -1607,9 +1626,7 @@ void Quiz_Update()
 
 		}
 
-
-
-
+		//requirement page for checkpoint 2
 		if (fail_page1 == TRUE)
 		{
 
@@ -1679,6 +1696,8 @@ void Quiz_Update()
 		 quiz_score =counter*10+ counter1 * 20;
 
 	}
+
+		//question for checkpoint 3
 		if (checkpoint_no == 3)
 		{
 			if (totalElapsedTime <= 0)
@@ -1707,6 +1726,8 @@ void Quiz_Update()
 				fail_page2 = true;
 
 			}
+
+			//displaying question 11
 			if (question_11 == TRUE)
 			{
 				int total_score = (counter2 * 20);
@@ -1813,7 +1834,8 @@ void Quiz_Update()
 					}
 				}
 			}
-		
+
+			//displaying question 12
 			if (question_12 == TRUE)
 			{
 				int total_score = (counter2 * 20);
@@ -1918,8 +1940,7 @@ void Quiz_Update()
 				}
 			}
 
-
-
+			//displaying question 13
 			if (question_13 == TRUE)
 			{
 				int total_score = (counter2 * 20);
@@ -2025,6 +2046,7 @@ void Quiz_Update()
 
 			}
 
+			//displaying question 14
 			if (question_14 == TRUE)
 			{
 				int total_score = (counter2 * 20);
@@ -2133,7 +2155,7 @@ void Quiz_Update()
 
 			}
 
-
+			//displaying question 15
 			if (question_15== TRUE)
 			{
 				int total_score = (counter2 * 20);
@@ -2237,12 +2259,6 @@ void Quiz_Update()
 
 			}
 
-
-
-
-
-
-
 			if (fail_page2 == TRUE)
 			{
 				timercounter = false;
@@ -2256,9 +2272,9 @@ void Quiz_Update()
 					CP_Font_DrawText("TIMES UP !", width / 1.9f, height / 3.5f);
 				}
 
+				//fail screen condition
 				if (counter2 < 3)
 				{
-
 					CP_Graphics_ClearBackground(blue);
 					CP_Settings_Fill(black);
 					CP_Font_DrawText("You have failed the quiz", width / 1.9f, height / 4.5f);
@@ -2281,6 +2297,8 @@ void Quiz_Update()
 						}
 					}
 				}
+
+				//pass screen condition
 				else if (counter2 >= 3)
 				{
 					CP_Graphics_ClearBackground(blue);
@@ -2306,13 +2324,11 @@ void Quiz_Update()
 
 
 			}
-
-
-		quiz_score = counter * 10 + counter1*20 + counter2*20;
+		quiz_score = counter * 10 + counter1*20 + counter2*20; //calculating quizscore for game screen
 	}
 
 	
-	// Pressing Q to exit the program
+	// Pressing esc to exit the program
 	if (CP_Input_KeyTriggered(KEY_ESCAPE))
 	{
 		counter = 0;
