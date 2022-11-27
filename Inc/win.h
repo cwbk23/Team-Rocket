@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------
 Math Run by Team Rocket
 Class: CSD1401A Fall 2022
-File: win.c
+File: win.h
 Authors: Chua Wen Bin Kenny, c.wenbinkenny@digipen.edu
 
 Description:
