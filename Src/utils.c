@@ -1,3 +1,18 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: utils.c
+Authors: Low Yee Lei, yeelei.low@digipen.edu
+		 Tan Wei Jie Clement, weijieclement.tan@digipen.edu
+
+Description:
+Yee Lei - IsAreaClicked function for button clicking
+Clement - CollisionCheck function for collision checking between player and object
+
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "utils.h"
 
 
