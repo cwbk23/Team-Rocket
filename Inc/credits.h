@@ -5,8 +5,9 @@ File: credits.h
 Authors: Tan Wei Jie Clement, weijieclement.tan@digipen.edu
 
 Description:
-Clement - Declaration of the initialization, update, and exit state of
-the Credits screen
+Clement - Display all the credits screen images in a fade-in transition,
+added music together with the credits. Return to mainmenu if credits is finished
+or ESC key is pressed.
 
 
 Copyright: 2022, Digipen Institute of Technology, Singapore
