@@ -1,3 +1,24 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: level.c
+Authors: Low Yee Lei, yeelei.low@digipen.edu
+		 Chua Wen Bin Kenny, c.wenbinkenny@digipen.edu
+		 Tan Wei Jie Clement, weijieclement.tan@digipen.edu
+
+Description:
+Yee Lei - Player creation, movement, jumping and falling, 
+collision blocking with boundary and platforms, death and respawning, 
+lives HUD, score HUD, lose condition, player sound effects
+
+Kenny - 
+
+Clement - 
+
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "mainmenu.h"
 #include "utils.h"
