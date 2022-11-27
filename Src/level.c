@@ -11,7 +11,9 @@ Yee Lei - Player creation, movement, jumping and falling,
 collision blocking with boundary and platforms, death and respawning, 
 lives HUD, score HUD, lose condition, player sound effects
 
-Kenny - 
+Kenny - Drawing of stationary, moving platforms, and blockers. Moving 
+platform logic, drawing of spikes, checkpoints, and endpoint. Checkpoint 
+collision and logic, endpoint collision and win logic. 
 
 Clement - 
 

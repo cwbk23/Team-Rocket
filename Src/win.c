@@ -1,10 +1,23 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: win.c
+Authors: Chua Wen Bin Kenny, c.wenbinkenny@digipen.edu
+
+Description:
+Displayed the victory screen that calculate and show the high score 
+and score break down of the current game. Restart game and back to 
+main menu button for players to play again or go back to main menu.
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "utils.h"
 #include "mainmenu.h"
 #include "level.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 
 struct BOXES {
@@ -12,7 +25,6 @@ struct BOXES {
 }; 
 	
 bool NEW_HIGHSCORE;
-bool musicplay;
 
 // Text to be printed on Win screen
 char new_highscore_text[50];
@@ -90,8 +102,6 @@ void Win_Update() {
 
 		// Display new highscore
 		CP_Font_DrawText(new_highscore_text, CP_System_GetWindowWidth() / 2.0f, CP_System_GetWindowHeight() / 2.45f);
-		
-		//NEW_HIGHSCORE = FALSE;
 	
 	} else {
 

@@ -1,3 +1,16 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: win.c
+Authors: Chua Wen Bin Kenny, c.wenbinkenny@digipen.edu
+
+Description:
+Declaration of the initialization, update, and exit state of
+the victory screen.
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #pragma once
 
 extern int highscore;
