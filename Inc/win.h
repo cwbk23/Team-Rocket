@@ -5,8 +5,9 @@ File: win.h
 Authors: Chua Wen Bin Kenny, c.wenbinkenny@digipen.edu
 
 Description:
-Declaration of the initialization, update, and exit state of
-the victory screen.
+Displayed the victory screen that calculate and show the high score
+and score break down of the current game. Restart game and back to
+main menu button for players to play again or go back to main menu.
 
 Copyright: 2022, Digipen Institute of Technology, Singapore
 ----------------------------------------------------------------*/

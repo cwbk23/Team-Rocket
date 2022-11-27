@@ -5,8 +5,9 @@ File: howtoplay.h
 Authors: Chua Wen Bin Kenny, c.wenbinkenny@digipen.edu
 
 Description:
-Declaration of the initialization, update, and exit state of
-the how to play page.
+Displayed the how to play page with descriptions on the controls
+and objectives. Start game and back to main menu button for players
+to play the game or go back to main menu.
 
 Copyright: 2022, Digipen Institute of Technology, Singapore
 ----------------------------------------------------------------*/
