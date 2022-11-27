@@ -1,3 +1,21 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: quiz.c
+Authors: Tan Wei Fong, weifong.tan@digipen.edu
+
+Description:
+
+Wei Fong - Creating true/false question, creating multiple choice questions
+creating timer countdown, creating highscore system, creating quiz question
+formatting, quiz correct and wrong sound effects.
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
+
+
+
 #include "cprocessing.h"
 #include "quiz.h"
 #include <math.h>
@@ -244,29 +262,29 @@ void Quiz_Init()
 	sprintf_s(TrueFalse_y5, _countof(TrueFalse_y5), "%d", random_y5);
 	sprintf_s(TrueFalseans5, _countof(TrueFalseans5), "%d", random_y5 * random_x5 - 5);
 
-	int randommultiple1_xvalue = CP_Random_RangeInt(2, 4);
+	int randommultiple1_xvalue = CP_Random_RangeInt(2, 3);
 	sprintf_s(multiplechoice1_xvalue, _countof(multiplechoice1_xvalue), "%d", randommultiple1_xvalue);
-	int randommultiple1_xconstant = CP_Random_RangeInt(2, 3);
+	int randommultiple1_xconstant = CP_Random_RangeInt(4, 5);
 	sprintf_s(multiplechoice1_xconstant, _countof(multiplechoice1_xconstant), "%d", randommultiple1_xconstant);
-	int randommultiple1_yvalue = CP_Random_RangeInt(2, 4);
+	int randommultiple1_yvalue = CP_Random_RangeInt(5, 6);
 	sprintf_s(multiplechoice1_yvalue, _countof(multiplechoice1_yvalue), "%d", randommultiple1_yvalue);
 	int randommultiple1_yconstant = CP_Random_RangeInt(6, 8);
 	sprintf_s(multiplechoice1_yconstant, _countof(multiplechoice1_yconstant), "%d", randommultiple1_yconstant);
 	sprintf_s(multiplechoice1_ans, _countof(multiplechoice1_ans), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant * randommultiple1_yvalue));
-	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple1_xconstant * randommultiple1_xvalue) + (randommultiple1_yconstant) + randomoperator);
+	sprintf_s(multiplechoice1_1, _countof(multiplechoice1_1), "%d", (randommultiple1_xconstant + randommultiple1_xvalue) + (randommultiple1_yconstant));
 	sprintf_s(multiplechoice1_2, _countof(multiplechoice1_2), "%d", (randommultiple1_xconstant * randommultiple1_xconstant + randomoperator));
 	sprintf_s(multiplechoice1_3, _countof(multiplechoice1_3), "%d", (randommultiple1_xconstant * randommultiple1_xconstant - randomoperator));
 
-	int randommultiple2_xvalue = CP_Random_RangeInt(2, 4);
+	int randommultiple2_xvalue = CP_Random_RangeInt(2, 3);
 	sprintf_s(multiplechoice2_xvalue, _countof(multiplechoice2_xvalue), "%d", randommultiple2_xvalue);
 	int randommultiple2_xconstant = CP_Random_RangeInt(4, 6);
 	sprintf_s(multiplechoice2_xconstant, _countof(multiplechoice2_xconstant), "%d", randommultiple2_xconstant);
-	int randommultiple2_yvalue = CP_Random_RangeInt(1, 3);
+	int randommultiple2_yvalue = CP_Random_RangeInt(2, 3);
 	sprintf_s(multiplechoice2_yvalue, _countof(multiplechoice2_yvalue), "%d", randommultiple2_yvalue);
 	int randommultiple2_yconstant = CP_Random_RangeInt(4, 5);
 	sprintf_s(multiplechoice2_yconstant, _countof(multiplechoice2_yconstant), "%d", randommultiple2_yconstant);
 	sprintf_s(multiplechoice2_ans, _countof(multiplechoice2_ans), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + (randommultiple2_yconstant * randommultiple2_yvalue));
-	sprintf_s(multiplechoice2_1, _countof(multiplechoice2_1), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) * randomoperator);
+	sprintf_s(multiplechoice2_1, _countof(multiplechoice2_1), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) );
 	sprintf_s(multiplechoice2_2, _countof(multiplechoice2_2), "%d", (randommultiple2_xconstant * randommultiple2_xvalue) + randomoperator);
 	sprintf_s(multiplechoice2_3, _countof(multiplechoice2_3), "%d", (randommultiple2_xvalue + randommultiple2_yvalue));
 
@@ -289,14 +307,14 @@ void Quiz_Init()
 	sprintf_s(multiplechoice4_xvalue, _countof(multiplechoice4_xvalue), "%d", randommultiple4_xvalue);
 	int randommultiple4_xconstant = CP_Random_RangeInt(4, 5);
 	sprintf_s(multiplechoice4_xconstant, _countof(multiplechoice4_xconstant), "%d", randommultiple4_xconstant);
-	int randommultiple4_yvalue = CP_Random_RangeInt(2, 3);
+	int randommultiple4_yvalue = CP_Random_RangeInt(6, 7);
 	sprintf_s(multiplechoice4_yvalue, _countof(multiplechoice4_yvalue), "%d", randommultiple4_yvalue);
-	int randommultiple4_yconstant = CP_Random_RangeInt(5, 7);
+	int randommultiple4_yconstant = CP_Random_RangeInt(6, 7);
 	sprintf_s(multiplechoice4_yconstant, _countof(multiplechoice4_yconstant), "%d", randommultiple4_yconstant);
 	sprintf_s(multiplechoice4_ans, _countof(multiplechoice4_ans), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) - (randommultiple4_yconstant * randommultiple4_yvalue));
-	sprintf_s(multiplechoice4_1, _countof(multiplechoice4_1), "%d", (randommultiple4_xconstant * randommultiple4_xconstant) - (randommultiple4_xconstant + randommultiple4_yvalue) );
+	sprintf_s(multiplechoice4_1, _countof(multiplechoice4_1), "%d", (randommultiple4_xconstant * randommultiple4_xconstant)  );
 	sprintf_s(multiplechoice4_2, _countof(multiplechoice4_2), "%d", (randommultiple4_xconstant * randommultiple4_xvalue) + (randommultiple4_yconstant - randommultiple4_yconstant));
-	sprintf_s(multiplechoice4_3, _countof(multiplechoice4_3), "%d", (randommultiple4_xvalue + randommultiple4_yvalue));
+	sprintf_s(multiplechoice4_3, _countof(multiplechoice4_3), "%d", (randommultiple4_xvalue * randommultiple4_yvalue));
 
 
 	int randommultiple5_xvalue = CP_Random_RangeInt(1, 5);
