@@ -2,7 +2,7 @@
 /*---------------------------------------------------------------
 Math Run by Team Rocket
 Class: CSD1401A Fall 2022
-File: quiz.c
+File: quiz.h
 Authors: Tan Wei Fong, weifong.tan@digipen.edu
 
 Description:
