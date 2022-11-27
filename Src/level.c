@@ -7,8 +7,8 @@ Authors: Low Yee Lei, yeelei.low@digipen.edu
 		 Tan Wei Jie Clement, weijieclement.tan@digipen.edu
 
 Description:
-Yee Lei - Player creation, movement controls, jumping and falling, 
-collision blocking with boundary and platforms, death and respawning, 
+Yee Lei - Player creation, movement controls, normal and charged jump, 
+falling, collision blocking with boundary and platforms, death and respawning, 
 lives HUD, score HUD, lose logic, player sound effects.
 
 Kenny - Drawing of stationary, moving platforms, and blockers. Moving 
