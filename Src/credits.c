@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------
 Math Run by Team Rocket
 Class: CSD1401A Fall 2022
-File: level.c
+File: credits.c
 Authors: Tan Wei Jie Clement, weijieclement.tan@digipen.edu
 
 Description:
