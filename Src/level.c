@@ -15,7 +15,9 @@ Kenny - Drawing of stationary, moving platforms, and blockers. Moving
 platform logic, drawing of spikes, checkpoints, and endpoint. Checkpoint 
 collision and logic, endpoint collision and win logic. 
 
-Clement - 
+Clement - Bomb enemy creation, Moving enemy creation, Shooting enemy and bullet creation,
+Enemy movement logic, Bullet movement logic, Collision checking between player and enemy entities,
+Sound effects for all enemies
 
 
 Copyright: 2022, Digipen Institute of Technology, Singapore

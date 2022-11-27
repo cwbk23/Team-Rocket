@@ -1,3 +1,17 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: level.c
+Authors: Tan Wei Jie Clement, weijieclement.tan@digipen.edu
+
+Description:
+Clement - Display all the credits screen images in a fade-in transition,
+added music together with the credits
+
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "mainmenu.h"
 
