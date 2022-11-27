@@ -1,3 +1,17 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: mainmenu.c
+Authors: Low Yee Lei, yeelei.low@digipen.edu
+
+Description:
+Game Main Menu with title and buttons to start game, how to play, credits 
+and exit game.
+
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "level.h"
 #include "utils.h"

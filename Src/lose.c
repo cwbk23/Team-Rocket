@@ -1,3 +1,17 @@
+/*---------------------------------------------------------------
+Math Run by Team Rocket
+Class: CSD1401A Fall 2022
+File: lose.c
+Authors: Low Yee Lei, yeelei.low@digipen.edu
+
+Description:
+Lose / Game Over screen which will display score and number of 
+checkpoints completed, with the option to restart game.
+
+
+Copyright: 2022, Digipen Institute of Technology, Singapore
+----------------------------------------------------------------*/
+
 #include "cprocessing.h"
 #include "mainmenu.h"
 #include "level.h"
